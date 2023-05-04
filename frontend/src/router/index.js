@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
+// import RegisterView from '../views/RegisterView.vue'
+import LoginRegisterView from '../views/LoginRegisterView.vue'
 const routes = [
   {
     path: '/',
@@ -16,12 +17,18 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
     }
+  },
+  {
+    path: '/login&register',
+    name: 'login&register',
+    component: LoginRegisterView
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  linkActiveClass: 'active-link'
 })
 
 export default router
