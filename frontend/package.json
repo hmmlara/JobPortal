@@ -8,6 +8,9 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "bootstrap": "^5.2.3",
+    "mdb-ui-kit": "^6.2.0",
+    "mdb-vue-ui-kit": "^4.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
