@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <form action="">
       <div class="form-group">
         <label for="" class="form-label">Email</label>
@@ -44,4 +44,5 @@ export default {
   .form-control:focus{
     border-color: #14a44d !important;
   }
+  
 </style>

@@ -61,6 +61,7 @@ export default {
 <style scoped>
 .login_register {
   position: absolute;
+  width: 25%;
   top: 40%;
   left: 50%;
   transform: translate(-60%, -50%);

@@ -1,18 +1,21 @@
 <template>
   <div>
     <nav :class="navFixed">
-      <div class="container">
-        <a class="navbar-brand" href="#"><strong class="me-1">Job</strong><span class="text-success"><strong>Portal</strong></span></a>
+      <div class="container text-center">
+        <a class="navbar-brand" href="#"
+          ><strong class="me-1">Job</strong
+          ><span class="text-success"><strong>Portal</strong></span></a
+        >
         <button
           class="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarColor01"
-          aria-controls="navbarColor01"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarColor01"
+          aria-controls="navbarText"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor01">
           <ul class="navbar-nav mx-5 me-auto">
@@ -52,58 +55,15 @@
           </ul>
           <router-link
             type="button"
-            class="btn btn-outline-success"
+            class="btn btn-success"
             data-mdb-ripple-color="dark"
             to="/login&register"
           >
-            <i class="fa-sharp fa-solid fa-right-to-bracket me-2"></i>login
+            <i class="fa-sharp fa-solid fa-right-to-bracket"></i> login
           </router-link>
         </div>
       </div>
     </nav>
-
-    <div
-      class="modal fade"
-      id="staticBackdrop"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title w-100 text-center" id="staticBackdropLabel">Login</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            
-            
-            <div class="mt-2 d-flex">
-              <p>Don't have an account? </p> <span class="mx-2"><router-link href="" class="registerLink text-info" to="/register">Register</router-link></span>
-            </div>
-            <div class="d-flex justify-content-end mt-2">
-              <button
-              type="button"
-              class="btn btn-outline-danger mx-2"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-outline-success">
-              Understood
-            </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -120,7 +80,7 @@ export default {
     this.path = window.location.pathname;
 
     window.document.onscroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 1) {
         console.log("hello");
         this.navFixed =
           "navbar autohide navbar-expand-lg bg-light py-3 fixed-top";

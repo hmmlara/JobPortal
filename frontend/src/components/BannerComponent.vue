@@ -12,10 +12,8 @@
           <div class="row">
             <div class="col-sm-4">
               <select name="" id="" class="form-select">
-                <option value="" hidden selected>Choose Position</option>
-                <option value="">All</option>
-                <option value="">Frontend</option>
-                <option value="">Backend</option>
+                <option value="" hidden selected>Choose Category</option>
+                <option :value="index" v-for="category,index in categories" :key="category">{{category}}</option>
               </select>
             </div>
             <div class="col-sm-4">
@@ -38,8 +36,20 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "BannerComponent",
+  data(){
+    return{
+      categories:[
+
+      ]
+    }
+  },
+  created(){
+    axios.get('http://fakestoreapi.com/products/categories')
+        .then(response=>this.categories=response.data)   
+  }
 };
 </script>
 
