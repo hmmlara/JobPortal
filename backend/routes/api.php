@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\CategoryController;
+// use App\Http\Controllers\Api\CategoryController;
+
+use App\Http\Controllers\Api\CategoryApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,12 +37,15 @@ Route::prefix('admin')->namespace('App\Http\Controllers')->group(function () {
     // job post route
     Route::resource('jobPost',JobPostController::class);
 
+    // company router
+    Route::resource('company', CompanyController::class);
+
 });
 
 Route::prefix('frontend')->name('frontend.')->group(function(){
 
     // category
     Route::prefix('category')->group(function () {
-        Route::get('/',[CategoryController::class,'getAll'])->name('category.getAll');
+        Route::get('/',[CategoryApiController::class,'getAll'])->name('category.getAll');
     });
 });
