@@ -9,11 +9,11 @@
               <i class="fas fa-tachometer-alt fa-fw me-3 nav-icon"></i>
               <span class="nav-text">Dashboard</span>
             </router-link>
-            <router-link to="" :class="path.includes('category')? active : inactive">
+            <router-link to="/admin/category" :class="path.includes('category')? active : inactive">
               <i class="fas fa-list-alt fa-fw me-3 nav-icon"></i>
               <span class="nav-text">Category</span>
             </router-link>
-            <router-link to="" :class="path.includes('company')? active : inactive">
+            <router-link to="/admin/company" :class="path.includes('company')? active : inactive">
               <i class="fas fa-building fa-fw me-3 nav-icon"></i>
               <span class="nav-text">Company</span>
             </router-link>
