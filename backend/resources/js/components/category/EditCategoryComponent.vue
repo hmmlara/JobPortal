@@ -1,11 +1,12 @@
 <template>
   <LayoutComponentVue>
     <div class="container">
-      <h3>Add Category</h3>
+      <h3>Edit Category</h3>
       <router-link to="/admin/category" class="btn btn-sm btn-success">Back</router-link>
 
       <div class="card w-50 mx-auto">
         <div class="card-body">
+            <i :class="`${changeIcon} float-end`" @click="isEdit"></i>
           <form action class="mt-3" @submit.prevent="updatCategory">
             <div class="form-group mb-3">
               <label for class="form-label">Category Name</label>
@@ -18,10 +19,11 @@
                 :value="category.name"
                 @input="category.name = $event.target.value"
                 @focus="error = false"
+                :disabled="isDisabled"
               />
-              <small v-if="error" class="text-danger">Enter Category</small>
+              <small v-if="error" class="text-danger">{{ errorMessage }}</small>
             </div>
-            <button type="submit" class="btn btn-success w-100">UPdate</button>
+            <button type="submit" :class="isDisabled ? 'd-none' : 'btn btn-success w-100'">UPdate</button>
           </form>
         </div>
       </div>
@@ -45,8 +47,11 @@ export default {
       category: [],
       normalStyle: "form-control",
       error: false,
+      errorMessage: "",
       errorStyle: "form-control border-danger",
-      route: useRoute()
+      route: useRoute(),
+      isDisabled: true,
+      changeIcon: 'fas fa-pen',
     };
   },
   mounted() {
@@ -58,18 +63,29 @@ export default {
         `admin/category/${this.route.params.id}/edit`
       );
 
-        this.category = data.category;
-    //   console.log(data);
+      this.category = data.category;
+      //   console.log(data);
     },
     updatCategory() {
-      if (this.category.name == "") {
-        this.error = true;
-      } else {
-        ApiCalls.update(`admin/category/${this.category.id}`, this.category);
+      let formData = new FormData();
+      formData.append("name", this.category.name);
 
-        router.push("/admin/category");
-      }
-    //   console.log(category.id);
+      ApiCalls.update(`admin/category/${this.route.params.id}`, formData)
+        .then(response => {
+          if (response.data.status == 200) {
+            router.push("/admin/category");
+          }
+        })
+        .catch(error => {
+          this.error = true;
+          this.errorMessage = error.response.data.messages.name[0];
+        });
+    },
+    isEdit(){
+        this.isDisabled = this.isDisabled ? false : true;
+
+        this.changeIcon = this.isDisabled ? 'fas fa-pen' : 'fas fa-times';
+
     }
   }
 };

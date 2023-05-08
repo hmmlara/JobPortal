@@ -13,7 +13,7 @@ class CategoryApiController extends Controller
         return response()->json(
             [
                 'status' => 'success',
-                'categories' => Category::paginate(5),
+                'categories' => Category::all(),
             ], 200);
     }
 }

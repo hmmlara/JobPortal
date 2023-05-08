@@ -14,14 +14,17 @@
       </thead>
       <tbody>
         <CategoryComponent
-          v-for="(category, index) in categories"
+          v-for="(category, index) in categories.data"
           :key="index"
           :category="category"
-          :index="index"
+          :index="categories.from + index"
           @deleteCate="deleteCategory(category.id)"
         />
       </tbody>
     </table>
+    <div class="fixed-bottom">
+      <PaginationComponent :data="categories" @paginate="getCategories" />
+    </div>
   </LayoutComponent>
 </template>
 
@@ -29,12 +32,14 @@
 import LayoutComponent from "../Layouts/LayoutComponent.vue";
 import CategoryComponent from "./CategoryComponent.vue";
 import ApiCalls from "../../api/index.js";
+import PaginationComponent from "../Layouts/Partials/PaginationComponent.vue";
 
 export default {
   name: "CategoriesComponent",
   components: {
     LayoutComponent,
-    CategoryComponent
+    CategoryComponent,
+    PaginationComponent
   },
   data() {
     return {
@@ -45,17 +50,24 @@ export default {
     this.getCategories();
   },
   methods: {
-    async getCategories() {
-      let data = await ApiCalls.get("admin/category");
+    async getCategories(page = 1) {
+      let data = await ApiCalls.get(`admin/category?page=${page}`);
 
-      this.categories = data.categories.data;
+      this.categories = data.categories;
+      //   console.log(this.categories);
 
       //   console.log(data);
     },
     deleteCategory(id) {
-      ApiCalls.delete(`admin/category/${id}`);
-      console.log(id);
-      this.getCategories();
+      ApiCalls.delete(`admin/category/${id}`)
+        .then(response => {
+          if (response.data.status == 200) {
+            this.getCategories();
+          }
+        })
+        .catch(error => {
+          alert("Sorry");
+        });
     }
   }
 };

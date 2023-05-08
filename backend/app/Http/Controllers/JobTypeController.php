@@ -4,29 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\JobType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class JobTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
-        $jobTypes = JobType::paginate(5);
+        $jobTypes = JobType::paginate(7);
         return response()->json(
             [
-                'status' => 'success',
+                'status' => 200,
+                'statusText' => 'success',
                 'jobTypes' => $jobTypes
             ],200);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -36,19 +35,38 @@ class JobTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+
+        $validator = Validator::make($request->all(),[
+            'job_type' => 'required',
+        ],[
+            'required' => 'Please Enter Job Type',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 400,
+                'statusText' => 'fail',
+                'messages' => $validator->errors(),
+            ],400);
+        }
+
+        JobType::create($request->all());
+
+        return response()->json(
+            [
+                'status' => 201,
+                'statusText' => 'success',
+                'message' => 'Successfully created'
+            ],201);
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\JobType  $jobType
-     * @return \Illuminate\Http\Response
      */
     public function show(JobType $jobType)
     {
@@ -58,34 +76,63 @@ class JobTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\JobType  $jobType
-     * @return \Illuminate\Http\Response
      */
     public function edit(JobType $jobType)
     {
         //
+        return response()->json(
+            [
+                'status' => 200,
+                'jobType' => $jobType
+            ],200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\JobType  $jobType
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, JobType $jobType)
     {
         //
+        $validator = Validator::make($request->all(),[
+            'job_type' => 'required',
+        ],[
+            'required' => 'Please Enter Job Type',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(
+                [
+                    'status' => 400,
+                    'statusText' => 'fail',
+                    'messages' => $validator->errors(),
+                ],400);
+        }
+
+        $jobType->update($request->all());
+
+        return response()->json(
+            [
+                'status' => 200,
+                'statusText' => 'success',
+                'message' => 'Successfully updated'
+            ],200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\JobType  $jobType
-     * @return \Illuminate\Http\Response
      */
     public function destroy(JobType $jobType)
     {
         //
+        $jobType->delete();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'statusText' => 'success',
+                'message' => 'Successfully deleted'
+            ],200);
     }
 }
