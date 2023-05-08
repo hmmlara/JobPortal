@@ -19,7 +19,7 @@
                 @input="name = $event.target.value"
                 @focus="error = false"
               />
-              <small v-if="error" class="text-danger">Enter Category</small>
+              <small v-if="error" class="text-danger">{{ errorMessage }}</small>
             </div>
             <button type="submit" class="btn btn-success w-100">Create</button>
           </form>
@@ -44,19 +44,26 @@ export default {
       name: "",
       normalStyle: "form-control",
       error: false,
-      errorStyle: "form-control border-danger",
+      errorMessage: '',
+      errorStyle: "form-control border-danger"
     };
   },
   methods: {
-    async addCategory() {
-      if (this.name == "") {
-        this.error = true;
-        console.log(this.error);
-      } else {
-        ApiCalls.post("admin/category", { name: this.name });
+    addCategory() {
+        let formData = new FormData();
+        formData.append('name',this.name);
 
-        router.push('/admin/category');
-      }
+
+        ApiCalls.post('admin/category',formData)
+        .then(response => {
+            if(response.data.status == 201){
+                router.push('/admin/category');
+            }
+        })
+        .catch(error => {
+            this.error = true;
+            this.errorMessage = error.response.data.messages.name[0];
+        });
     }
   }
 };
