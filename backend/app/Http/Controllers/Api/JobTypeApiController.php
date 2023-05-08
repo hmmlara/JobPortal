@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\JobType;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class JobTypeApiController extends Controller
 {
     //
-
     public function getAll(){
         return response()->json(
             [
-                'status' => 'success',
-                'categories' => Category::paginate(5)
+                'status' => 200,
+                'statusText' => 'success',
+                'jobTypes' => JobType::all(),
             ],200);
     }
 }
