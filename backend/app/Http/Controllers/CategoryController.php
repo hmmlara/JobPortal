@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = Category::paginate(4);
+        $categories = Category::paginate(5);
         return response()->json(
             [
                 'status' => 200,
