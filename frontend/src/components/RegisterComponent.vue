@@ -6,7 +6,6 @@
         <input
           type="text"
           name=""
-          id=""
           class="form-control"
           placeholder="Enter your Email"
         />
@@ -16,7 +15,6 @@
         <input
           type="email"
           name=""
-          id=""
           class="form-control"
           placeholder="Enter your Email"
         />
@@ -26,7 +24,6 @@
         <input
           type="tel"
           name=""
-          id=""
           class="form-control"
           placeholder="Enter your Email"
         />
@@ -36,7 +33,6 @@
         <input
           type="password"
           name=""
-          id=""
           class="form-control"
           placeholder="Enter your Password"
         />

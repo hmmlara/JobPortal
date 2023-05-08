@@ -12,10 +12,10 @@ export default {
 
 };
 </script>
-<style>
+<style >
 #app {
   font-family: Roboto, Helvetica, Arial, sans-serif;
-  background-image: linear-gradient(to right, #c1e8ce4e 20%, #c1e8ce72 50%, #c1e8ceb8);
+  background-color: linear-gradient(to right, #c1e8ce4e 20%, #c1e8ce72 50%, #c1e8ceb8);
 }
 
 

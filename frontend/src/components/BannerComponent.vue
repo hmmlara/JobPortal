@@ -1,10 +1,10 @@
 <template>
   <div class="main-head text-center">
     <div
-      class="mt-4 font-semibold font-display text-[40px] lg:text-7xl xl:text-7xl !leading-tight d-none d-md-block"
+      class="mt-4  font-display d-none d-md-block"
     >
       HMM Project<br class="" />
-      for the Job<span class="high_light">Portal</span> System
+      for the Job<span class="high_light"> Portal</span> System
     </div>
     <div class="search-box mt-2 d-flex justify-content-center">
       <div class="card border-secondary mb-3 filter-box w-75">
@@ -13,7 +13,7 @@
             <div class="col-sm-4">
               <select name="" id="" class="form-select">
                 <option value="" hidden selected>Choose Category</option>
-                <option :value="index" v-for="category,index in categories" :key="category">{{category}}</option>
+                <option :value="category.id" v-for="category in categories" :key="category.in">{{category.name}}</option>
               </select>
             </div>
             <div class="col-sm-4">
@@ -36,19 +36,24 @@
 </template>
 
 <script>
-import axios from 'axios';
+import ApiCalls from '@/api/index.js';
 export default {
   name: "BannerComponent",
   data(){
     return{
-      categories:[
-
-      ]
+      categories:[]
     }
   },
-  created(){
-    axios.get('http://fakestoreapi.com/products/categories')
-        .then(response=>this.categories=response.data)   
+  mounted(){
+    this.getCategories();
+  },
+  methods:{
+    async getCategories(){
+      let data = await ApiCalls.get('frontend/category')
+
+        this.categories = data.categories.data;
+        // console.log(this.categories)
+    }
   }
 };
 </script>
@@ -64,7 +69,6 @@ export default {
 .font-display {
   font-size: 70px;
   font-weight: 600;
-  margin-left: 100px;
   margin-bottom: 50px;
 }
 .high_light {

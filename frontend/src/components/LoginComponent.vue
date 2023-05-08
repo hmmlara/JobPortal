@@ -6,7 +6,7 @@
         <input
           type="email"
           name=""
-          id=""
+        
           class="form-control"
           placeholder="Enter your Email"
         />
@@ -16,17 +16,17 @@
         <input
           type="password"
           name=""
-          id=""
+        
           class="form-control"
           placeholder="Enter your Password"
         />
       </div>
       <div class="form-group mt-2">
-        <input type="checkbox" name="rember" id="" class="form-check-control">
+        <input type="checkbox" name="rember" class="form-check-control">
         <label for="" class="form-check-label">Remember Me</label>
       </div>
       <div class="mt-3 submit d-flex justify-content-between">
-        <router-link to="/" class="mt-1"><i class="fa-solid fa-arrow-left"></i> back</router-link>
+        <a @click="goBack" class="mt-1"><i class="fa-solid fa-arrow-left"></i> back</a>
         <button class="btn btn-success">Login</button>
       </div>
     </form>
@@ -35,8 +35,14 @@
 </template>
 
 <script>
+import router from '@/router';
 export default {
   name: "LoginComponent",
+  methods:{
+    goBack(){
+      router.go(-1);
+    }
+  }
 };
 </script>
 

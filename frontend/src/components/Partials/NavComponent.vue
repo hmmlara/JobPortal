@@ -26,7 +26,7 @@
               </router-link>
             </li>
             <li class="nav-item mx-3">
-              <a class="nav-link" href="#">Features</a>
+              <router-link to="/jobs" class="nav-link" href="#">Job Posts</router-link>
             </li>
             <li class="nav-item mx-3">
               <a class="nav-link" href="#">Pricing</a>
@@ -106,6 +106,9 @@ ul li a {
 }
 .active-link {
   color: #13b955;
+}
+.nav-link:hover{
+  color : #13b955;
 }
 .modal {
   background-color: #a6e6c01f;
