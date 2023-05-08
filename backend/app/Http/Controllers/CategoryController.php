@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -14,12 +15,13 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = Category::paginate(5);
+        $categories = Category::paginate(4);
         return response()->json(
             [
-                'status' => 'success',
-                'categories' => $categories
-            ],200);
+                'status' => 200,
+                'statusText' => 'success',
+                'categories' => $categories,
+            ], 200);
     }
 
     /**
@@ -38,17 +40,30 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'name' => 'required',
-        ]);
+
+        $validator = Validator::make($request->all(),
+            [
+                'name' => 'required | unique:categories,name',
+            ]
+        );
+
+        if($validator->fails()){
+            return response()->json(
+                [
+                    'status' => 400,
+                    'statusText' => 'Fail',
+                    'messages' => $validator->errors(),
+                ],400);
+        }
 
         Category::create($request->all());
 
         return response()->json(
             [
-                'status' => 'success',
-                'message' => 'Successfully Created'
-            ],201);
+                'status' => 201,
+                'statusText' => 'success',
+                'message' => 'Successfully Created',
+            ], 201);
     }
 
     /**
@@ -69,9 +84,10 @@ class CategoryController extends Controller
         //
         return response()->json(
             [
-                'status' => 'success',
+                'status' => 200,
+                'statusText' => 'success',
                 'category' => $category,
-            ],200);
+            ], 200);
     }
 
     /**
@@ -80,17 +96,26 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'status' => 400,
+                    'statusText' => 'Fail',
+                    'messages' => $validator->errors(),
+                ], 400);
+        }
         $category->update($request->all());
 
         return response()->json(
             [
-                'status' => 'success',
+                'status' => 200,
+                'statusText' => 'success',
                 'message' => 'Successfully Updated',
-            ],200);
+            ], 200);
     }
 
     /**
@@ -103,8 +128,9 @@ class CategoryController extends Controller
         $category->delete();
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully deleted'
-        ],200);
+            'status' => 200,
+            'statusText' => 'success',
+            'message' => 'Successfully deleted',
+        ], 200);
     }
 }
