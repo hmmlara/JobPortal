@@ -40,11 +40,12 @@ return new class extends Migration
                 ->on('companies')
                 ->onDelete('cascade');
 
+            $table->string('job_position');
             $table->string('skill');
             $table->string('salary');
             $table->date('deadline');
             $table->longText('description');
-            $table->enum('status', ['Applied', 'Not yet'])->default('Not yet');
+            $table->enum('status', ['Active', 'Inactive']);
             $table->timestamps();
         });
     }
