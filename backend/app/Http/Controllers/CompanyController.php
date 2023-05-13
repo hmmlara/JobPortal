@@ -166,4 +166,16 @@ class CompanyController extends Controller
             'message' => 'Successfully deleted',
         ], 200);
     }
+
+    public function search(Request $request){
+
+        $company = Company::where('companies.name','LIKE',"%{$request->name}%")->get();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'statusText' => 'success',
+                'company' => $company,
+            ],200);
+    }
 }

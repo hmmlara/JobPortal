@@ -61,7 +61,7 @@ export default {
     async getCategoryDetail() {
       let data = await ApiCalls.getById(
         `admin/category/${this.route.params.id}/edit`
-      );
+      ).then(response => response.data);
 
       this.category = data.category;
       //   console.log(data);

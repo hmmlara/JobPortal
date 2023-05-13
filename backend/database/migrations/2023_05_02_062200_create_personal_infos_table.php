@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->enum('gender',['Male','Women']);
             $table->timestamps();
         });
+        DB::statement("ALTER TABLE personal_infos ADD cv MEDIUMBLOB NULL AFTER skill");
     }
 
     /**

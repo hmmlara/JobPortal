@@ -118,8 +118,8 @@ class LocationController extends Controller
             [
                 'status' => 200,
                 'statusText' => 'success',
-                'message' => 'Successfully updated'
-            ],200);
+                'message' => 'Successfully updated',
+            ], 200);
     }
 
     /**
@@ -135,6 +135,19 @@ class LocationController extends Controller
                 'status' => 200,
                 'statusText' => 'success',
                 'message' => 'Successfully deleted',
-            ],200);
+            ], 200);
+    }
+    public function search(Request $request)
+    {
+
+        $location = Location::orWhere('locations.city', 'LIKE', "%{$request->location}%")
+            ->orWhere('locations.country', 'LIKE', "%{$request->location}%")->get();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'statusText' => 'success',
+                'location' => $location,
+            ], 200);
     }
 }

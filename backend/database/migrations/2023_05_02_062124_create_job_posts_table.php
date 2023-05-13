@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('salary');
             $table->date('deadline');
             $table->longText('description');
-            $table->enum('status', ['Active', 'Inactive']);
+            $table->enum('status', ['Active', 'Inactive'])->default('Inactive');
             $table->timestamps();
         });
     }

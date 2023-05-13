@@ -5,7 +5,7 @@
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
       <div class="position-sticky">
         <div class="list-group list-group-flush mx-3 mt-4">
-          <router-link to :class="(path.includes('dashboard')? active : inactive)">
+          <router-link to="/admin/dashboard" :class="path.includes('dashboard')? active : inactive">
             <i class="fas fa-tachometer-alt fa-fw me-3 nav-icon"></i>
             <span class="nav-text">Dashboard</span>
           </router-link>
@@ -29,8 +29,13 @@
           </router-link>
 
           <router-link to="/admin/jobpost" :class="path.includes('jobpost')? active : inactive">
-            <i class="fas fa-signs-post fa-fw me-3 nav-icon"></i>
+            <i class="fas fa-newspaper fa-fw me-3 nav-icon"></i>
             <span class="nav-text">Job Post</span>
+          </router-link>
+
+          <router-link to :class="path.includes('applicants')? active : inactive">
+            <i class="fas fa-users fa-fw me-3 nav-icon"></i>
+            <span class="nav-text">Applicants</span>
           </router-link>
         </div>
       </div>
@@ -73,24 +78,18 @@
               data-mdb-toggle="dropdown"
               aria-expanded="false"
             >
-              <small class="me-2">Admin</small>
-              <img
-                src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
-                class="rounded-circle"
-                height="22"
-                alt
-                loading="lazy"
-              />
+              <small class="me-2">{{ user.name }}</small>
+              <div
+                class="rounded-circle bg-danger text-white d-flex justify-content-center align-items-center"
+                style="width: 25px; height:25px;"
+              >{{ this.user.name.charAt(0) }}</div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-              <li>
-                <a class="dropdown-item" href="#">My profile</a>
-              </li>
               <li>
                 <a class="dropdown-item" href="#">Settings</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Logout</a>
+                <a class="dropdown-item" @click.prevent="logout">Logout</a>
               </li>
             </ul>
           </li>
@@ -104,17 +103,43 @@
 </template>
 
 <script>
+import ApiCalls from "../../../api/index";
+import Auth from "../../../auth";
+import router from "../../../routes";
+
 export default {
   name: "NavbarComponent",
   data() {
     return {
       path: "",
       active: "list-group-item list-group-item-action py-2 ripple active",
-      inactive: "list-group-item list-group-item-action py-2 ripple"
+      inactive: "list-group-item list-group-item-action py-2 ripple",
+      user: this.auth.user
     };
   },
   mounted() {
     this.path = window.location.pathname;
+  },
+  methods: {
+    logout() {
+      ApiCalls.post("admin/logout")
+        .then(response => {
+          if (response.status == 200) {
+            Auth.logout();
+
+            router.push("/login");
+          }
+        })
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.auth.logout();
+
+            alert("Session timeout");
+
+            router.push("/login");
+          }
+        });
+    }
   }
 };
 </script>

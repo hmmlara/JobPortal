@@ -1,15 +1,15 @@
 <template>
-    <AddJobPostComponent/>
+    <AddJobTypeComponent/>
 </template>
 
 <script>
 
-import AddJobPostComponent from '../../components/jobpost/AddJobPostComponent.vue';
+import AddJobTypeComponent from '../../components/jobtype/AddJobTypeComponent.vue';
 
 export default {
     name: 'AddCompanyView',
     components: {
-        AddJobPostComponent
+        AddJobTypeComponent
     }
 }
 </script>
