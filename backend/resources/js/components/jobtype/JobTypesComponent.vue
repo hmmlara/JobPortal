@@ -4,7 +4,27 @@
       <h3>Job Type List</h3>
       <router-link to="/admin/jobtype/add" class="btn btn-sm btn-success">Add Job Type</router-link>
     </div>
-    <table class="table text-center mt-3">
+
+    <div
+      class="d-flex justify-content-center align-items-center"
+      v-if="isLoading"
+      style="height: 500px;"
+    >
+      <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-else-if="fetchError" style="height: 500px;display:grid;place-items:center;">
+      <div>
+        <i class="fas fa-exclamation-triangle me-2 text-danger"></i>
+        <span class="text-uppercase">Error</span>
+        <br />
+        <button class="btn btn-sm btn-danger mt-2" @click="retry">
+          <i class="fas fa-rotate-right me-2"></i>Retry
+        </button>
+      </div>
+    </div>
+    <table class="table text-center mt-3" v-else>
       <thead class="table-success">
         <tr>
           <th scope="col">No</th>
@@ -40,34 +60,81 @@ export default {
     LayoutComponent,
     PaginationComponent,
     JobTypeComponent
-},
+  },
   data() {
     return {
-      jobtypes: []
+      jobtypes: [],
+      isLoading: true,
+      fetchError: false
     };
   },
   mounted() {
     this.getJobTypes();
   },
   methods: {
-    async getJobTypes(page = 1) {
-      let data = await ApiCalls.get(`admin/jobType?page=${page}`);
+    getJobTypes(page = 1) {
+      if (this.isLoading) {
+        setTimeout(() => {
+          ApiCalls.get(`admin/jobType?page=${page}`)
+            .then(response => {
+              if (response.status == 200) {
+                this.isLoading = false;
+                this.jobtypes = response.data.jobTypes;
+              }
+            })
+            .catch(error => {
+              this.isLoading = false;
+              this.fetchError = true;
 
-      this.jobtypes = data.jobTypes;
-      //   console.log(this.categories);
+              if (error.response.status == 401) {
+                this.auth.logout();
 
-        // console.log(data);
+                alert("Session timeout");
+
+                router.push("/login");
+              }
+            });
+        }, 1000);
+      } else {
+        ApiCalls.get(`admin/jobType?page=${page}`)
+          .then(response => {
+            if (response.status == 200) {
+              this.jobtypes = response.data.jobTypes;
+            }
+          })
+          .catch(error => {
+            this.isLoading = false;
+            this.fetchError = true;
+
+            if (error.response.status == 401) {
+              this.auth.logout();
+
+              alert("Session timeout");
+
+              router.push("/login");
+            }
+          });
+      }
     },
     deleteJobType(id) {
-      ApiCalls.delete(`admin/jobType/${id}`)
-        .then(response => {
-          if (response.data.status == 200) {
-            this.getJobTypes();
-          }
-        })
-        .catch(error => {
-          alert("Sorry");
-        });
+      let message = confirm("Are you sure to delete?");
+
+      if (message) {
+        ApiCalls.delete(`admin/jobType/${id}`)
+          .then(response => {
+            if (response.data.status == 200) {
+              this.getJobTypes();
+            }
+          })
+          .catch(error => {
+            alert("Sorry");
+          });
+      }
+    },
+    retry() {
+      this.isLoading = true;
+      this.fetchError = false;
+      this.getJobTypes();
     }
   }
 };

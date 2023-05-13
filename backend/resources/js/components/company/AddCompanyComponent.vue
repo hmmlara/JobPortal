@@ -234,9 +234,6 @@ export default {
 </script>
 
   <style scoped>
-.form-control:focus {
-  border-color: #14a44d !important;
-}
 .dropZone {
   width: 100%;
   height: 200px;

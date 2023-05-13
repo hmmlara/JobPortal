@@ -4,7 +4,26 @@
       <h3>Categories List</h3>
       <router-link to="/admin/category/add" class="btn btn-sm btn-success">Add Category</router-link>
     </div>
-    <table class="table text-center mt-3">
+    <div
+      class="d-flex justify-content-center align-items-center"
+      v-if="isLoading"
+      style="height: 500px;"
+    >
+      <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-else-if="fetchError" style="height: 500px;display:grid;place-items:center;">
+      <div>
+        <i class="fas fa-exclamation-triangle me-2 text-danger"></i>
+        <span class="text-uppercase">Error</span>
+        <br />
+        <button class="btn btn-sm btn-danger mt-2" @click="retry">
+          <i class="fas fa-rotate-right me-2"></i>Retry
+        </button>
+      </div>
+    </div>
+    <table class="table text-center mt-3" v-else>
       <thead class="table-success">
         <tr>
           <th scope="col">No</th>
@@ -33,6 +52,7 @@ import LayoutComponent from "../Layouts/LayoutComponent.vue";
 import CategoryComponent from "./CategoryComponent.vue";
 import ApiCalls from "../../api/index.js";
 import PaginationComponent from "../Layouts/Partials/PaginationComponent.vue";
+import router from "../../routes";
 
 export default {
   name: "CategoriesComponent",
@@ -43,31 +63,78 @@ export default {
   },
   data() {
     return {
-      categories: []
+      categories: [],
+      isLoading: true,
+      fetchError: false
     };
   },
   mounted() {
     this.getCategories();
   },
   methods: {
-    async getCategories(page = 1) {
-      let data = await ApiCalls.get(`admin/category?page=${page}`);
+    getCategories(page = 1) {
+      if (this.isLoading) {
+        setTimeout(() => {
+          ApiCalls.get(`admin/category?page=${page}`)
+            .then(response => {
+              if (response.status == 200) {
+                this.isLoading = false;
+                this.categories = response.data.categories;
+              }
+            })
+            .catch(error => {
+              this.fetchError = true;
+              this.isLoading = false;
 
-      this.categories = data.categories;
-      //   console.log(this.categories);
+              console.log(error);
+              if (error.response.status == 401) {
+                this.auth.logout();
 
-      //   console.log(data);
+                alert("Session timeout");
+                router.push("/login");
+              }
+            });
+        }, 1000);
+      } else {
+        ApiCalls.get(`admin/category?page=${page}`)
+          .then(response => {
+            if (response.status == 200) {
+              this.categories = response.data.categories;
+            }
+          })
+          .catch(error => {
+            this.fetchError = true;
+            this.isLoading = false;
+
+            console.log(error);
+            if (error.response.status == 401) {
+              this.auth.logout();
+
+              alert("Session timeout");
+              router.push("/login");
+            }
+          });
+      }
     },
     deleteCategory(id) {
-      ApiCalls.delete(`admin/category/${id}`)
-        .then(response => {
-          if (response.data.status == 200) {
-            this.getCategories();
-          }
-        })
-        .catch(error => {
-          alert("Sorry");
-        });
+      let message = confirm("Are you sure to delete?");
+
+      if (message) {
+        ApiCalls.delete(`admin/category/${id}`)
+          .then(response => {
+            if (response.data.status == 200) {
+              this.getCategories();
+            }
+          })
+          .catch(error => {
+            alert("Sorry");
+          });
+      }
+    },
+    retry() {
+      this.isLoading = true;
+      this.fetchError = false;
+      this.getCategories();
     }
   }
 };

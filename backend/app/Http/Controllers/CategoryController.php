@@ -133,4 +133,16 @@ class CategoryController extends Controller
             'message' => 'Successfully deleted',
         ], 200);
     }
+
+    public function search(Request $request){
+
+        $category = Category::where('categories.name','LIKE',"%{$request->name}%")->get();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'statusText' => 'success',
+                'category' => $category,
+            ],200);
+    }
 }

@@ -15,7 +15,7 @@ class JobPostController extends Controller
     public function index()
     {
         //
-        $jobposts = JobPost::paginate(7);
+        $jobposts = JobPost::latest()->paginate(7);
 
         return response()->json(
             [
@@ -48,7 +48,7 @@ class JobPostController extends Controller
             'location_id' => 'required',
             'job_position' => 'required',
             'skill' => 'required',
-            'salary' => 'required | numeric',
+            'salary' => 'required',
             'deadline' => 'required',
             'description' => 'required',
         ]);
@@ -57,10 +57,12 @@ class JobPostController extends Controller
             return response()->json(
                 [
                     'status' => 400,
-                    'statusText' => 'success',
+                    'statusText' => 'fail',
                     'messages' => $validator->errors(),
                 ], 400);
         }
+
+        JobPost::create($request->all());
 
         return response()->json(
             [
@@ -101,25 +103,27 @@ class JobPostController extends Controller
     public function update(Request $request, JobPost $jobPost)
     {
         //
-        $validator = Validator::make($request->all(), [
-            'category_id' => 'required',
-            'job_type_id' => 'required',
-            'company_id' => 'required',
-            'job_position' => 'required',
-            'location_id' => 'required',
-            'skill' => 'required',
-            'salary' => 'required | numeric',
-            'deadline' => 'required',
-            'description' => 'required',
-        ]);
+        if (!$request->has('status')) {
+            $validator = Validator::make($request->all(), [
+                'category_id' => 'required',
+                'job_type_id' => 'required',
+                'company_id' => 'required',
+                'job_position' => 'required',
+                'location_id' => 'required',
+                'skill' => 'required',
+                'salary' => 'required',
+                'deadline' => 'required',
+                'description' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'status' => 400,
-                    'statusText' => 'success',
-                    'messages' => $validator->errors(),
-                ], 400);
+            if ($validator->fails()) {
+                return response()->json(
+                    [
+                        'status' => 400,
+                        'statusText' => 'success',
+                        'messages' => $validator->errors(),
+                    ], 400);
+            }
         }
 
         $jobPost->update($request->all());

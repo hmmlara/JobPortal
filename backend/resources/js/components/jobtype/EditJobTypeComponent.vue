@@ -74,7 +74,7 @@ export default {
       ApiCalls.update(`admin/jobType/${this.route.params.id}`, formData)
         .then(response => {
           if (response.data.status == 200) {
-            router.push("/admin/jobType");
+            router.push("/admin/jobtype");
           }
         })
         .catch(error => {

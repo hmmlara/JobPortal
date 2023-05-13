@@ -103,8 +103,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.form-control:focus {
-  border-color: #14a44d !important;
-}
-</style>
+<style scoped></style>
+

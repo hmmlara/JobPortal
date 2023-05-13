@@ -135,4 +135,16 @@ class JobTypeController extends Controller
                 'message' => 'Successfully deleted'
             ],200);
     }
+
+    public function search(Request $request){
+
+        $jobType = JobType::where('job_types.job_type','LIKE',"%{$request->job_type}%")->get();
+
+        return response()->json(
+            [
+                'status' => 200,
+                'statusText' => 'success',
+                'jobType' => $jobType,
+            ],200);
+    }
 }
