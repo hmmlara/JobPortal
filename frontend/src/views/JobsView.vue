@@ -1,53 +1,67 @@
 <template>
-  <div>
-    <NavComponent />
+  <LayoutComponentVue>
     <div class="container mt-5">
       <div class="row">
-        <div class="col-md-4">
-          <JobsFilterComponent/>
+        <div class="col-12 col-lg-3 mb-3">
+          <JobsFilterComponent />
         </div>
-        <div class="col-md-8">
+        <div class="col-12 col-lg-9">
           <div class="row">
-            <div class="col-md-4" v-for="(com, index) in companies.data" :key="index">
-              <JobCardComponent :company="com" />
+            <div
+              class="col-12 col-lg-4"
+              v-for="(job, index) in jobposts.data"
+              :key="index"
+            >
+              <JobCardComponent :job="job" />
             </div>
           </div>
         </div>
       </div>
     </div>
-    <FooterComponent />
-  </div>
+  </LayoutComponentVue>
 </template>
 
 <script>
-import NavComponent from "@/components/Partials/NavComponent.vue";
-import FooterComponent from "@/components/Partials/FooterComponent.vue";
-import JobCardComponent from "@/components/JobCardComponent.vue";
-import JobsFilterComponent from "@/components/JobsFilterComponent.vue";
+import LayoutComponentVue from "@/components/layout/LayoutComponent.vue";
+import JobCardComponent from "@/components/Jobs/JobCardComponent.vue";
+import JobsFilterComponent from "@/components/Jobs/JobsFilterComponent.vue";
 import ApiCalls from "@/api/index.js";
 export default {
   name: "JobsView",
   data() {
     return {
-      companies: [],
+      jobposts: [],
     };
   },
   components: {
-    NavComponent,
-    FooterComponent,
+    LayoutComponentVue,
     JobCardComponent,
-    JobsFilterComponent
+    JobsFilterComponent,
   },
   mounted() {
-    this.getCompanies();
+    this.getJobPosts();
   },
   methods: {
-    async getCompanies() {
-      let data = await ApiCalls.get("frontend/company");
-
-      this.companies = data.companies;
-
-      console.log(this.companies);
+    getJobPosts(page = 1) {
+      ApiCalls.get(`frontend/jobPost?page=${page}`).then((response) => {
+        if (response.status == 200) {
+          this.jobposts = response.data.jobPosts;
+        }
+      });
+    },
+    getCategories() {
+      ApiCalls.get("frontend/category").then((response) => {
+        if (response.status == 200) {
+          this.categories = response.data.categories;
+        }
+      });
+    },
+    getJobTypes() {
+      ApiCalls.get("frontend/jobType").then((response) => {
+        if (response.status == 200) {
+          this.jobtypes = response.data.jobTypes;
+        }
+      });
     },
   },
 };
