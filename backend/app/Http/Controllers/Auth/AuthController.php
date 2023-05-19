@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\PersonalInfo;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,8 +19,6 @@ class AuthController extends Controller
     {
 
         $credential = $request->only(['email', 'password']);
-
-
 
         $validator = Validator::make($request->all(), [
             'email' => 'required | email:rfc,dns',
@@ -37,14 +36,13 @@ class AuthController extends Controller
 
         $user = User::where('email', $credential['email'])->first();
 
-
         $access_token = '';
 
         if (!empty($user)) {
             // dd($user->role == $request->role,$request->role);
             if (Hash::check($credential['password'], $user->password) && ($user->role == $request->role)) {
                 // dd('hello');
-                $access_token = JWTAuth::attempt($credential,['exp' => Carbon::now()->addDays(1)->timestamp]);
+                $access_token = JWTAuth::attempt($credential, ['exp' => Carbon::now()->addDays(1)->timestamp]);
             }
         }
         if (!$access_token) {
@@ -55,17 +53,59 @@ class AuthController extends Controller
                     'message' => 'email or password is wrong',
                 ], 401);
         }
+        $personalInfo = PersonalInfo::where('user_id',auth()->user()->id)->get();
 
         return response()->json(
             [
                 'status' => 200,
                 'statusText' => 'success',
                 'user' => auth()->user(),
+                'userInfo' => $personalInfo,
                 'authorization' => [
                     'access_token' => $access_token,
                     'type' => 'Bearer',
                 ],
             ], 200);
+    }
+
+    public function register(Request $request)
+    {
+        $credential = $request->all();
+
+        $validator = Validator::make($credential, [
+            'name' => 'required | max:15',
+            'email' => 'required | email:rfc,dns',
+            'password' => 'required | min:6 | max:20 | confirmed',
+            'password_confirmation' => "required",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'status' => 400,
+                    'statusText' => 'fail',
+                    'messages' => $validator->errors(),
+                ], 400);
+        }
+
+        $credential['role'] = 'user';
+        $credential['password'] = Hash::make($request->password);
+
+        if (User::create($credential)) {
+            return response()->json(
+                [
+                    'status' => 201,
+                    'statusText' => 'success',
+                    'message' => 'Successfully created',
+                ], 201);
+        }
+
+        return response()->json(
+            [
+                'status' => 400,
+                'statusText' => 'fail',
+                'message' => 'Fail to register',
+            ], 400);
     }
 
     public function logout()
@@ -74,7 +114,8 @@ class AuthController extends Controller
 
         return response()->json(
             [
-                "status" => "success",
+                "status" => 200,
+                'statusText' => 'success',
                 "message" => "successfully logged out",
             ], 200);
     }

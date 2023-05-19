@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\JobPost;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,8 +16,7 @@ class JobPostController extends Controller
     public function index()
     {
         //
-        $jobposts = JobPost::latest()->paginate(7);
-
+        $jobposts = JobPost::with('company')->latest()->paginate(7);
         return response()->json(
             [
                 'status' => 200,
@@ -62,7 +62,9 @@ class JobPostController extends Controller
                 ], 400);
         }
 
-        JobPost::create($request->all());
+        $data = $request->all();
+
+        JobPost::create($data);
 
         return response()->json(
             [
@@ -152,4 +154,33 @@ class JobPostController extends Controller
                 'message' => 'Successfully deleted',
             ], 200);
     }
+
+    public function search(Request $request)
+    {
+
+        $jobposts = JobPost::orWhere('companies.name', 'like', "%$request->searchData%")
+            ->orWhere('job_posts.job_position', 'like', "%$request->searchData%")
+            ->leftJoin('companies', 'companies.id', 'job_posts.company_id')
+            ->orderBy('job_posts.id','desc')
+            ->paginate(5);
+
+        $jobposts->data = array_reverse($jobposts->toArray()['data']);
+
+        if (!empty($jobposts->toArray()['data'])) {
+            return response()->json(
+                [
+                    'status' => 200,
+                    'statusText' => 'success',
+                    'jobpost' => $jobposts,
+                ], 200);
+        }
+
+        return response()->json(
+            [
+                'status' => 404,
+                'statusText' => 'not found',
+                'message' => 'Job Post Not found',
+            ], 404);
+    }
+
 }

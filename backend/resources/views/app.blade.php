@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
 
     <!-- MDB -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/mdb.min.js') }}"></script>
 
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
     @vite(['resources/js/app.js', 'resources/css/app.css'])

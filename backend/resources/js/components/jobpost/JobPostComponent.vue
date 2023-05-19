@@ -2,7 +2,7 @@
   <tr>
     <td>{{ index }}</td>
     <td>{{ jobpost.job_position }}</td>
-    <td>{{ jobpost.skill }}</td>
+    <td>{{ jobpost.hasOwnProperty('company') ? jobpost.company.name : jobpost.name }}</td>
     <td>{{ deadline }}</td>
     <td>
       <router-link :to="`/admin/jobpost/${jobpost.id}/edit`" class="btn btn-sm btn-primary">
@@ -40,6 +40,8 @@ export default {
     ).toLocaleString("en", { month: "long" })}/${new Date(
       this.jobpost.deadline
     ).getFullYear()}`;
+
+    // console.log(this.jobpost);
   },
   methods: {
     statusChange() {

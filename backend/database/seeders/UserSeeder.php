@@ -23,5 +23,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('admin12345'),
             'role' => 'admin',
         ]);
+
+        User::create([
+            'email' => 'akn@gmail.com',
+            'name' => 'Arkar Nyein',
+            'password' => Hash::make('12345678'),
+            'role' => 'user',
+        ]);
     }
 }

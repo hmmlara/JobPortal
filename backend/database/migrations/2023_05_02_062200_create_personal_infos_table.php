@@ -31,10 +31,11 @@ return new class extends Migration
             $table->string('country');
             $table->longText('skill');
             $table->enum('marital_status',['Single','Martial','Widowed','Divorced']);
-            $table->enum('gender',['Male','Women']);
+            $table->enum('gender',['Male','Female']);
+            $table->string('profession');
             $table->timestamps();
         });
-        DB::statement("ALTER TABLE personal_infos ADD cv MEDIUMBLOB NULL AFTER skill");
+        DB::statement("ALTER TABLE personal_infos ADD profile_pic MEDIUMBLOB NULL AFTER skill");
     }
 
     /**
