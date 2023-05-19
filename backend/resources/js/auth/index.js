@@ -23,6 +23,7 @@ class Auth{
     logout(){
         window.sessionStorage.removeItem('token');
         window.sessionStorage.removeItem('user');
+        this.token = '';
         this.user = null;
     }
 }

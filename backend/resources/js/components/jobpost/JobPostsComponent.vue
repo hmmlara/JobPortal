@@ -5,36 +5,6 @@
       <router-link to="/admin/jobpost/add" class="btn btn-sm btn-success">Post a job</router-link>
     </div>
 
-    <!-- <div class="form-group w-25 float-end mb-3 d-flex">
-      <div class="dropdown">
-        <button
-          class="btn btn-success btn-sm dropdown-toggle"
-          type="button"
-          id="filter-menu"
-          data-mdb-toggle="dropdown"
-          aria-expanded="false"
-        ><i class="fas fa-filter"></i></button>
-        <ul class="dropdown-menu" aria-labelledby="filter-menu">
-          <li>
-            <button class="dropdown-item" type="button">Action</button>
-          </li>
-          <li>
-            <button class="dropdown-item" type="button">Another action</button>
-          </li>
-          <li>
-            <button class="dropdown-item" type="button">Something else here</button>
-          </li>
-        </ul>
-      </div>
-      <input
-        type="search"
-        id="form1"
-        class="form-control"
-        style="border: 1px solid #909090;height: 30px;font-size:small;"
-        placeholder="Search"
-      />
-    </div> -->
-
     <div
       class="d-flex justify-content-center align-items-center"
       v-if="isLoading"
@@ -47,36 +17,40 @@
     <div v-else-if="fetchError" style="height: 500px;display:grid;place-items:center;">
       <div>
         <i class="fas fa-exclamation-triangle me-2 text-danger"></i>
-        <span class="text-uppercase">Error</span>
+        <span class="text-uppercase">{{ fetchErrorMessage}}</span>
         <br />
         <button class="btn btn-sm btn-danger mt-2" @click="retry">
           <i class="fas fa-rotate-right me-2"></i>Retry
         </button>
       </div>
     </div>
-    <table class="table text-center mt-3" v-else>
-      <thead class="table-success">
-        <tr>
-          <th scope="col">No</th>
-          <th scope="col">Job Position</th>
-          <th scope="col">Skill</th>
-          <th scope="col">Deadline</th>
-          <th scope="col">Action</th>
-          <th scope="col">Active</th>
-        </tr>
-      </thead>
-      <tbody>
-        <JobPostComponent
-          v-for="(jobpost, index) in jobposts.data"
-          :key="index"
-          :jobpost="jobpost"
-          :index="jobposts.from + index"
-          @statusChange="updateStatus($event,jobpost.id)"
-        />
-      </tbody>
-    </table>
+
+    <div v-else>
+      <FilterBoxComponent @search="search" :placeholder="'Search Job Posts'" />
+      <table class="table text-center mt-3">
+        <thead class="table-success">
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Job Position</th>
+            <th scope="col">Company</th>
+            <th scope="col">Deadline</th>
+            <th scope="col">Action</th>
+            <th scope="col">Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <JobPostComponent
+            v-for="(jobpost, index) in jobposts.data"
+            :key="index"
+            :jobpost="jobpost"
+            :index="jobposts.from + index"
+            @statusChange="updateStatus($event,jobpost.id)"
+          />
+        </tbody>
+      </table>
+    </div>
     <div class="fixed-bottom">
-      <PaginationComponent :data="jobposts" @paginate="getJobPosts" />
+      <PaginationComponent :data="jobposts" @paginate="urlCheck == 'jobPost' ? getJobPosts : search" />
     </div>
   </LayoutComponent>
 </template>
@@ -87,19 +61,23 @@ import JobPostComponent from "./JobPostComponent.vue";
 import ApiCalls from "../../api/index.js";
 import PaginationComponent from "../Layouts/Partials/PaginationComponent.vue";
 import router from "../../routes";
+import FilterBoxComponent from "../Layouts/Partials/FilterBoxComponent.vue";
 
 export default {
   name: "JobTypesComponent",
   components: {
     LayoutComponent,
     PaginationComponent,
-    JobPostComponent
+    JobPostComponent,
+    FilterBoxComponent
   },
   data() {
     return {
       jobposts: [],
       isLoading: true,
-      fetchError: false
+      fetchError: false,
+      fetchErrorMessage: "Something Wrong",
+      urlCheck: "jobPost"
     };
   },
   mounted() {
@@ -107,6 +85,7 @@ export default {
   },
   methods: {
     getJobPosts(page = 1) {
+      this.urlCheck = "jobPost";
       if (this.isLoading) {
         setTimeout(() => {
           ApiCalls.get(`admin/jobPost?page=${page}`)
@@ -161,7 +140,38 @@ export default {
     retry() {
       this.isLoading = true;
       this.fetchError = false;
+      this.searchData = "";
       this.getJobPosts();
+    },
+    search(searchData,page = 1) {
+      this.urlCheck = "jobPost/search";
+
+      let formData = new FormData();
+      this.searchData = searchData
+      formData.append("searchData", this.searchData);
+
+      this.isLoading = true;
+
+      setTimeout(() => {
+        ApiCalls.post(`admin/jobPost/search?page=${page}`, formData)
+          .then(response => {
+            console.log(response.data);
+            if ((response.status = 200)) {
+              this.isLoading = false;
+              this.jobposts = response.data.jobpost;
+            }
+          })
+          .catch(error => {
+            this.isLoading = false;
+            this.fetchError = true;
+
+            let err = error.response.data;
+
+            if ((err.status = 404)) {
+              this.fetchErrorMessage = err.message;
+            }
+          });
+      }, 500);
     }
   }
 };

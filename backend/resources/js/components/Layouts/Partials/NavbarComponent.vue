@@ -33,7 +33,7 @@
             <span class="nav-text">Job Post</span>
           </router-link>
 
-          <router-link to :class="path.includes('applicants')? active : inactive">
+          <router-link to="/admin/applicants" :class="path.includes('applicants')? active : inactive">
             <i class="fas fa-users fa-fw me-3 nav-icon"></i>
             <span class="nav-text">Applicants</span>
           </router-link>

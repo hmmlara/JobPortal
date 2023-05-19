@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Application;
 use App\Models\JobPost;
+use App\Models\PersonalInfo;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -12,14 +14,10 @@ class JobPostApiController extends Controller
     //
     public function getAllPosts()
     {
-        $jobposts = JobPost::where('status', 'Active')->latest()->paginate(5);
-
-        foreach ($jobposts as $jobpost) {
-            $jobpost->category;
-            $jobpost->location;
-            $jobpost->company;
-            $jobpost->jobType;
-        }
+        $jobposts = JobPost::with('company', 'location', 'jobType', 'category')
+            ->where('status', 'Active')
+            ->latest()
+            ->paginate(5);
 
         return response()->json(
             [
@@ -29,18 +27,26 @@ class JobPostApiController extends Controller
             ], 200);
     }
 
-    public function getJobPostDetails($id)
+    public function getJobPostDetails($id, $user_id)
     {
         // dd($id);
-        try{
-            // dd($id);
-            $jobpost = JobPost::select('job_posts.*','categories.*', 'companies.*', 'job_types.*', 'locations.*')
-                ->join('categories', 'categories.id', 'job_posts.category_id')
-                ->join('companies', 'companies.id', 'job_posts.company_id')
-                ->join('job_types', 'job_types.id', 'job_posts.job_type_id')
-                ->join('locations', 'locations.id', 'job_posts.location_id')
+        try {
+            // dd($user_id);
+            $applied = Application::where('user_id', $user_id)
+                ->where('job_post_id', $id)
+                ->first();
+
+            $jobpost = JobPost::with('company', 'location', 'category', 'jobType', 'applicants')
                 ->where('job_posts.id', $id)
                 ->first();
+
+            if (!empty($applied)) {
+                $jobpost['status'] = $applied->status;
+                $jobpost['applied'] = true;
+            } else {
+                $jobpost['applied'] = false;
+                $jobpost['applicant_count'] = 0;
+            }
 
             return response()->json(
                 [
@@ -64,30 +70,26 @@ class JobPostApiController extends Controller
     {
 
         if (!empty($request->category_name)) {
-            $jobposts = JobPost::where('categories.name', 'LIKE', "%$request->category_name%")
-                ->where('status', 'Active')
+            $jobposts = JobPost::with('company', 'location', 'jobType', 'category')
                 ->join('categories', 'categories.id', 'job_posts.category_id')
-                ->get();
+                ->where('categories.name', 'LIKE', "%$request->category_name%")
+                ->where('status', 'Active')
+                ->paginate(5);
         } else if (!empty($request->job_type)) {
-            $jobposts = JobPost::where('job_types.job_type', 'LIKE', "%$request->job_type%")
+            $jobposts = JobPost::with('company', 'location', 'jobType', 'category')
+                ->where('job_types.job_type', 'LIKE', "%$request->job_type%")
                 ->where('status', 'Active')
                 ->join('job_types', 'job_types.id', 'job_posts.job_type_id')
-                ->get();
+                ->paginate(5);
         } else {
-            $jobposts = JobPost::where('categories.name', 'LIKE', "%$request->category_name%")
+            $jobposts = JobPost::with('company', 'location', 'jobType', 'category')
+                ->where('categories.name', 'LIKE', "%$request->category_name%")
                 ->where('job_types.job_type', 'LIKE', "%$request->job_type%")
                 ->where('status', 'Active')
                 ->join('categories', 'categories.id', 'job_posts.category_id')
                 ->join('job_types', 'job_types.id', 'job_posts.job_type_id')
-                ->get();
+                ->paginate(5);
         }
-        foreach ($jobposts as $jobpost) {
-            $jobpost->category;
-            $jobpost->location;
-            $jobpost->company;
-            $jobpost->jobType;
-        }
-
         if (count($jobposts) === 0) {
             return response()->json(
                 [
@@ -103,5 +105,31 @@ class JobPostApiController extends Controller
                 'statusText' => 'success',
                 'jobPosts' => $jobposts,
             ], 200);
+    }
+
+    public function applyJobPost(Request $request)
+    {
+
+        $data = $request->all();
+
+        $personalInfo = PersonalInfo::where('user_id', $request->user_id)->first();
+        if ($personalInfo) {
+            $applicant = Application::create($data);
+            if ($applicant) {
+                return response()->json(
+                    [
+                        'status' => 201,
+                        'statusText' => 'success',
+                        'message' => 'Successfully applied',
+                    ], 201);
+            }
+        }
+
+        return response()->json(
+            [
+                'status' => 400,
+                'statusText' => 'fail',
+                'message' => 'Fail to apply,Try again',
+            ], 400);
     }
 }

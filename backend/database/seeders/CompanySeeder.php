@@ -21,6 +21,7 @@ class CompanySeeder extends Seeder
             'email' => 'hi@gmail.com',
             'phone' => '09888888888',
             'address' => 'Mahaaungmyay,Mandalay',
+            'company_logo' => 'https://cdn.logo.com/hotlink-ok/logo-social.png',
         ]);
     }
 }

@@ -23,6 +23,9 @@ import { jobpost } from "./jobpost";
 // admin location route
 import { location } from "./location";
 
+// admin applicant route
+import { applicants } from "./applicants";
+
 const adminRoutes = [
     {
         path: '/dashboard',
@@ -37,6 +40,7 @@ const adminRoutes = [
     ...prefixRoutes('/jobtype', jobtype),
     ...prefixRoutes('/jobpost', jobpost),
     ...prefixRoutes('/location', location),
+    ...prefixRoutes('/applicants',applicants),
 ];
 
 

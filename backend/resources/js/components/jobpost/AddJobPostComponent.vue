@@ -132,10 +132,7 @@
 
               <div class="col-12 mb-3">
                 <label for class="form-label">Description</label>
-                <textarea
-                  name="description"
-                  id="editor"
-                ></textarea>
+                <textarea name="description" id="editor"></textarea>
 
                 <small v-if="errors.description" class="text-danger">{{ errorMessages.description }}</small>
               </div>
@@ -262,22 +259,30 @@ export default {
   },
   methods: {
     async getCategories() {
-      let data = await ApiCalls.get("admin/category").then(response => response.data);
+      let data = await ApiCalls.get("admin/category").then(
+        response => response.data
+      );
 
       this.categories = data.categories.data;
     },
     async getJobTypes() {
-      let data = await ApiCalls.get("admin/jobType").then(response => response.data);
+      let data = await ApiCalls.get("admin/jobType").then(
+        response => response.data
+      );
 
       this.jobTypes = data.jobTypes.data;
     },
     async getCompnies() {
-      let data = await ApiCalls.get("admin/company").then(response => response.data);
+      let data = await ApiCalls.get("admin/company").then(
+        response => response.data
+      );
 
       this.companies = data.companies.data;
     },
     async getLocations() {
-      let data = await ApiCalls.get("admin/location").then(response => response.data);
+      let data = await ApiCalls.get("admin/location").then(
+        response => response.data
+      );
 
       this.locations = data.locations.data;
     },
@@ -319,7 +324,12 @@ export default {
       formData.append("job_position", this.jobpost.job_position);
       formData.append("description", window.editor.getData());
       formData.append("skill", this.jobpost.skill);
-      formData.append("salary", this.jobpost.salary + ' MMK');
+      formData.append(
+        "salary",
+        this.jobpost.salary != ""
+          ? this.jobpost.salary + " MMK"
+          : this.jobpost.salary
+      );
       formData.append("deadline", this.jobpost.deadline);
 
       // console.log(formData.get("job_type"));
@@ -331,46 +341,54 @@ export default {
         })
         .catch(error => {
           //   this.error = true;
-          let err = error.response.data.messages;
-          console.log(err);
 
-          if (err.hasOwnProperty("category_id")) {
-            this.errors.category_id = true;
-            this.errorMessages.category_id = err.category_id[0];
+        //   console.log(error);
+          if (error.response.status == 400) {
+            let err = error.response.data.messages;
+
+            if (err.hasOwnProperty("category_id")) {
+              this.errors.category_id = true;
+              this.errorMessages.category_id = err.category_id[0];
+            }
+            if (err.hasOwnProperty("company_id")) {
+              this.errors.company_id = true;
+              this.errorMessages.company_id = err.company_id[0];
+            }
+            if (err.hasOwnProperty("job_type_id")) {
+              this.errors.job_type_id = true;
+              this.errorMessages.job_type_id = err.job_type_id[0];
+            }
+            if (err.hasOwnProperty("location_id")) {
+              this.errors.location_id = true;
+              this.errorMessages.location_id = err.location_id[0];
+            }
+            if (err.hasOwnProperty("job_position")) {
+              this.errors.job_position = true;
+              this.errorMessages.job_position = err.job_position[0];
+            }
+            if (err.hasOwnProperty("skill")) {
+              this.errors.skill = true;
+              this.errorMessages.skill = err.skill[0];
+            }
+            if (err.hasOwnProperty("description")) {
+              this.errors.description = true;
+              this.errorMessages.description = err.description[0];
+            }
+            if (err.hasOwnProperty("salary")) {
+              this.errors.salary = true;
+              this.errorMessages.salary = err.salary[0];
+            }
+            if (err.hasOwnProperty("deadline")) {
+              this.errors.deadline = true;
+              this.errorMessages.deadline = err.deadline[0];
+            }
           }
-          if (err.hasOwnProperty("company_id")) {
-            this.errors.company_id = true;
-            this.errorMessages.company_id = err.company_id[0];
+
+          if (error.response.status == 401) {
+            alert("Session time out");
+            this.auth.logout();
+            router.push("/login");
           }
-          if (err.hasOwnProperty("job_type_id")) {
-            this.errors.job_type_id = true;
-            this.errorMessages.job_type_id = err.job_type_id[0];
-          }
-          if (err.hasOwnProperty("location_id")) {
-            this.errors.location_id = true;
-            this.errorMessages.location_id = err.location_id[0];
-          }
-          if (err.hasOwnProperty("job_position")) {
-            this.errors.job_position = true;
-            this.errorMessages.job_position = err.job_position[0];
-          }
-          if (err.hasOwnProperty("skill")) {
-            this.errors.skill = true;
-            this.errorMessages.skill = err.skill[0];
-          }
-          if (err.hasOwnProperty("description")) {
-            this.errors.description = true;
-            this.errorMessages.description = err.description[0];
-          }
-          if (err.hasOwnProperty("salary")) {
-            this.errors.salary = true;
-            this.errorMessages.salary = err.salary[0];
-          }
-          if (err.hasOwnProperty("deadline")) {
-            this.errors.deadline = true;
-            this.errorMessages.deadline = err.deadline[0];
-          }
-          console.log(this.errorMessages);
         });
     }
   }

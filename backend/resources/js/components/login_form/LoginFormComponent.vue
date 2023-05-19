@@ -110,7 +110,6 @@ export default {
               setTimeout(() => {
                 router.push("/");
               }, 100);
-              ("AuthController@logout");
             }
           })
           .catch(error => {
