@@ -1,39 +1,33 @@
 <template>
-  <div class="home">
-    <NavComponent  />
+  <LayoutComponentVue>
     <BannerComponentVue />
-    <JobsComponent/>
-    <FooterComponent />
-  </div>
+    <JobsComponent />
+  </LayoutComponentVue>
 </template>
 
 <script>
-import NavComponent from "../components/Partials/NavComponent.vue";
-import BannerComponentVue from "../components/BannerComponent.vue";
-import FooterComponent from "../components/Partials/FooterComponent.vue";
-import JobsComponent from "@/components/JobsComponent.vue";
+import BannerComponentVue from "../components/Partials/BannerComponent.vue";
+import JobsComponent from "@/components/Jobs/JobsComponent.vue";
+import LayoutComponentVue from "@/components/layout/LayoutComponent.vue";
+import router from "@/router";
 
 export default {
   name: "HomeView",
   data() {
-    return {
-    };
+    return {};
+  },
+  mounted(){
+  },
+  methods:{
+
   },
   components: {
-    NavComponent,
+    LayoutComponentVue,
     BannerComponentVue,
-    FooterComponent,
-    JobsComponent
+    JobsComponent,
   },
-  created(){
-    
-  }
 };
 </script>
 
 <style scoped>
-  .home{
-    position: relative;
-    height: 3000px;
-  }
 </style>

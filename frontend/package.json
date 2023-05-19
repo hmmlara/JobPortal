@@ -12,8 +12,10 @@
     "bootstrap": "^5.2.3",
     "mdb-ui-kit": "^6.2.0",
     "mdb-vue-ui-kit": "^4.0.0",
+    "moment": "^2.29.4",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~5.0.0",

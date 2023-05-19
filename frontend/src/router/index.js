@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import LoginRegisterView from '../views/LoginRegisterView.vue'
 import JobsView from '../views/JobsView.vue'
 import AccInfoView from '../views/AccInfoView.vue'
+import JobDetailView from '../views/JobDetailView.vue';
+import Auth from '@/auth/index';
 const routes = [
   {
     path: '/',
@@ -32,7 +34,18 @@ const routes = [
   {
     path:'/Accinfo',
     name: 'Accinfo',
-    component:AccInfoView
+    component:AccInfoView,
+    meta:{
+      requiresAuth: true,
+    }
+  },
+  {
+    path:'/jobs/jobDetail/:id',
+    name:'jobDetail',
+    component:JobDetailView,
+    meta:{
+      requiresAuth: true,
+    }
   }
 ]
 
@@ -40,6 +53,21 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   linkActiveClass: 'active-link'
-})
+});
+
+router.beforeEach((to,from,next) => {
+    if(to.matched.some(record => record.meta.requiresAuth)){
+      if(Auth.check()){
+          next();
+          return;
+      }
+      else{
+        router.push('/login&register');
+      }
+    }
+    else{
+      next();
+    }
+});
 
 export default router

@@ -2,7 +2,7 @@
   <div>
     <nav :class="navFixed">
       <div class="container text-center">
-        <a class="navbar-brand" href="#"
+        <a class="navbar-brand" href="/"
           ><strong class="me-1">Job</strong
           ><span class="text-success"><strong>Portal</strong></span></a
         >
@@ -26,38 +26,35 @@
               </router-link>
             </li>
             <li class="nav-item mx-3">
-              <router-link to="/jobs" class="nav-link" href="#">Job Posts</router-link>
-            </li>
-            <li class="nav-item mx-3">
-              <a class="nav-link" href="#">Pricing</a>
+              <router-link to="/jobs" class="nav-link">Job Posts</router-link>
             </li>
             <li class="nav-item mx-3">
               <router-link class="nav-link" to="/about">About</router-link>
             </li>
-            <li class="nav-item dropdown">
-              <a
-                class="dropdown-toggle nav-link"
-                href="#"
-                id="dropdownMenuLink"
-                data-mdb-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
-            </li>
           </ul>
+          <div class="dropdown" v-if="this.auth.check()">
+            <a
+              class="dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-mdb-toggle="dropdown"
+              aria-expanded="false"
+            >
+            {{ user.name }}
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><router-link class="dropdown-item" to="/Accinfo">My Profile</router-link></li>
+              <li><a class="dropdown-item" href="#">My Jobs</a></li>
+              <li><a class="dropdown-item" @click.prevent="logout">logout</a></li>
+            </ul>
+          </div>
           <router-link
             type="button"
-            class="btn btn-success"
+            class="btn btn-success ms-5"
             data-mdb-ripple-color="dark"
             to="/login&register"
+            v-else
           >
             <i class="fa-sharp fa-solid fa-right-to-bracket"></i> login
           </router-link>
@@ -68,12 +65,16 @@
 </template>
 
 <script>
+
+import ApiCalls from '../../api/index';
+
 export default {
   name: "NavComponent",
   data() {
     return {
       path: "",
       navFixed: "navbar autohide navbar-expand-lg bg-light py-3",
+      user: this.auth.user,
     };
   },
   mounted() {
@@ -88,7 +89,23 @@ export default {
         this.navFixed = "navbar autohide navbar-expand-lg bg-light  py-3 ";
       }
     };
+    // console.log(this.auth.token);
   },
+  methods:{
+    logout(){
+
+      ApiCalls.post('frontend/logout')
+      .then(response => {
+        if(response.status == 200){
+          this.user = '';
+          this.auth.logout();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+  }
 };
 </script>
 
@@ -107,8 +124,8 @@ ul li a {
 .active-link {
   color: #13b955;
 }
-.nav-link:hover{
-  color : #13b955;
+.nav-link:hover {
+  color: #13b955;
 }
 .modal {
   background-color: #a6e6c01f;
@@ -121,5 +138,8 @@ ul li a {
 }
 .registerLink {
   text-decoration: none;
+}
+.dropdown-toggle:hover{
+  color: #13b955;
 }
 </style>
