@@ -1,179 +1,202 @@
 <template>
   <div class="container mt-5">
-    <div class="card p-4">
-      <h4 class="mb-3">Personal Info</h4>
-      <div class="row mt-3">
-        <div class="col-12 img-show col-md-6 text-center mb-4">
-          <div class="form-group" :style="formgroup">
-            <div>
-              <div v-if="preview" class="img-container">
-                <img :src="preview" class="image" />
-                <p class="mb-0">{{ image.name }}</p>
-                <i @click="reset" :class="hideBtn" id="clearbtn" class="fas fa-circle-xmark"></i>
-              </div>
-            </div>
-            <div :class="hidetext" id="hide-text">
-              <i class="fas fa-cloud-arrow-up mt-4" style="color: #13b955;"></i>
-              <p>Upload photo</p>
-            </div>
-            <div class="">
-              <input
-                type="file"
-                accept="image/*"
-                @change="previewImage"
-                :class="hideInput"
-                id="my-file"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="col-12 mt-4 col-md-6">
-          <label for="" class="form-label">Profession</label>
-          <input type="text" name="" id="" class="form-control" placeholder="Junior Developer">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">Name</label>
-          <input type="text" name="" id="" class="form-control" placeholder="Full name" />
-        </div>
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">Email</label>
-          <input type="email" name="" id="" class="form-control" placeholder="xxxx@gmail.com" />
-        </div>
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">Date of birth</label>
-          <input placeholder="month/date/year"  class="form-control" type="text" onfocus="(this.type='date')"/>
-        </div>
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">NRC</label>
-          <div class="d-flex justify-content-between">
-            <select name="" id="" v-model="selectedValue" class="form-select me-1 w-50">
-              <option v-for="index in no" :key="index" :value="index" selected>{{ index }}</option>
-            </select>
-            <select name="" id="" class="form-select me-1 w-100">
-              <option v-for="data in filteredOptions" :key="data" :value="data" selected>{{ data }}</option>
-            </select>
-            <select name="" id="" v-model="selectedType" class="form-select me-1 w-50">
-              <option v-for="index in type" :key="index" :value="index" selected>{{ index }}</option>
-            </select>
-            <input type="text" name="" id="" class="form-control" placeholder="123456"/>
-          </div>
-        </div>
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <div class="">
-            <label for="" class="form-label">Phone number</label>
-            <input type="text" name="" id="" class="form-control mt-1" placeholder="09xxxxxxxxx" />
-          </div>
-        </div>
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">Address</label>
-          <div class="d-flex justify-content-between">
-            <input type="text" name="" id="" class="form-control mt-1 me-1" placeholder="street address"/>
-            <input type="text" name="" id="" class="form-control mt-1 me-1" placeholder="City"/>
-            <input type="text" name="" id="" class="form-control mt-1" placeholder="Country"/>
-          </div>
-        </div>
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">Gender</label>
-          <div class="mt-2">
-            <label for="" class="form-check-label me-3">Male</label>
-            <input type="radio" name="" id="" class="form-check-input me-3"/>
-            <label for="" class="form-check-label me-3">Female</label>
-            <input type="radio" name="" id="" class="form-check-input"/>
-          </div>
-        </div>
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">Marital Status</label>
-          <div class="mt-2">
-            <label for="" class="form-check-label me-3">Single</label>
-            <input type="radio" name="" id="" class="form-check-input me-3"/>
-            <label for="" class="form-check-label me-3">Married</label>
-            <input type="radio" name="" id="" class="form-check-input"/>
-          </div>
-        </div>
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">Skill</label>
-          <input type="text" name="" id="" class="form-control" placeholder="HTML,CSS,JavaScript">
-        </div>
-      </div>
-      <h4 class=" mt-5">Education</h4>
-      <div class="row mt-3 ">
-        <div class="col-md-6 col-12 col-lg-4 mt-3">
-          <label for="" class="form-label">High School</label>
-          <input type="text" name="" id="" class="form-control" placeholder="High School name">
-        </div>
-        <div class="col-md-6 col-12 col-lg-8 mt-3">
-          <div class="d-flex">
-            <div class="me-1 w-50">
-              <label for="" class="form-label">Start date</label>
-              <input placeholder="month/date/year"  class="form-control" type="text" onfocus="(this.type='date')"/>
-            </div>
-            <div class="w-50">
-              <label for="" class="form-label">End date</label>
-              <input placeholder="month/date/year"  class="form-control" type="text" onfocus="(this.type='date')"/>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-for="item,index in university" :key="item">
-        <div class="row ">
-          <div class="col-md-6 col-12 col-lg-4 mt-3">
-            <div class="d-flex justify-content-between">
-              <label for="" class="form-label">University {{ index+1 }}</label>
+    <form action="" @submit.prevent="addPresonalInformation">
+      <div class="card p-4">
+        <h4 class="mb-3">Personal Info</h4>
+        <div class="row mt-3">
+          <div class="col-12 img-show col-md-6 text-center mb-4">
+            <div class="form-group" :style="formgroup">
               <div>
-                <button @click.prevent="addDegreeRow" class="btn btn-secondary btn-sm me-1"><i class="fas add_remove fa-plus text-success mt-1 " ></i></button>
-                <button @click.prevent="removeDegreeRow" class="btn btn-secondary btn-sm"><i class="fas add_remove fa-minus text-danger mt-1" ></i></button>
+                <div v-if="preview" class="img-container">
+                  <img :src="preview" class="image" />
+                  <p class="mb-0">{{ image.name }}</p>
+                  <i @click="reset" :class="hideBtn" id="clearbtn" class="fas fa-circle-xmark"></i>
+                </div>
+              </div>
+              <div :class="hidetext" id="hide-text">
+                <i class="fas fa-cloud-arrow-up mt-4" style="color: #13b955;"></i>
+                <p>Upload photo</p>
+              </div>
+              <div class="">
+                <input
+                  type="file"
+                  accept="image/*"
+                  @change="previewImage"
+                  :class="hideInput"
+                  id="my-file"
+                  @input="profile.profile_pic=$event.target.value"
+                />
               </div>
             </div>
-            <input type="text" name="" id="" class="form-control" placeholder="Degree name" v-model="item.degree_name">
+          </div>
+          <div class="col-12 mt-4 col-md-6">
+            <label for="" class="form-label">Profession</label>
+            <input type="text" name="" id="" class="form-control"
+             placeholder="Junior Developer" @input="profile.profession=$event.target.value">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">Name</label>
+            <input type="text" name="" id="" class="form-control"
+             placeholder="Full name" @input="profile.name=$event.target.value" />
+          </div>
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">Email</label>
+            <input type="email" name="" id="" class="form-control"
+             placeholder="xxxx@gmail.com" @input="profile.email=$event.target.value"/>
+          </div>
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">Date of birth</label>
+            <input placeholder="month/date/year"  class="form-control"
+             type="text" onfocus="(this.type='date')" @input="profile.dob=$event.target.value"/>
+          </div>
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">NRC</label>
+            <div class="d-flex justify-content-between">
+              <select name="" id="" v-model="selectedValue" class="form-select me-1 w-50">
+                <option v-for="index in no" :key="index" :value="index" >{{ index }}</option>
+              </select>
+              <select name="" id="" @change="selectedState=$event.target.value" class="form-select me-1 w-100">
+                <option v-for="data in filteredOptions" :key="data" selected :value="data" >{{ data }}</option>
+              </select>
+              <select name="" id="" v-model="selectedType" class="form-select me-1 w-50">
+                <option v-for="index in type" :key="index" :value="index">{{ index }}</option>
+              </select>
+              <input type="text" name="" v-model="nrcNo" id="" class="form-control" placeholder="123456"/>
+            </div>
+          </div>
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <div class="">
+              <label for="" class="form-label">Phone number</label>
+              <input type="text" name="" id="" class="form-control mt-1"
+               placeholder="09xxxxxxxxx" @input="profile.phone=$event.target.value"/>
+            </div>
+          </div>
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">Address</label>
+            <div class="d-flex justify-content-between">
+              <input type="text" name="" id="" class="form-control mt-1 me-1"
+               placeholder="street address" @input="profile.address=$event.target.value"/>
+              <input type="text" name="" id="" class="form-control mt-1 me-1"
+               placeholder="City" @input="profile.city=$event.target.value"/>
+              <input type="text" name="" id="" class="form-control mt-1"
+               placeholder="Country" @input="profile.country=$event.target.value"/>
+            </div>
+          </div>
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">Gender</label>
+            <div class="mt-2">
+              <label for="" class="form-check-label me-3">Male</label>
+              <input type="radio" name="gender" id="" class="form-check-input me-3"
+               value="male" @input="profile.gender=$event.target.value"/>
+              <label for="" class="form-check-label me-3">Female</label>
+              <input type="radio" name="gender" id="" class="form-check-input"
+               value="female" @input="profile.gender=$event.target.value"/>
+            </div>
+          </div>
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">Marital Status</label>
+            <div class="mt-2">
+              <label for="" class="form-check-label me-3">Single</label>
+              <input type="radio" name="marital_status" id="" class="form-check-input me-3"
+               value="single" @input="profile.marital_status=$event.target.value"/>
+              <label for="" class="form-check-label me-3">Married</label>
+              <input type="radio" name="marital_status" id="" class="form-check-input"
+               value="married" @input="profile.marital_status=$event.target.value"/>
+            </div>
+          </div>
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">Skill</label>
+            <input type="text" name="" id="" class="form-control"
+             placeholder="HTML,CSS,JavaScript" @input="profile.skill=$event.target.value">
+          </div>
+        </div>
+        <h4 class=" mt-5">Education</h4>
+        <div class="row mt-3 ">
+          <div class="col-md-6 col-12 col-lg-4 mt-3">
+            <label for="" class="form-label">High School</label>
+            <input type="text" name="" id="" class="form-control"
+             placeholder="High School name" @input="high_school.high_school_name=$event.target.value">
           </div>
           <div class="col-md-6 col-12 col-lg-8 mt-3">
             <div class="d-flex">
               <div class="me-1 w-50">
                 <label for="" class="form-label">Start date</label>
-                <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.start_date" onfocus="(this.type='date')"/>
+                <input placeholder="month/date/year"  class="form-control"
+                 type="text" onfocus="(this.type='date')" @input="high_school.start_date=$event.target.value"/>
               </div>
               <div class="w-50">
                 <label for="" class="form-label">End date</label>
-                <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.end_date" onfocus="(this.type='date')"/>
+                <input placeholder="month/date/year"  class="form-control"
+                 type="text" onfocus="(this.type='date')" @input="high_school.end_date=$event.target.value"/>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <h4 class="mt-5">Experience</h4>
-      <div v-for="item,index in experience" :key="item">
-        <div class="row ">
-          <div class="col-md-6 col-12 col-lg-4 mt-3">
-            <div class="d-flex justify-content-between">
-              <label for="" class="form-label">Company {{ index+1 }}</label>
-              <div>
-                <button @click.prevent="addExperienceRow" class="btn btn-secondary btn-sm me-1"><i class="fas add_remove fa-plus text-success mt-1 " ></i></button>
-                <button @click.prevent="removeExperienceRow" class="btn btn-secondary btn-sm"><i class="fas add_remove fa-minus text-danger mt-1" ></i></button>
+        <div v-for="item,index in university" :key="item">
+          <div class="row ">
+            <div class="col-md-6 col-12 col-lg-4 mt-3">
+              <div class="d-flex justify-content-between">
+                <label for="" class="form-label">University {{ index+1 }}</label>
+                <div>
+                  <button @click.prevent="addDegreeRow" class="btn btn-secondary btn-sm me-1"><i class="fas add_remove fa-plus text-success mt-1 " ></i></button>
+                  <button @click.prevent="removeDegreeRow" class="btn btn-secondary btn-sm"><i class="fas add_remove fa-minus text-danger mt-1" ></i></button>
+                </div>
               </div>
+              <input type="text" name="" id="" class="form-control" placeholder="Degree name" v-model="item.degree_name">
             </div>
-            <input type="text" name="" id="" class="form-control" placeholder="Degree name" v-model="item.company">
-          </div>
-          <div class="col-md-6 col-12 col-lg-4 mt-3">
-            <label for="" class="form-label">Position</label>
-            <input type="text" name="" id="" class="form-control" placeholder="Position" v-model="item.position">
-          </div>
-          <div class="col-md-6 col-12 col-lg-4 mt-3">
-            <div class="d-flex">
-              <div class="me-1 w-50">
-                <label for="" class="form-label">Start date</label>
-                <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.start_date" onfocus="(this.type='date')"/>
-              </div>
-              <div class="w-50">
-                <label for="" class="form-label">End date</label>
-                <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.end_date" onfocus="(this.type='date')"/>
+            <div class="col-md-6 col-12 col-lg-8 mt-3">
+              <div class="d-flex">
+                <div class="me-1 w-50">
+                  <label for="" class="form-label">Start date</label>
+                  <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.start_date" onfocus="(this.type='date')"/>
+                </div>
+                <div class="w-50">
+                  <label for="" class="form-label">End date</label>
+                  <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.end_date" onfocus="(this.type='date')"/>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <h4 class="mt-5">Experience</h4>
+        <div v-for="item,index in experience" :key="item">
+          <div class="row ">
+            <div class="col-md-6 col-12 col-lg-4 mt-3">
+              <div class="d-flex justify-content-between">
+                <label for="" class="form-label">Company {{ index+1 }}</label>
+                <div>
+                  <button @click.prevent="addExperienceRow" class="btn btn-secondary btn-sm me-1"><i class="fas add_remove fa-plus text-success mt-1 " ></i></button>
+                  <button @click.prevent="removeExperienceRow" class="btn btn-secondary btn-sm"><i class="fas add_remove fa-minus text-danger mt-1" ></i></button>
+                </div>
+              </div>
+              <input type="text" name="" id="" class="form-control" placeholder="Degree name" v-model="item.company">
+            </div>
+            <div class="col-md-6 col-12 col-lg-4 mt-3">
+              <label for="" class="form-label">Position</label>
+              <input type="text" name="" id="" class="form-control" placeholder="Position" v-model="item.position">
+            </div>
+            <div class="col-md-6 col-12 col-lg-4 mt-3">
+              <div class="d-flex">
+                <div class="me-1 w-50">
+                  <label for="" class="form-label">Start date</label>
+                  <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.start_date" onfocus="(this.type='date')"/>
+                </div>
+                <div class="w-50">
+                  <label for="" class="form-label">End date</label>
+                  <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.end_date" onfocus="(this.type='date')"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3 d-flex justify-content-center">
+          <button class="btn btn-success me-2">Submit</button>
+          <button class="btn btn-secondary">Cancel</button>
+        </div>
     </div>
+    </form>
   </div>
 </template>
 
@@ -212,9 +235,16 @@ export default {
       "14/":["BaLaKha","DaMaSa","HpaSaNa","HpaSaYa","LaKaNa","MaSaNa","YaTaNa","YaThaNa"]
       },
       type:["(N)","(Guest)","(P)","(Temp)","(C)","(Tha)"],
+      nrcNo:"",
       selectedValue:"",
+      selectedOption:"",
       selectedType:"",
       selectedState:"",
+      high_school:{
+        high_school_name:"",
+        start_date:"",
+        end_date:""
+      },
       university:reactive([{
         degree_name:"",
         start_date:"",
@@ -225,7 +255,26 @@ export default {
         company:"",
         start_date:"",
         end_date:""
-      }])
+      }]),
+      profile:{
+        name:"",
+        email:"",
+        nrc:"",
+        dob:"",
+        phone:"",
+        address:"",
+        city:"",
+        country:"",
+        skill:"",
+        profile_pic:"",
+        marital_status:"",
+        gender:"",
+        profession:"",
+        education:[
+
+        ],
+        experiences:[]
+      }
     };
   },
   computed:{
@@ -241,21 +290,39 @@ export default {
     this.selectedType = this.type[0];
   },
   methods: {
-    previewImage: function (event) {
-      var input = event.target;
-      if (input.files) {
-        var reader = new FileReader();
-        reader.onload = (e) => {
-          this.preview = e.target.result;
-        };
-        this.image = input.files[0];
-        reader.readAsDataURL(input.files[0]);
-        this.hideInput = "form-control-sm form-control d-none";
-        this.hideBtn = "text-danger";
-        this.hidetext = "d-none";
-        this.formgroup = "border:none";
-      }
-    },
+    previewImage: function(event) {
+  var input = event.target;
+  if (input.files) {
+    var file = input.files[0];
+    
+    // Validate file extension
+    var allowedExtensions = ["png", "jpeg", "jpg"];
+    var fileExtension = file.name.split(".").pop().toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) {
+      alert("Invalid file extension. Please upload a PNG, JPEG, or JPG file.");
+      return;
+    }
+    
+    // Validate file size
+    var maxSize = 5000000; // 5MB in bytes
+    if (file.size > maxSize) {
+      alert("File size exceeds the maximum limit of 5MB.");
+      return;
+    }
+    
+    var reader = new FileReader();
+    reader.onload = (e) => {
+      this.preview = e.target.result;
+    };
+    this.image = file;
+    reader.readAsDataURL(file);
+    this.hideInput = "form-control-sm form-control d-none";
+    this.hideBtn = "text-danger";
+    this.hidetext = "d-none";
+    this.formgroup = "border:none";
+  }
+}
+,
     reset: function () {
       this.image = null;
       this.preview = null;
@@ -284,6 +351,12 @@ export default {
       if(this.experience.length>1){
         this.experience.splice(index,1);
       }
+    },
+    addPresonalInformation(){
+      this.profile.education.push(this.high_school);
+      this.profile.education.push(this.university);
+      this.profile.experiences.push(this.experience);
+      this.profile.nrc=`${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`;
     }
   },
 };
