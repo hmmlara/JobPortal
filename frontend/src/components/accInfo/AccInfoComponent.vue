@@ -5,7 +5,7 @@
         <div class="card mt-4 p-5">
           <div class="row">
             <div class="col-md-3">
-              <img src="@/assets/banner.png" alt="" srcset="" width="100%" />
+              <img src="@/assets/banner.png" alt="" width="100%" />
             </div>
             <!-- <div class="col-md-9 mt-3 d-flex justify-content-between">
               <div class="">
@@ -27,9 +27,9 @@
             </div> -->
             <div class="col-md-9 mt-3">
               <h4>Arkar Nyein</h4>
-              <button class="btn btn-success">
+              <router-link to="/Addinfo" class="btn btn-success">
                 <i class="fas fa-plus text-light me-2"></i>Add profile Section
-              </button>
+              </router-link>
             </div>
           </div>
           <hr class="d-lg-none" />
@@ -256,9 +256,14 @@
 <script>
 export default {
   name: "AccInfoComponent",
-  mounted() {
-    console.log(this.auth);
-  },
+  methods: {
+    navigateToAddInfo() {
+      // Perform any necessary logic here before navigating
+
+      // Navigate to the "/Addinfo" route
+      this.$router.push('/Addinfo');
+    }
+  }
 };
 </script>
 
