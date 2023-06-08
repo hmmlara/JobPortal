@@ -171,11 +171,11 @@
                   <button @click.prevent="removeExperienceRow" class="btn btn-secondary btn-sm"><i class="fas add_remove fa-minus text-danger mt-1" ></i></button>
                 </div>
               </div>
-              <input type="text" name="" id="" class="form-control" placeholder="Degree name" v-model="item.company">
+              <input type="text" name="" id="" class="form-control" placeholder="Company name" v-model="item.company">
             </div>
             <div class="col-md-6 col-12 col-lg-4 mt-3">
               <label for="" class="form-label">Position</label>
-              <input type="text" name="" id="" class="form-control" placeholder="Position" v-model="item.position">
+              <input type="text" name="" id="" class="form-control" placeholder="Position name" v-model="item.position">
             </div>
             <div class="col-md-6 col-12 col-lg-4 mt-3">
               <div class="d-flex">
@@ -357,6 +357,8 @@ export default {
       this.profile.education.push(this.university);
       this.profile.experiences.push(this.experience);
       this.profile.nrc=`${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`;
+      console.log(this.profile);
+      
     }
   },
 };

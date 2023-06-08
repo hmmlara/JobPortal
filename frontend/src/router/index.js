@@ -5,6 +5,7 @@ import JobsView from '../views/JobsView.vue'
 import AccInfoView from '../views/AccInfoView.vue'
 import JobDetailView from '../views/JobDetailView.vue';
 import AddaccInfoView from '../views/AddaccInfoView.vue';
+import VerificationView from '../views/VerificationView.vue';
 import Auth from '@/auth/index';
 const routes = [
   {
@@ -23,6 +24,12 @@ const routes = [
     path: '/login&register',
     name: 'login&register',
     component: LoginRegisterView
+  },
+  {
+    path: '/verification',
+    name: 'verification',
+    props: true,
+    component: VerificationView
   },
   {
     path:'/jobs',
