@@ -72,6 +72,7 @@
 
 <script>
 import Apicalls from "@/api/index";
+import router from '@/router';
 export default {
   name: "RegisterComponent",
   data() {
@@ -112,6 +113,7 @@ export default {
               confirmpassword: "",
             };
             this.success = true;
+            this.$router.push({path:'/verification',params:{email:response.data.user.email}})
           }
         })
         .catch((error) => {
