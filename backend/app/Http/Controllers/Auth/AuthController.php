@@ -40,6 +40,13 @@ class AuthController extends Controller
 
         if (!empty($user)) {
             // dd($user->role == $request->role,$request->role);
+            if(empty($user->email_verified_at)){
+                return response()->json([
+                    'status' => 400,
+                    'statusText' => 'fail',
+                    'message' => 'You need to verify email'
+                ],400);
+            }
             if (Hash::check($credential['password'], $user->password) && ($user->role == $request->role)) {
                 // dd('hello');
                 $access_token = JWTAuth::attempt($credential, ['exp' => Carbon::now()->addDays(1)->timestamp]);
@@ -53,7 +60,7 @@ class AuthController extends Controller
                     'message' => 'email or password is wrong',
                 ], 401);
         }
-        $personalInfo = PersonalInfo::where('user_id',auth()->user()->id)->get();
+        $personalInfo = PersonalInfo::where('user_id', auth()->user()->id)->get();
 
         return response()->json(
             [
@@ -87,25 +94,20 @@ class AuthController extends Controller
                     'messages' => $validator->errors(),
                 ], 400);
         }
-
         $credential['role'] = 'user';
         $credential['password'] = Hash::make($request->password);
 
-        if (User::create($credential)) {
+        $user = User::create($credential);
+
+        if ($user) {
             return response()->json(
                 [
                     'status' => 201,
                     'statusText' => 'success',
                     'message' => 'Successfully created',
+                    'user' => $user
                 ], 201);
         }
-
-        return response()->json(
-            [
-                'status' => 400,
-                'statusText' => 'fail',
-                'message' => 'Fail to register',
-            ], 400);
     }
 
     public function logout()
