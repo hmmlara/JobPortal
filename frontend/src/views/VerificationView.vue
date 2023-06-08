@@ -1,6 +1,6 @@
 <template>
     <div class="contain">
-        <VerificationComponent/>
+        <VerificationComponent  :email="email"/>
     </div>
 </template>
 
@@ -8,8 +8,12 @@
 import VerificationComponent from '@/components/login&register/VerificationComponent.vue'
 export default {
     name:"VerificationView",
+    props:['email'],
     components:{
         VerificationComponent
+    },
+    mounted(){
+        console.log(this.$route.props);
     }
 }
 </script>

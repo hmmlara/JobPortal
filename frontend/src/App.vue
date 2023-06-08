@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view />
+    <router-view :email="this.$route.params.email"/>
   </div>
 </template>
 

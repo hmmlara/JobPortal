@@ -1,7 +1,11 @@
 <template>
   <div class="register">
     <form @submit.prevent="registration">
-      <div class="alert alert-success alert-dismissible fade show" v-if="success" role="alert">
+      <div
+        class="alert alert-success alert-dismissible fade show"
+        v-if="success"
+        role="alert"
+      >
         <strong>Register Success!</strong> Browse to login.
         <button
           type="button"
@@ -9,7 +13,7 @@
           data-mdb-dismiss="alert"
           aria-label="Close"
         >
-        <!-- <span aria-hidden="true">&times;</span> -->
+          <!-- <span aria-hidden="true">&times;</span> -->
         </button>
       </div>
       <div class="form-group">
@@ -22,7 +26,9 @@
           :value="userData.name"
           @input="userData.name = $event.target.value"
         />
-        <small v-if="errorMessages.name != ''" class="text-danger">{{ errorMessages.name }}</small>
+        <small v-if="errorMessages.name != ''" class="text-danger">{{
+          errorMessages.name
+        }}</small>
       </div>
       <div class="form-group mt-2">
         <label for="" class="form-label">Email</label>
@@ -34,7 +40,9 @@
           :value="userData.email"
           @input="userData.email = $event.target.value"
         />
-        <small v-if="errorMessages.email != ''" class="text-danger">{{ errorMessages.email }}</small>
+        <small v-if="errorMessages.email != ''" class="text-danger">{{
+          errorMessages.email
+        }}</small>
       </div>
       <div class="form-group mt-2">
         <label for="" class="form-label">Password</label>
@@ -46,19 +54,25 @@
           :value="userData.password"
           @input="userData.password = $event.target.value"
         />
-        <small v-if="errorMessages.password != ''" class="text-danger">{{ errorMessages.password }}</small>
+        <small v-if="errorMessages.password != ''" class="text-danger">{{
+          errorMessages.password
+        }}</small>
       </div>
       <div class="form-group mt-2">
         <label for="" class="form-label">Confirm Password</label>
         <input
           type="password"
           name=""
-          :class="errorMessages.confirmpassword == '' ? normalStyle : errorStyle"
+          :class="
+            errorMessages.confirmpassword == '' ? normalStyle : errorStyle
+          "
           placeholder="Enter your Password agian"
           :value="userData.confirmpassword"
           @input="userData.confirmpassword = $event.target.value"
         />
-        <small v-if="errorMessages.confirmpassword != ''" class="text-danger">{{ errorMessages.confirmpassword }}</small>
+        <small v-if="errorMessages.confirmpassword != ''" class="text-danger">{{
+          errorMessages.confirmpassword
+        }}</small>
       </div>
       <div class="mt-3 submit d-flex justify-content-between">
         <router-link to="/" class="mt-1"
@@ -72,7 +86,7 @@
 
 <script>
 import Apicalls from "@/api/index";
-import router from '@/router';
+import router from "@/router";
 export default {
   name: "RegisterComponent",
   data() {
@@ -89,8 +103,8 @@ export default {
         password: "",
         confirmpassword: "",
       },
-      normalStyle: 'form-control',
-      errorStyle: 'form-control border border-danger',
+      normalStyle: "form-control",
+      errorStyle: "form-control border border-danger",
       success: false,
     };
   },
@@ -106,32 +120,37 @@ export default {
       Apicalls.post("register", formData)
         .then((response) => {
           if (response.status == 201) {
-            this.userData = {
-              name: "",
-              email: "",
-              password: "",
-              confirmpassword: "",
-            };
+            // this.userData = {
+            //   name: "",
+            //   email: "",
+            //   password: "",
+            //   confirmpassword: "",
+            // };
             this.success = true;
-            this.$router.push({path:'/verification',params:{email:response.data.user.email}})
+            let email = response.data.user.email;
+            console.log(response.data.user.email);
+            this.$router.push({
+              name: "verification",
+              props: { email: email },
+            });
           }
         })
         .catch((error) => {
-            let err = error.response.data.messages;
+          let err = error.response.data.messages;
 
-            console.log(err);
-            if(err.hasOwnProperty('name')){
-              this.errorMessages.name = err.name[0];
-            }
-            if(err.hasOwnProperty('email')){
-              this.errorMessages.email = err.email[0];
-            }
-            if(err.hasOwnProperty('password')){
-              this.errorMessages.password = err.password[0];
-            }
-            if(err.hasOwnProperty('password_confirmation')){
-              this.errorMessages.confirmpassword = err.password_confirmation[0];
-            }
+          console.log(err);
+          if (err.hasOwnProperty("name")) {
+            this.errorMessages.name = err.name[0];
+          }
+          if (err.hasOwnProperty("email")) {
+            this.errorMessages.email = err.email[0];
+          }
+          if (err.hasOwnProperty("password")) {
+            this.errorMessages.password = err.password[0];
+          }
+          if (err.hasOwnProperty("password_confirmation")) {
+            this.errorMessages.confirmpassword = err.password_confirmation[0];
+          }
         });
     },
   },
