@@ -128,10 +128,11 @@ export default {
             // };
             this.success = true;
             let email = response.data.user.email;
-            console.log(response.data.user.email);
-            this.$router.push({
-              name: "verification",
-              props: { email: email },
+
+            window.sessionStorage.setItem('verified_email',email);
+
+            router.push({
+              name: "Verification",
             });
           }
         })

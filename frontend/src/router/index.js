@@ -27,8 +27,7 @@ const routes = [
   },
   {
     path: '/verification',
-    name: 'verification',
-    props: {email: null},
+    name: 'Verification',
     component: VerificationView
   },
   {
