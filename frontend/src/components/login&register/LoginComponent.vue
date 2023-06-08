@@ -62,29 +62,31 @@ export default {
       formData.append("email", this.credential.email);
       formData.append("password", this.credential.password);
       formData.append("role","user");
-      Apicalls.post("login", formData)
-        .then((response) => {
-          if (response.status == 200) {
-            this.credential = {
-              email: "",
-              password: "",
-            };
-            let data = response.data;
-            this.auth.login(data.authorization.access_token,data.user,data.userInfo);
-            this.goBack();
-          }
-        })
-        .catch((error) => {
-            let err = error.response.data.message;
+      setTimeout(()=>{
+        Apicalls.post("login", formData)
+          .then((response) => {
+            if (response.status == 200) {
+              this.credential = {
+                email: "",
+                password: "",
+              };
+              let data = response.data;
+              this.auth.login(data.authorization.access_token,data.user,data.userInfo);
+              this.goBack();
+            }
+          })
+          .catch((error) => {
+              let err = error.response.data.message;
 
-            // console.log(error);
-            if(err.hasOwnProperty('email')){
-              this.errorMessages.email = err.email[0];
-            }
-            if(err.hasOwnProperty('password')){
-              this.errorMessages.password = err.password[0];
-            }
-        });
+              // console.log(error);
+              if(err.hasOwnProperty('email')){
+                this.errorMessages.email = err.email[0];
+              }
+              if(err.hasOwnProperty('password')){
+                this.errorMessages.password = err.password[0];
+              }
+          });
+      })
     }
   }
 };

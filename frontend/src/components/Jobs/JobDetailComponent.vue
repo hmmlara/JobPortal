@@ -127,7 +127,6 @@ export default {
     this.getJobDetails();
   },
   created() {
-    // this.getJobDetails();
     window.onpopstate = () => this.goBack();
   },
   methods: {
@@ -144,44 +143,10 @@ export default {
           this.jobtypes = this.jobposts.job_type;
           this.applicants = this.jobposts.applicants;
           this.posted = this.getTimeDifference(this.jobposts.created_at);
-          // console.log(response.data.jobPost);
         }
       });
-
-      // this.jobposts = data.jobPost;
-      // console.log(this.jobposts);
     },
     getTimeDifference(createdDate) {
-      // const now = new Date();
-      // const created_date = new Date(createdDate);
-      // console.log(createdDate);
-      // let timediff = now.getMinutes() - created_date.getUTCMinutes();
-      // console.log(now.getMinutes());
-      // console.log(created_date.getUTCMinutes())
-
-      // timediff = timediff * 60000;
-
-      // const minDiff = Math.round(timediff / 60000);
-      // const hourDiff = Math.round(timediff / 3600000);
-      // const dayDiff = Math.round(timediff / 86400000);
-      // const monthDiff =
-      //   now.getMonth() +
-      //   1 -
-      //   (created_date.getMonth() + 1) +
-      //   12 * (now.getFullYear() - created_date.getFullYear());
-      // const yearDiff = now.getFullYear() - created_date.getFullYear();
-
-      // if (minDiff < 60) {
-      //   return `posted ${minDiff} ${minDiff === 1 ? "min" : "mins"}`;
-      // } else if (hourDiff < 24) {
-      //   return `posted ${hourDiff} ${hourDiff === 1 ? "hr" : "hrs"}`;
-      // } else if (dayDiff < 30) {
-      //   return `posted ${dayDiff} ${dayDiff === 1 ? "day" : "days"}`;
-      // } else if (monthDiff < 12) {
-      //   return `posted ${monthDiff} ${monthDiff === 1 ? "month" : "months"}`;
-      // } else {
-      //   return `posted ${yearDiff} ${yearDiff === 1 ? "yr" : "yrs"}`;
-      // }
       let date = new Date(createdDate);
       console.log(date);
 
@@ -219,11 +184,6 @@ export default {
           console.log(response);
           if (response.status == 201) {
             this.getJobDetails();
-            // this.jobposts = response.data.jobPost;
-            
-            // this.company = this.jobposts.company;
-            // this.jobtypes = this.jobposts.job_type;
-            // this.posted = this.getTimeDifference(this.jobposts.created_at);
           }
         })
         .catch((error) => alert("You need to fill your information first!"));
