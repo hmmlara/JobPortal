@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login',[AuthController::class,'login'])->name('login');
 Route::post('register',[AuthController::class,'register'])->name('register');
+
+Route::post('requestOTP', [EmailVerificationController::class, 'requestOTP'])->name('requestOTP');
+Route::post('verifyOTP', [EmailVerificationController::class, 'verifyOTP'])->name('verifyOTP');
 
 Route::middleware('auth:api')->prefix('admin')->namespace('App\Http\Controllers')->group(function () {
 
@@ -59,5 +63,5 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
     });
 
      // logout
-     Route::middleware('auth:api')->post('logout','Auth\AuthController@logout');
+     Route::middleware(['auth:api','verified'])->post('logout','Auth\AuthController@logout');
 });
