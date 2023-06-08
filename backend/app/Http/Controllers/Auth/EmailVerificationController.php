@@ -14,7 +14,7 @@ class EmailVerificationController extends Controller
     //
     public function requestOTP(Request $request)
     {
-        $otp = rand(10000, 9999);
+        $otp = sprintf('%06d',mt_rand(1,999999));
 
         $user = User::where('email', $request->email)->update(['otp' => $otp]);
 
