@@ -40,7 +40,7 @@ class AuthController extends Controller
 
         if (!empty($user)) {
             // dd($user->role == $request->role,$request->role);
-            if(empty($user->email_verified_at)){
+            if(empty($user->email_verified_at) && $user->role != 'admin'){
                 return response()->json([
                     'status' => 400,
                     'statusText' => 'fail',
