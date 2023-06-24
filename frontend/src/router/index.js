@@ -6,6 +6,7 @@ import AccInfoView from '../views/AccInfoView.vue'
 import JobDetailView from '../views/JobDetailView.vue';
 import AddaccInfoView from '../views/AddaccInfoView.vue';
 import VerificationView from '../views/VerificationView.vue';
+import AppliedJobsView from '../views/AppliedJobsView.vue';
 import Auth from '@/auth/index';
 const routes = [
   {
@@ -47,6 +48,11 @@ const routes = [
     path:'/Addinfo',
     name: 'Addinfo',
     component:AddaccInfoView,
+  },
+  {
+    path:'/AppliedJobs',
+    name: 'AppliedJobs',
+    component:AppliedJobsView,
   },
   {
     path:'/jobs/jobDetail/:id',

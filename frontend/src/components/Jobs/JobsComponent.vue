@@ -11,7 +11,7 @@
               <select
                 name=""
                 id=""
-                class="form-select"
+                class="form-select mdbInput"
                 @change="filterData.category_name = $event.target.value"
               >
                 <option value="" hidden selected>Choose Category</option>
@@ -25,7 +25,7 @@
               </select>
             </div>
             <div class="col-sm-4 mb-2 mt-2">
-              <select name="" id="" class="form-select" @change="filterData.job_type = $event.target.value">
+              <select name="" id="" class="form-select mdbInput" @change="filterData.job_type = $event.target.value">
                 <option value="" hidden selected>Choose Job Type</option>
                 <option
                   :value="jobtype.job_type"
@@ -104,6 +104,10 @@ export default {
       Apicalls.get(`frontend/jobPost?page=${page}`).then((response) => {
         if (response.status == 200) {
           this.jobposts = response.data.jobPosts;
+          console.log(this.jobposts);
+          if(response.data.current_page<response.data.last_page){
+            
+          }
         }
       });
     },
@@ -125,7 +129,7 @@ export default {
       let formData = new FormData();
       formData.append("category_name", this.filterData.category_name);
       formData.append("job_type", this.filterData.job_type);
-
+      console.log(formData);
       Apicalls.post("frontend/jobPost/search",formData).then((response) => {
         if (response.status == 200) {
           this.jobposts = response.data.jobPosts;
@@ -145,5 +149,10 @@ export default {
   .col-md-3 {
     margin-top: 5px;
   }
+}
+.mdbInput:focus {
+  border-color: #14a44d;
+  box-shadow: 0 0 0 0.1rem #14a44e4a;
+  /* class="mdbInput" */
 }
 </style>

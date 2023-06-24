@@ -80,6 +80,11 @@ export default {
 .nav-link:visted {
   color: #14a44d;
 }
+.nav-tabs .nav-link.active {
+  border-color: #14a44d;
+  color: rgb(102, 101, 101);
+}
+
 .nav-link {
   color: #14a44d;
 }

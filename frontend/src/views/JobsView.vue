@@ -14,6 +14,19 @@
             >
               <JobCardComponent :job="job" />
             </div>
+            <div class="text-center" v-show="moreExists">
+              <!-- <button class="btn btn-success" v-if="isLoading">
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Loading...</span>
+              </button> -->
+              <button class="btn btn-success"  @click.prevent="loadMore">
+                <i class="fas fa-arrow-down"></i> Load More
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -31,6 +44,10 @@ export default {
   data() {
     return {
       jobposts: [],
+      moreExists: true,
+      currentPage: 1,
+      lastPage: 1,
+      isLoading: false,
     };
   },
   components: {
@@ -42,8 +59,8 @@ export default {
     this.getJobPosts();
   },
   methods: {
-    getJobPosts(page = 1) {
-      ApiCalls.get(`frontend/jobPost?page=${page}`).then((response) => {
+    getJobPosts() {
+      ApiCalls.get("frontend/jobPost").then((response) => {
         if (response.status == 200) {
           this.jobposts = response.data.jobPosts;
         }
@@ -63,9 +80,32 @@ export default {
         }
       });
     },
+    loadMore() {
+      this.currentPage++;
+      ApiCalls.get(`frontend/jobPost?page=${this.currentPage}`).then(
+          (response) => {
+            if (response.status === 200) {
+              console.log(response.data.jobPosts.data);
+              console.log(this.jobposts);
+              response.data.jobPosts.data.forEach((data) => {
+                this.jobposts.data.push(data);
+              });
+
+              // Update the current page and check if there are more job posts to load
+
+              if (this.currentPage < response.data.jobPosts.last_page) {
+                this.moreExists = true; // No more job posts to load
+              } else {
+                this.moreExists = false;
+              }
+            }
+          }
+        );
+    },
   },
 };
 </script>
 
 <style scoped>
+
 </style>
