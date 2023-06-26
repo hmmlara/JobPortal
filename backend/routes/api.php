@@ -62,6 +62,12 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
         Route::middleware('auth:api')->post('applyJobPost','Api\JobPostApiController@applyJobPost')->name('jobPost.apply');
     });
 
+    Route::prefix('profile')->middleware('auth:api')->name('profile.')->group(function(){
+
+        // get save jobs
+        Route::get('save_jobs',)->name('get_save_jobs');
+    });
+
      // logout
      Route::middleware(['auth:api','verified'])->post('logout','Auth\AuthController@logout');
 });
