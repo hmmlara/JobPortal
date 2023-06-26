@@ -32,7 +32,7 @@
               <router-link class="nav-link" to="/about">About</router-link>
             </li>
           </ul>
-          <div class="dropdown" v-if="this.auth.check()">
+          <div class="dropdown" v-if="user">
             <a
               class="dropdown-toggle"
               role="button"
@@ -45,7 +45,7 @@
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li><router-link class="dropdown-item" to="/Accinfo">My Profile</router-link></li>
-              <li><a class="dropdown-item" href="#">My Jobs</a></li>
+              <li><router-link class="dropdown-item" to="/AppliedJobs">My Jobs</router-link></li>
               <li><a class="dropdown-item" @click.prevent="logout">logout</a></li>
             </ul>
           </div>
@@ -79,7 +79,9 @@ export default {
   },
   mounted() {
     this.path = window.location.pathname;
-
+    if (!this.auth.check()) {
+      this.user = null;
+    }
     window.document.onscroll = () => {
       if (window.scrollY > 1) {
         console.log("hello");

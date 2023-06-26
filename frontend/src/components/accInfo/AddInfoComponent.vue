@@ -31,109 +31,98 @@
           </div>
           <div class="col-12 mt-4 col-md-6">
             <label for="" class="form-label">Profession</label>
-            <input type="text" name="" id="" class="form-control"
-             placeholder="Junior Developer" @input="profile.profession=$event.target.value">
+            <input type="text" name="" id="" class="form-control mdbInput"
+             placeholder="Junior Developer" @input="profile.profession=$event.target.value" :class="{ 'border-danger': validationErrors.profession }" >
+             <span class="text-danger" v-if="validationErrors.profession">Please enter your profession</span>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <label for="" class="form-label">Name</label>
-            <input type="text" name="" id="" class="form-control"
-             placeholder="Full name" @input="profile.name=$event.target.value" />
+            <input type="text" name="" id="" class="form-control mdbInput"
+             placeholder="Full name" @input="profile.name=$event.target.value" :class="{ 'border-danger': validationErrors.name }" />
+             <span class="text-danger" v-if="validationErrors.name">Please enter your name</span>
           </div>
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <label for="" class="form-label">Email</label>
-            <input type="email" name="" id="" class="form-control"
-             placeholder="xxxx@gmail.com" @input="profile.email=$event.target.value"/>
+            <input type="email" name="" id="" class="form-control mdbInput"
+             placeholder="xxxx@gmail.com" @input="profile.email=$event.target.value" :class="{ 'border-danger': validationErrors.email }"/>
+             <span class="text-danger" v-if="validationErrors.email">Please enter your email</span>
           </div>
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <label for="" class="form-label">Date of birth</label>
-            <input placeholder="month/date/year"  class="form-control"
-             type="text" onfocus="(this.type='date')" @input="profile.dob=$event.target.value"/>
+            <input placeholder="month/date/year"  class="form-control mdbInput"
+             type="text" onfocus="(this.type='date')" @input="profile.dob=$event.target.value" :class="{ 'border-danger': validationErrors.dob }"/>
+             <span class="text-danger" v-if="validationErrors.dob">Please enter your date of birth</span>
           </div>
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <label for="" class="form-label">NRC</label>
             <div class="d-flex justify-content-between">
-              <select name="" id="" v-model="selectedValue" class="form-select me-1 w-50">
+              <select name="" id="" v-model="selectedValue" class="form-select mdbInput me-1 w-50" :class="{ 'border-danger': validationErrors.nrcNo }">
                 <option v-for="index in no" :key="index" :value="index" >{{ index }}</option>
               </select>
-              <select name="" id="" @change="selectedState=$event.target.value" class="form-select me-1 w-100">
+              <select name="" id="" @change="selectedState=$event.target.value" class="form-select mdbInput me-1 w-100" :class="{ 'border-danger': validationErrors.nrcNo }">
                 <option v-for="data in filteredOptions" :key="data" selected :value="data" >{{ data }}</option>
               </select>
-              <select name="" id="" v-model="selectedType" class="form-select me-1 w-50">
+              <select name="" id="" v-model="selectedType" class="form-select mdbInput me-1 w-50" :class="{ 'border-danger': validationErrors.nrcNo }">
                 <option v-for="index in type" :key="index" :value="index">{{ index }}</option>
               </select>
-              <input type="text" name="" v-model="nrcNo" id="" class="form-control" placeholder="123456"/>
+              <input type="text" name="" v-model="nrcNo" id="" class="form-control mdbInput" placeholder="123456" :class="{ 'border-danger': validationErrors.nrcNo }" />
             </div>
+            <span class="text-danger" v-if="validationErrors.nrcNo">Please enter your NRC</span>
           </div>
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <div class="">
               <label for="" class="form-label">Phone number</label>
-              <input type="text" name="" id="" class="form-control mt-1"
-               placeholder="09xxxxxxxxx" @input="profile.phone=$event.target.value"/>
+              <input type="text" name="" id="" class="form-control mdbInput mt-1"
+               placeholder="09xxxxxxxxx" @input="profile.phone=$event.target.value" :class="{ 'border-danger': validationErrors.phone }"/>
+              <span class="text-danger" v-if="validationErrors.phone">Please enter your phone number</span>
             </div>
           </div>
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <label for="" class="form-label">Address</label>
             <div class="d-flex justify-content-between">
-              <input type="text" name="" id="" class="form-control mt-1 me-1"
+              <input type="text" name="" id="" class="form-control mdbInput mt-1 me-1"
                placeholder="street address" @input="profile.address=$event.target.value"/>
-              <input type="text" name="" id="" class="form-control mt-1 me-1"
-               placeholder="City" @input="profile.city=$event.target.value"/>
-              <input type="text" name="" id="" class="form-control mt-1"
-               placeholder="Country" @input="profile.country=$event.target.value"/>
+              <input type="text" name="" id="" class="form-control mdbInput mt-1 me-1"
+               placeholder="street address" @input="profile.address=$event.target.value" />
+              <input type="text" name="" id="" class="form-control mdbInput mt-1"
+               placeholder="Country" @input="profile.country=$event.target.value" />               
             </div>
+            <!-- <span class="text-danger" v-if="validationErrors.address || validationErrors.city || validationErrors.country">Please enter your address</span> -->
           </div>
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <label for="" class="form-label">Gender</label>
             <div class="mt-2">
               <label for="" class="form-check-label me-3">Male</label>
               <input type="radio" name="gender" id="" class="form-check-input me-3"
-               value="male" @input="profile.gender=$event.target.value"/>
+               value="male" @input="profile.gender=$event.target.value" :class="{ 'border-danger': validationErrors.gender }"/>
               <label for="" class="form-check-label me-3">Female</label>
               <input type="radio" name="gender" id="" class="form-check-input"
-               value="female" @input="profile.gender=$event.target.value"/>
+               value="female" @input="profile.gender=$event.target.value" :class="{ 'border-danger': validationErrors.gender }"/>
             </div>
+            <span class="text-danger" v-if="validationErrors.gender">Please select your gender</span>
           </div>
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <label for="" class="form-label">Marital Status</label>
             <div class="mt-2">
               <label for="" class="form-check-label me-3">Single</label>
               <input type="radio" name="marital_status" id="" class="form-check-input me-3"
-               value="single" @input="profile.marital_status=$event.target.value"/>
+               value="single" @input="profile.marital_status=$event.target.value" :class="{ 'border-danger': validationErrors.marital_status }"/>
               <label for="" class="form-check-label me-3">Married</label>
               <input type="radio" name="marital_status" id="" class="form-check-input"
-               value="married" @input="profile.marital_status=$event.target.value"/>
+               value="married" @input="profile.marital_status=$event.target.value" :class="{ 'border-danger': validationErrors.marital_status }"/>
             </div>
+            <span class="text-danger" v-if="validationErrors.marital_status">Please select your marital status</span>
           </div>
           <div class="col-md-6 col-12 col-lg-4 mt-3">
             <label for="" class="form-label">Skill</label>
-            <input type="text" name="" id="" class="form-control"
-             placeholder="HTML,CSS,JavaScript" @input="profile.skill=$event.target.value">
+            <input type="text" name="" id="" class="form-control mdbInput"
+             placeholder="HTML,CSS,JavaScript" @input="profile.skill=$event.target.value" :class="{ 'border-danger': validationErrors.skill }">
+             <span class="text-danger" v-if="validationErrors.skill">Please enter your skill</span>
           </div>
         </div>
         <h4 class=" mt-5">Education</h4>
-        <div class="row mt-3 ">
-          <div class="col-md-6 col-12 col-lg-4 mt-3">
-            <label for="" class="form-label">High School</label>
-            <input type="text" name="" id="" class="form-control"
-             placeholder="High School name" @input="high_school.high_school_name=$event.target.value">
-          </div>
-          <div class="col-md-6 col-12 col-lg-8 mt-3">
-            <div class="d-flex">
-              <div class="me-1 w-50">
-                <label for="" class="form-label">Start date</label>
-                <input placeholder="month/date/year"  class="form-control"
-                 type="text" onfocus="(this.type='date')" @input="high_school.start_date=$event.target.value"/>
-              </div>
-              <div class="w-50">
-                <label for="" class="form-label">End date</label>
-                <input placeholder="month/date/year"  class="form-control"
-                 type="text" onfocus="(this.type='date')" @input="high_school.end_date=$event.target.value"/>
-              </div>
-            </div>
-          </div>
-        </div>
         <div v-for="item,index in university" :key="item">
           <div class="row ">
             <div class="col-md-6 col-12 col-lg-4 mt-3">
@@ -144,20 +133,21 @@
                   <button @click.prevent="removeDegreeRow" class="btn btn-secondary btn-sm"><i class="fas add_remove fa-minus text-danger mt-1" ></i></button>
                 </div>
               </div>
-              <input type="text" name="" id="" class="form-control" placeholder="Degree name" v-model="item.degree_name">
+              <input type="text" name="" id="" class="form-control mdbInput" placeholder="Degree name" v-model="item.degree_name" :class="{ 'border-danger': validationErrors.education }">
             </div>
             <div class="col-md-6 col-12 col-lg-8 mt-3">
               <div class="d-flex">
                 <div class="me-1 w-50">
                   <label for="" class="form-label">Start date</label>
-                  <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.start_date" onfocus="(this.type='date')"/>
+                  <input placeholder="month/date/year"  class="form-control mdbInput" type="text" v-model="item.start_date" onfocus="(this.type='date')" :class="{ 'border-danger': validationErrors.education }"/>
                 </div>
                 <div class="w-50">
                   <label for="" class="form-label">End date</label>
-                  <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.end_date" onfocus="(this.type='date')"/>
+                  <input placeholder="month/date/year"  class="form-control mdbInput" type="text" v-model="item.end_date" onfocus="(this.type='date')" :class="{ 'border-danger': validationErrors.education }"/>
                 </div>
               </div>
             </div>
+            <span class="text-danger" v-if="validationErrors.education">Please fully enter your education</span>
           </div>
         </div>
         <h4 class="mt-5">Experience</h4>
@@ -171,29 +161,30 @@
                   <button @click.prevent="removeExperienceRow" class="btn btn-secondary btn-sm"><i class="fas add_remove fa-minus text-danger mt-1" ></i></button>
                 </div>
               </div>
-              <input type="text" name="" id="" class="form-control" placeholder="Company name" v-model="item.company">
+              <input type="text" name="" id="" class="form-control mdbInput" placeholder="Company name" v-model="item.company" :class="{ 'border-danger': validationErrors.experience }">
             </div>
             <div class="col-md-6 col-12 col-lg-4 mt-3">
               <label for="" class="form-label">Position</label>
-              <input type="text" name="" id="" class="form-control" placeholder="Position name" v-model="item.position">
+              <input type="text" name="" id="" class="form-control mdbInput" placeholder="Position name" v-model="item.position" :class="{ 'border-danger': validationErrors.experience }">
             </div>
             <div class="col-md-6 col-12 col-lg-4 mt-3">
               <div class="d-flex">
                 <div class="me-1 w-50">
                   <label for="" class="form-label">Start date</label>
-                  <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.start_date" onfocus="(this.type='date')"/>
+                  <input placeholder="month/date/year"  class="form-control mdbInput" type="text" v-model="item.start_date" onfocus="(this.type='date')" :class="{ 'border-danger': validationErrors.experience }"/>
                 </div>
                 <div class="w-50">
                   <label for="" class="form-label">End date</label>
-                  <input placeholder="month/date/year"  class="form-control" type="text" v-model="item.end_date" onfocus="(this.type='date')"/>
+                  <input placeholder="month/date/year"  class="form-control mdbInput" type="text" v-model="item.end_date" onfocus="(this.type='date')" :class="{ 'border-danger': validationErrors.profession }"/>
                 </div>
               </div>
             </div>
+            <span class="text-danger" v-if="validationErrors.experience">Please fully enter experience</span>
           </div>
         </div>
         <div class="mt-3 d-flex justify-content-center">
           <button class="btn btn-success me-2">Submit</button>
-          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-secondary" @click="gotoAccinfo">Cancel</button>
         </div>
     </div>
     </form>
@@ -205,6 +196,8 @@ import { reactive } from 'vue'
 export default {
   data: function () {
     return {
+      normalStyle: "form-control",
+      errorStyle: "form-control border border-danger",
       preview: null,
       image: null,
       hideInput: "form-control-sm form-control w-100",
@@ -274,7 +267,23 @@ export default {
 
         ],
         experiences:[]
-      }
+      },
+      validationErrors: {
+        profession: false,
+        name: false,
+        email: false,
+        dob: false,
+        nrcNo: false,
+        phone: false,
+        address: false,
+        city: false,
+        country: false,
+        gender: false,
+        marital_status: false,
+        skill: false,
+        education: false,
+        experience: false,
+      },
     };
   },
   computed:{
@@ -353,12 +362,113 @@ export default {
       }
     },
     addPresonalInformation(){
-      this.profile.education.push(this.high_school);
-      this.profile.education.push(this.university);
-      this.profile.experiences.push(this.experience);
-      this.profile.nrc=`${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`;
-      console.log(this.profile);
-      
+      this.validationErrors = {
+        profession: false,
+        name: false,
+        email: false,
+        dob: false,
+        nrcNo: false,
+        phone: false,
+        address: false,
+        city: false,
+        country: false,
+        gender: false,
+        marital_status: false,
+        skill: false,
+        education: false,
+        experience: false,
+      };
+
+
+      if (!this.profile.profession) {
+        this.validationErrors.profession = true;
+      }
+      if (!this.profile.name) {
+        this.validationErrors.name = true;
+      }
+      // Validate email
+      if (!this.profile.email) {
+        this.validationErrors.email = true;
+      }
+
+      // Validate date of birth
+      if (!this.profile.dob) {
+        this.validationErrors.dob = true;
+      }
+
+      // Validate NRC
+      if (!this.nrcNo) {
+        this.validationErrors.nrcNo = true;
+      }
+
+      // Validate phone number
+      if (!this.profile.phone) {
+        this.validationErrors.phone = true;
+      }
+
+      // Validate address
+      if (!this.profile.address || !this.profile.city || !this.profile.country) {
+        this.validationErrors.address = true;
+        this.validationErrors.city = true;
+        this.validationErrors.country = true;
+      }
+
+      // Validate gender
+      if (!this.profile.gender) {
+        this.validationErrors.gender = true;
+      }
+
+      // Validate marital status
+      if (!this.profile.marital_status) {
+        this.validationErrors.marital_status = true;
+      }
+
+      // Validate skill
+      if (!this.profile.skill) {
+        this.validationErrors.skill = true;
+      }
+
+      // Validate education
+      for (const item of this.university) {
+        if (!item.degree_name || !item.start_date || !item.end_date) {
+          this.validationErrors.education = true;
+        }
+      }
+
+      // Validate experience
+      for (const item of this.experience) {
+        if (!item.company || !item.position || !item.start_date || !item.end_date) {
+          this.validationErrors.experience = true;
+        }
+      }
+
+      // If any validation error occurred, stop form submission
+      if (Object.values(this.validationErrors).includes(true)) {
+        return;
+      }
+      var formData = new FormData();
+      formData.append("name",this.profile.name);
+      formData.append("email",this.profile.email);
+      formData.append("dob",this.profile.dob);
+      formData.append("nrc",`${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`);
+      formData.append("phone",this.profile.phone);
+      formData.append("address",this.profile.address);
+      formData.append("city",this.profile.city);
+      formData.append("country",this.profile.country);
+      formData.append("skill",this.profile.skill);
+      formData.append("profile_pic",this.profile.profile_pic);
+      formData.append("marital_status",this.profile.marital_status);
+      formData.append("gender",this.profile.gender);
+      formData.append("profession",this.profile.profession);
+      formData.append("education",this.university);
+      formData.append('experience',this.experience);
+      console.log(formData);
+      for (const pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+    },
+    gotoAccinfo(){
+      this.$router.push('/Accinfo');
     }
   },
 };
@@ -400,5 +510,13 @@ export default {
 .add_remove{
   cursor: pointer;
   font-size: larger;
+}
+.form-check-input[type=radio]:checked:after {
+  background-color: #14a44d;
+}
+.mdbInput:focus {
+  border-color: #14a44d;
+  box-shadow: 0 0 0 0.1rem #14a44e4a;
+  /* class="mdbInput" */
 }
 </style>

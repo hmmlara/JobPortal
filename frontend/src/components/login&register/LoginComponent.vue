@@ -6,6 +6,7 @@
         <input
           type="email"
           name=""
+          class="mdbInput"
           :class="errorMessages.email == '' ? normalStyle : errorStyle"
           placeholder="Enter your Email"
           @input="credential.email = $event.target.value"
@@ -19,6 +20,7 @@
         <input
           type="password"
           name=""
+          class="mdbInput"
           :class="errorMessages.password == '' ? normalStyle : errorStyle"
           placeholder="Enter your Password"
           @input="credential.password = $event.target.value"
@@ -78,7 +80,7 @@ export default {
       formData.append("email", this.credential.email);
       formData.append("password", this.credential.password);
       formData.append("role", "user");
-
+      
       setTimeout(() => {
         Apicalls.post("login", formData)
           .then((response) => {
@@ -116,7 +118,10 @@ export default {
 </script>
 
 <style scoped>
-.form-control:focus {
-  border-color: #14a44d !important;
+
+.mdbInput:focus {
+  border-color: #14a44d;
+  box-shadow: 0 0 0 0.1rem #14a44e4a;
+  /* class="mdbInput" */
 }
 </style>
