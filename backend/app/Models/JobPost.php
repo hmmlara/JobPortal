@@ -41,4 +41,8 @@ class JobPost extends Model
     public function applicants(){
         return $this->hasMany(Application::class);
     }
+
+    public function saveJob(){
+        return $this->hasOne(SaveJob::class);
+    }
 }
