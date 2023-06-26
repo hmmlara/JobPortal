@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Models\JobPost;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login',[AuthController::class,'login'])->name('login');
@@ -60,6 +61,18 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
         Route::post('search','Api\JobPostApiController@searchJob')->name('jobPost.searchJob');
         Route::middleware('auth:api')->get('jobDetails/{id}/{user_id}','Api\JobPostApiController@getJobPostDetails')->name('jobPost.jobDetails');
         Route::middleware('auth:api')->post('applyJobPost','Api\JobPostApiController@applyJobPost')->name('jobPost.apply');
+    });
+
+    Route::prefix('profile')->middleware('auth:api')->name('profile.')->group(function(){
+
+        // get save jobs
+        Route::get('getSaveJobs/{userId}','SaveJobController@getSaveJob')->name('get_save_jobs');
+
+        // save job posts
+        Route::post('saveJob','SaveJobController@saveJob')->name('save_job');
+
+        // remove save job
+        Route::get('removeSaveJob/{saveJobId}','SaveJobController@removeJob')->name('remove_save_job');
     });
 
      // logout
