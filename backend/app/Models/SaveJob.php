@@ -9,7 +9,7 @@ class SaveJob extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['job_id','user_id'];
+    protected $fillable = ['job_post_id','user_id'];
     public function user(){
         return $this->belongsTo(User::class);
     }
