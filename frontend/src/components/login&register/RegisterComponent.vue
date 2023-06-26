@@ -21,6 +21,7 @@
         <input
           type="text"
           name=""
+          class="mdbInput"
           :class="errorMessages.name == '' ? normalStyle : errorStyle"
           placeholder="Enter your Name"
           :value="userData.name"
@@ -35,6 +36,7 @@
         <input
           type="email"
           name=""
+          class="mdbInput"
           :class="errorMessages.email == '' ? normalStyle : errorStyle"
           placeholder="Enter your Email"
           :value="userData.email"
@@ -49,6 +51,7 @@
         <input
           type="password"
           name=""
+          class="mdbInput"
           :class="errorMessages.password == '' ? normalStyle : errorStyle"
           placeholder="Enter your Password"
           :value="userData.password"
@@ -63,6 +66,7 @@
         <input
           type="password"
           name=""
+          class="mdbInput"
           :class="
             errorMessages.confirmpassword == '' ? normalStyle : errorStyle
           "
@@ -159,4 +163,8 @@ export default {
 </script>
 
 <style scoped>
+.mdbInput:focus {
+  border-color: #14a44d;
+  box-shadow: 0 0 0 0.1rem #14a44e4a;
+}
 </style>

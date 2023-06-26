@@ -27,7 +27,7 @@
               name=""
               id=""
               placeholder="Location"
-              class="form-control"
+              class="form-control mdbInput"
             />
           </div>
         <div class="accordion mt-3" id="accordionExample">
@@ -151,10 +151,9 @@ export default {
 </script>
 
 <style>
-.form-control:focus {
-  border-color: #14a44d !important;
-}
+
 .accordion-header:not(.collapsed)::after {
   color: #13b955 !important;
 }
+
 </style>

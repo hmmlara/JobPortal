@@ -5,44 +5,19 @@
         <div class="card mt-4 p-5">
           <div class="row">
             <div class="col-md-3">
-              <img src="@/assets/banner.png" alt="" width="100%" />
+              <img src="../../image/banner.png" width="100%" height="100%" />
             </div>
-            <!-- <div class="col-md-9 mt-3 d-flex justify-content-between">
-              <div class="">
-                <h4>Arkar Nyein</h4>
-                <p>(Software Developer)</p>
-                <small style="font-size: smaller" class="text-muted">
-                  <i class="fas fa-map-marker-alt me-2"></i>Yangon, Myanmar
-                </small>
-                <a
-                  class="ms-2"
-                  data-mdb-toggle="modal"
-                  data-mdb-target="#contactInfo"
-                  >contact-info</a
-                >
-              </div>
-              <a data-mdb-toggle="modal" data-mdb-target="#editInfo">
-                <i class="fa-solid fa-pencil"></i>
-              </a>
-            </div> -->
             <div class="col-md-9 mt-3">
               <h4>Arkar Nyein</h4>
-              <router-link to="/Addinfo" class="btn btn-success">
+              <button @click.prevent="addInfo" class="btn btn-success">
                 <i class="fas fa-plus text-light me-2"></i>Add profile Section
-              </router-link>
+              </button>
             </div>
           </div>
           <hr class="d-lg-none" />
           <div class="row">
             <div class="col-md-3 d-none d-md-block"></div>
             <div class="col-md-9">
-              <!-- <small class="text-muted">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Suscipit ratione distinctio deserunt consequuntur, dolores
-                officia itaque aliquam quod omnis. Animi deserunt fuga
-                praesentium, laborum magnam harum similique accusamus aspernatur
-                impedit.
-              </small> -->
             </div>
           </div>
         </div>
@@ -65,6 +40,8 @@
             <hr />
             <p><i class="fas fa-id-card me-1"></i>9/KhaMaSa(N)009312</p>
             <hr />
+            <p><i class="fas fa-id-card me-1"></i>9/KhaMaSa(N)009312</p>
+            <hr />
             <p><i class="fa-solid me-2 fa-person"></i> Myanmar(Burma)</p>
           </div>
         </div>
@@ -72,9 +49,6 @@
           <div class="d-flex justify-content-between">
             <h4>Education</h4>
             <div>
-              <a data-mdb-toggle="modal" data-mdb-target="#editPersonalprofile">
-                <i class="fa-solid fa-plus me-5"></i>
-              </a>
               <a data-mdb-toggle="modal" data-mdb-target="#editEducation">
                 <i class="fa-solid fa-pencil"></i>
               </a>
@@ -254,14 +228,23 @@
 </template>
 
 <script>
+import router from '@/router';
 export default {
   name: "AccInfoComponent",
-  methods: {
+  data(){
+    return{
+      img: "https://img.freepik.com/free-icon/user_318-159711.jpg"
+    }
+  },
+  computed: {
     navigateToAddInfo() {
       // Perform any necessary logic here before navigating
 
       // Navigate to the "/Addinfo" route
       this.$router.push('/Addinfo');
+    },
+    addInfo(){
+      router.push('/Addinfo');
     }
   }
 };

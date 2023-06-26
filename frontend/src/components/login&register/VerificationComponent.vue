@@ -5,6 +5,7 @@
       <input
         type="text"
         maxlength="6"
+        class="mdbInput"
         placeholder="Enter OTP"
         @input="limitInput"
         :class="error ? 'form-control border border-danger' : 'form-control'"
@@ -73,7 +74,7 @@ export default {
     },
     requestOTP() {
       this.verify = true;
-      this.timer = 30;
+      this.timer = 60;
       this.countDown();
 
       if (window.sessionStorage.getItem("verified_email")) {
@@ -126,5 +127,10 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.mdbInput:focus {
+  border-color: #14a44d;
+  box-shadow: 0 0 0 0.1rem #14a44e4a;
+  /* class="mdbInput" */
 }
 </style>
