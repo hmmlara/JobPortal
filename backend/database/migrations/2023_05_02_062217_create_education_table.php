@@ -22,7 +22,7 @@ return new class extends Migration
                 ->on('personal_infos')
                 ->onDelete('cascade');
 
-            $table->string('high_school_name');
+            // $table->string('high_school_name');
             $table->string('degree_name')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
