@@ -42,7 +42,6 @@ export default {
   name: "JobCardComponent",
   props: ["job"],
   mounted(){
-    console.log(this.job.company.company_logo)
   }
 };
 </script>
