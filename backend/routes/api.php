@@ -56,6 +56,10 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
         Route::get('/','Api\JobTypeApiController@getAll')->name('jobType.getAll');
     });
 
+    // company
+    Route::resource('company', CompanyController::class);
+
+    // job post
     Route::prefix('jobPost')->group(function(){
         Route::get('/','Api\JobPostApiController@getAllPosts')->name('jobPost.getAll');
         Route::post('search','Api\JobPostApiController@searchJob')->name('jobPost.searchJob');
@@ -63,6 +67,7 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
         Route::middleware('auth:api')->post('applyJobPost','Api\JobPostApiController@applyJobPost')->name('jobPost.apply');
     });
 
+    // save job
     Route::prefix('profile')->middleware('auth:api')->name('profile.')->group(function(){
 
         // get save jobs
