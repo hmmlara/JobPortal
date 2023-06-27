@@ -12,7 +12,7 @@ class SaveJobController extends Controller
 
     public function getSaveJob($userId){
 
-        $saveJob = SaveJob::with('jobPost')->where('user_id',$userId)->paginate(5);
+        $saveJob = SaveJob::with('jobPost','jobPost.company')->where('user_id',$userId)->paginate(5);
 
         if(empty($saveJob)){
             return response()->json([

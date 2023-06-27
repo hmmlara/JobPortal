@@ -23,9 +23,11 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('cascade');
 
-            $table->string('nrc');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('nrc')->unique();
             $table->date('dob');
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->longText('address');
             $table->string('city');
             $table->string('country');

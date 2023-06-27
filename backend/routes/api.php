@@ -56,6 +56,10 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
         Route::get('/','Api\JobTypeApiController@getAll')->name('jobType.getAll');
     });
 
+    // company
+    Route::resource('company', CompanyController::class);
+
+    // job post
     Route::prefix('jobPost')->group(function(){
         Route::get('/','Api\JobPostApiController@getAllPosts')->name('jobPost.getAll');
         Route::post('search','Api\JobPostApiController@searchJob')->name('jobPost.searchJob');
@@ -63,6 +67,7 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
         Route::middleware('auth:api')->post('applyJobPost','Api\JobPostApiController@applyJobPost')->name('jobPost.apply');
     });
 
+    // save job
     Route::prefix('profile')->middleware('auth:api')->name('profile.')->group(function(){
 
         // get save jobs
@@ -73,6 +78,38 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
 
         // remove save job
         Route::get('removeSaveJob/{saveJobId}','SaveJobController@removeJob')->name('remove_save_job');
+    });
+
+    // personal info
+    Route::prefix('personal_info')->middleware('auth:api')->name('personalInfo.')->group(function(){
+
+        // get personal info
+        Route::get('getPersonalInfo','PersonalInfoController@getPersonalInfo')->name('getPersonalInfo');
+
+        // save personal info
+        Route::post('addPersonalInfo','PersonalInfoController@addPersonalInfo')->name('addPersonalInfo');
+
+        // edit personal info
+        Route::post('editPersonalInfo/{userId}','PersonalInfoController@editPersonalInfo')->name('editPersonalInfo');
+
+        // add education
+        Route::post('addEducation','PersonalInfoController@addNewEducation')->name('addEducation');
+
+        // edit Education
+        Route::post('editEducation/{educationId}','PersonalInfoController@editEducation')->name('editEducation');
+
+        // delete education
+        Route::get('deleteEducation/{educationId}','PersonalInfoController@deleteEducation')->name('deleteEducation');
+
+        // add experience
+        Route::post('addExperience','PersonalInfoController@addNewExperience')->name('addExperience');
+
+        // edit experience
+        Route::post('editExperience/{experienceId}','PersonalInfoController@editExperience')->name('editExperience');
+
+        // delete experience
+        Route::get('deleteExperience/{experienceId}','PersonalInfoController@deleteExperience')->name('deleteEExperience');
+
     });
 
      // logout
