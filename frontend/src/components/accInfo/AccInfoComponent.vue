@@ -5,7 +5,7 @@
         <div class="card mt-4 p-5">
           <div class="row">
             <div class="col-md-3">
-              <img src="../../image/banner.png" width="100%" height="100%" />
+              <img src="../../image/banner.png" style="width: 100%; height: 100%;" />
             </div>
             <div class="col-md-9 mt-3">
               <div class="d-flex">
@@ -243,12 +243,6 @@ export default {
     }
   },
   computed: {
-    navigateToAddInfo() {
-      // Perform any necessary logic here before navigating
-
-      // Navigate to the "/Addinfo" route
-      this.$router.push('/Addinfo');
-    },
     addInfo(){
       router.push('/Addinfo');
     }

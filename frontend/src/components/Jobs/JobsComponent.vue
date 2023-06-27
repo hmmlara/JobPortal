@@ -133,7 +133,6 @@ export default {
       Apicalls.post("frontend/jobPost/search",formData).then((response) => {
         if (response.status == 200) {
           this.jobposts = response.data.jobPosts;
-          console.log(this.jobposts);
         }
       });
     },
@@ -153,6 +152,5 @@ export default {
 .mdbInput:focus {
   border-color: #14a44d;
   box-shadow: 0 0 0 0.1rem #14a44e4a;
-  /* class="mdbInput" */
 }
 </style>
