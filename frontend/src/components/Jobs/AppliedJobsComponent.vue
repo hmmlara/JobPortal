@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="card mt-4 p-3">
-      <!-- Tabs navs -->
       <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
         <li class="nav-item" role="presentation">
           <a
@@ -15,24 +14,6 @@
             @click="showdot1"
             >Saved Jobs</a
           >
-        </li>
-        <li class="mt-1 me-2">
-          <div class="dropdown" v-show="show1">
-            <a
-              class=""
-              href="#"
-              id="dropdownMenuLink"
-              data-mdb-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <span class="badge badge-success" style="font-size: small;"><i class="fas fa-ellipsis-vertical text-success text-large"></i></span>
-            </a>
-
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li><a class="dropdown-item" href="#">Not Applied</a></li>
-              <li><a class="dropdown-item" href="#">Applied</a></li>
-            </ul>
-          </div>
         </li>
         <li class="nav-item" role="presentation">
           <a
@@ -67,9 +48,6 @@
           </div>
         </li>
       </ul>
-      <!-- Tabs navs -->
-
-      <!-- Tabs content -->
       <div class="tab-content" id="ex2-content">
         <div
           class="tab-pane fade show active"
@@ -77,25 +55,25 @@
           role="tabpanel"
           aria-labelledby="ex3-tab-1"
         >
-          <div v-for="(job, index) in jobposts.data"
+          <div v-for="(job, index) in jobposts"
               :key="index">
             <div class=" d-flex content-item justify-content-between p-2 mt-1">
-              <img :src="`data:image/*;base64,${job.company.company_logo}`" class="rounded-circle" width="100" height="100">
+              <!-- <img :src="`data:image/*;base64,${job.company.company_logo}`" class="rounded-circle" width="100" height="100"> -->
               <div class="mt-3  content-detail">
-                <span><small class="text-muted text-center mb-1">{{ job.company.name }}</small></span>
-                <h6 class="">{{ job.job_position }}</h6>
-                <div class="text-truncate text-muted" style="max-width: 100px;"><small><i class="fas fa-map-marker-alt me-2"></i>{{ job.company.address }}</small></div>
+                <!-- <span><small class="text-muted text-center mb-1">{{ job.company.name }}</small></span> -->
+                <h6 class="">{{ job.job_post.job_position }}</h6>
+                <!-- <div class="text-truncate text-muted" style="max-width: 100px;"><small><i class="fas fa-map-marker-alt me-2"></i>{{ job.company.address }}</small></div> -->
               </div>
               <div class="status">
-                <h5><span class="badge badge-success">saved</span></h5>
+                <h5 @click.prevent="removeSavejob(job.id)" style="cursor: pointer;"><span class="badge badge-success">saved</span></h5>
                 <h5><span class="badge badge-danger">rejected</span></h5>
-                <router-link :to="`/jobs/jobDetail/${job.id}`" class="text-secondary ms-4">
+                <router-link :to="`/jobs/jobDetail/${job.job_post_id}`" class="text-secondary ms-4">
                    <i class="fa-solid fa-arrow-right"></i>
                 </router-link>
               </div>
           </div>
           </div>
-          <div class="text-center mt-2" v-show="moreExists">
+          <div class="text-center mt-2" v-if="moreExists">
             <button class="btn btn-success"  @click.prevent="loadMore">
               <i class="fas fa-arrow-down"></i> Load More
             </button>
@@ -110,7 +88,6 @@
           Tab 2 content
         </div>
       </div>
-      <!-- Tabs content -->
     </div>
   </div>
 </template>
@@ -122,53 +99,54 @@ export default {
   data() {
     return {
       jobposts: [],
-      show1: false,
       moreExists: true,
       currentPage: 1,
+      user_id: this.auth.user.id,
       show2 : false
     };
   },
   mounted(){
-    this.show1 = true;
     this.show2 = false;
-    this.getJobPosts();
+    this.getSaveJobs();
   },
   methods:{
     showdot1(){
-      this.show1= true;
       this.show2 = false;
     },
     showdot2(){
       this.show1= false;
       this.show2 = true;
     },
-    getJobPosts() {
-      ApiCalls.get("frontend/jobPost").then((response) => {
-        if (response.status == 200) {
-          this.jobposts = response.data.jobPosts;
-          console.log(this.jobposts);
+    getSaveJobs() {
+      ApiCalls.get(`frontend/profile/getSaveJobs/${this.user_id}`).then((response) => {
+        if (response.data.status == 200) {
+          this.jobposts = response.data.save_jobs.data;
         }
+      });
+    },
+    removeSavejob(saveJobId){
+      ApiCalls.get(`frontend/profile/removeSaveJob/${saveJobId}`).then((response) => {
+          if (response.data.status == 200) {
+            this.getSaveJobs();
+          }
       });
     },
     loadMore() {
       this.currentPage++;
-      ApiCalls.get(`frontend/jobPost?page=${this.currentPage}`).then(
+      ApiCalls.get(`frontend/profile/getSaveJobs/${this.user_id}?page=${this.currentPage}`).then(
           (response) => {
             if (response.status === 200) {
-              console.log(response.data.jobPosts.data);
-              console.log(this.jobposts);
-              response.data.jobPosts.data.forEach((data) => {
-                this.jobposts.data.push(data);
-              });
-
-              // Update the current page and check if there are more job posts to load
-
-              if (this.currentPage < response.data.jobPosts.last_page) {
+              if(response.data.save_jobs.data.length != 0){
+                  this.jobposts = [...this.jobposts,...response.data.save_jobs.data];
+              }
+              console.log(response.data.save_jobs.last_page);
+              if (this.currentPage < response.data.save_jobs.last_page) {
                 this.moreExists = true; // No more job posts to load
               } else {
                 this.moreExists = false;
               }
             }
+            
           }
         );
     },

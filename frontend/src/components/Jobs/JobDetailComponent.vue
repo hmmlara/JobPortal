@@ -49,7 +49,8 @@
             >
           </div>
           <div>
-            <button class="btn btn-dark mb-2">Save Job</button>
+            <button class="btn btn-dark mb-2" v-if="save_job" title="click to unsave." @click="removeSavejob">Saved</button>
+            <button class="btn btn-dark mb-2" v-else @click.prevent="saveJob">Save Job</button>
             <br />
             <small class="text-success">{{ posted }}</small>
           </div>
@@ -121,10 +122,14 @@ export default {
       jobtypes: [],
       company: [],
       applicants: [],
+      check: [],
+      save_job : false,
+      save_job_id : ''
     };
   },
   mounted() {
     this.getJobDetails();
+    this.getSaveJobs();
   },
   created() {
     window.onpopstate = () => this.goBack();
@@ -148,7 +153,6 @@ export default {
     },
     getTimeDifference(createdDate) {
       let date = new Date(createdDate);
-      console.log(date);
 
       let seconds = Math.floor((Date.now() - date.getTime()) / 1000);
       let unit = "second";
@@ -181,16 +185,49 @@ export default {
       };
       ApiCalls.post("frontend/jobPost/applyJobPost", formData)
         .then((response) => {
-          console.log(response);
           if (response.status == 201) {
             this.getJobDetails();
           }
         })
         .catch((error) => alert("You need to fill your information first!"));
     },
+    getSaveJobs() {
+      ApiCalls.get(`frontend/profile/getSaveJobs/${this.user_id}`).then((response) => {
+        if (response.data.status == 200) {
+          this.check = response.data.save_jobs.data;
+        }
+        for(let i = 0 ; i<this.check.length; i++){
+              if(this.check[i]['job_post_id']==this.jobposts.id){
+                this.save_job = true;
+                console.log(this.check[i]['id']);
+                this.save_job_id = this.check[i]['id'];
+                // console.log(save_job_id);
+              }
+            }
+      });
+    },
+    removeSavejob(){
+      ApiCalls.get(`frontend/profile/removeSaveJob/${this.save_job_id}`).then((response) => {
+          if (response.data.status == 200) {
+            this.save_job = false;
+          }
+      });
+    },
+    saveJob(){
+      let formData = {
+        user_id: this.user_id,
+        job_post_id: this.jobposts.id,
+      };
+
+      ApiCalls.post("frontend/profile/saveJob", formData).then((response) => {
+        if (response.status == 201) {
+            this.save_job = true; 
+          }
+      });
+    }
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

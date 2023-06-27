@@ -78,20 +78,17 @@ export default {
     };
   },
   mounted() {
-    this.path = window.location.pathname;
     if (!this.auth.check()) {
       this.user = null;
     }
     window.document.onscroll = () => {
       if (window.scrollY > 1) {
-        console.log("hello");
         this.navFixed =
           "navbar autohide navbar-expand-lg bg-light py-3 fixed-top";
       } else {
         this.navFixed = "navbar autohide navbar-expand-lg bg-light  py-3 ";
       }
     };
-    // console.log(this.auth.token);
   },
   methods:{
     logout(){

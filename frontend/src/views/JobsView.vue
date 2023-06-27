@@ -87,9 +87,12 @@ export default {
             if (response.status === 200) {
               console.log(response.data.jobPosts.data);
               console.log(this.jobposts);
-              response.data.jobPosts.data.forEach((data) => {
-                this.jobposts.data.push(data);
-              });
+              // response.data.jobPosts.data.forEach((data) => {
+              //   this.jobposts.data.push(data);
+              //  });
+              if(response.data.jobPosts.data.length != 0){
+                  this.jobposts.data = [...this.jobposts.data,...response.data.jobPosts.data];
+              }
 
               // Update the current page and check if there are more job posts to load
 

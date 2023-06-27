@@ -5,10 +5,12 @@
         <div class="card mt-4 p-5">
           <div class="row">
             <div class="col-md-3">
-              <img src="../../image/banner.png" width="100%" height="100%" />
+              <img src="../../image/banner.png" style="width: 100%; height: 100%;" />
             </div>
             <div class="col-md-9 mt-3">
-              <h4>Arkar Nyein</h4>
+              <div class="d-flex">
+                <h4>Arkar Nyein </h4><span class="text-muted float-left ms-1"> (Junior Developer)</span>
+              </div>
               <button @click.prevent="addInfo" class="btn btn-success">
                 <i class="fas fa-plus text-light me-2"></i>Add profile Section
               </button>
@@ -26,9 +28,6 @@
             <h4>Personal Profile</h4>
             <div>
               <a data-mdb-toggle="modal" data-mdb-target="#editPersonalprofile">
-                <i class="fa-solid fa-plus me-5"></i>
-              </a>
-              <a data-mdb-toggle="modal" data-mdb-target="#editPersonalprofile">
                 <i class="fa-solid fa-pencil"></i>
               </a>
             </div>
@@ -40,15 +39,25 @@
             <hr />
             <p><i class="fas fa-id-card me-1"></i>9/KhaMaSa(N)009312</p>
             <hr />
-            <p><i class="fas fa-id-card me-1"></i>9/KhaMaSa(N)009312</p>
+            <p><i class="fa-solid fa-heart me-1"></i>Single</p>
             <hr />
-            <p><i class="fa-solid me-2 fa-person"></i> Myanmar(Burma)</p>
+            <p><i class="fa-solid me-1 fa-phone"></i> 09793798369</p>
+            <hr>
+            <p><i class="fa-solid me-1 fa-envelope"></i> arkarnyein48@gmail.com</p>
+            <hr>
+            <p><i class="fas me-2 fa-home"></i>Yangon</p>
+            <hr>
+            <p><i class="fa-solid fa-sharp me-2 fa-chart-simple"></i> HTML,CSS,JavaScript</p>
+            <hr>
           </div>
         </div>
         <div class="card mt-4 p-5">
           <div class="d-flex justify-content-between">
             <h4>Education</h4>
             <div>
+              <a data-mdb-toggle="modal" data-mdb-target="#addEducation">
+                <i class="fa-solid fa-plus me-5"></i>
+              </a>
               <a data-mdb-toggle="modal" data-mdb-target="#editEducation">
                 <i class="fa-solid fa-pencil"></i>
               </a>
@@ -61,49 +70,6 @@
             </p>
             <hr />
             <p><i class="fas me-2 fa-school"></i>No(1).Basic Education</p>
-          </div>
-        </div>
-        <div
-          class="modal fade"
-          id="editInfo"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit info</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-mdb-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <label for="" class="form-label">Name</label>
-                  <input type="text" name="" id="" class="form-control" />
-                </div>
-                <div class="form-group mt-2">
-                  <label for="" class="form-label">Address</label>
-                  <input type="text" name="" id="" class="form-control" />
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-mdb-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-success">
-                  Save changes
-                </button>
-              </div>
-            </div>
           </div>
         </div>
         <div
@@ -141,40 +107,6 @@
         </div>
         <div
           class="modal fade"
-          id="editContact"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-mdb-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">...</div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-mdb-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="modal fade"
           id="editPersonalprofile"
           tabindex="-1"
           aria-labelledby="exampleModalLabel"
@@ -195,16 +127,90 @@
               </div>
               <div class="modal-body">
                 <div class="form-group">
-                  <label for="" class="form-label">Gender</label>
-                  <input type="text" name="" id="" class="form-control" />
+                  <label for="" class="form-label">Gender</label><br>
+                  <input type="radio" name="" id="" class="form-check-input" />
+                  <label for="" class="form-check-label">Male</label>
+                  <input type="radio" name="" id="" class="form-check-input ms-2" />
+                  <label for="" class="form-check-label">Female</label>
+                </div>
+                <div class="form-group mt-2">
+                  <label for="" class="form-label">Marital Status</label><br>
+                  <input type="radio" name="" id="" class="form-check-input" />
+                  <label for="" class="form-check-label">Single</label>
+                  <input type="radio" name="" id="" class="form-check-input ms-2" />
+                  <label for="" class="form-check-label">Married</label>
+                </div>
+                <div class="form-group mt-2">
+                  <label for="" class="form-label">Profession</label>
+                  <input type="date" name="" id="" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                  <label for="" class="form-label">Skills</label>
+                  <input type="date" name="" id="" class="form-control" />
                 </div>
                 <div class="form-group mt-2">
                   <label for="" class="form-label">Date of birth</label>
-                  <input type="text" name="" id="" class="form-control" />
+                  <input type="date" name="" id="" class="form-control" />
                 </div>
                 <div class="form-group mt-2">
-                  <label for="" class="form-label">NRC</label>
-                  <input type="text" name="" id="" class="form-control" />
+                  <label for="" class="form-label">Email</label>
+                  <input type="email" name="" id="" class="form-control" />
+                </div>
+                <div class="form-group mt-2">
+                  <label for="" class="form-label">Phone Number</label>
+                  <input type="date" name="" id="" class="form-control" />
+                </div>
+                <div class="form-group mt-2 ">
+                  <label for="" class="form-label">Address</label>
+                  <div class="d-flex justify-content-between">
+                    <input type="date" name="" id="" class="form-control" />
+                    <input type="date" name="" id="" class="form-control mx-1" />
+                    <input type="date" name="" id="" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-mdb-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn btn-success">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="modal fade"
+          id="addEducation"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Education
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-mdb-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="" class="form-label">Gender</label><br>
+                  <input type="" name="" id="" class="form-check-input" />
+                  <label for="" class="form-check-label">Male</label>
+                  <input type="radio" name="" id="" class="form-check-input ms-2" />
+                  <label for="" class="form-check-label">Female</label>
                 </div>
               </div>
               <div class="modal-footer">
@@ -237,12 +243,6 @@ export default {
     }
   },
   computed: {
-    navigateToAddInfo() {
-      // Perform any necessary logic here before navigating
-
-      // Navigate to the "/Addinfo" route
-      this.$router.push('/Addinfo');
-    },
     addInfo(){
       router.push('/Addinfo');
     }
