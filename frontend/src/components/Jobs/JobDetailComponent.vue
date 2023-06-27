@@ -9,7 +9,7 @@
         <div class="col-12 col-lg-9 mb-3 d-flex">
           <div class="d-none d-lg-block" style="width: 8rem"></div>
           <img
-            :src="`data:image/*;base64,${company.company_logo}`"
+          :src="company.company_logo"
             alt=""
             class="rounded-circle"
             width="80"

@@ -183,7 +183,7 @@
           </div>
         </div>
         <div class="mt-3 d-flex justify-content-center">
-          <button class="btn btn-success me-2">Submit</button>
+          <button class="btn btn-success me-2" @click.prevent="addPresonalInformation">Submit</button>
           <button class="btn btn-secondary" @click="gotoAccinfo">Cancel</button>
         </div>
     </div>
@@ -204,7 +204,7 @@ export default {
       hideBtn: "btn btn-danger btn-sm d-none",
       hidetext: "",
       formgroup: "border:3px dashed #13b955; border-radius: 20px",
-      no:["1/","2/","3/","4/","5/","6/","7/","8/","10/","11/","12/","13/","14/"],
+      no:["1/","2/","3/","4/","5/","6/","7/","8/","9/","10/","11/","12/","13/","14/"],
       state:{
       "1/":["BaMaNa","KhaHpaNa","DaHpaYa","HaPaNa","HpaKaNa","HaGaYa","KaMaTa","KaPaTa","KhaLaHpa",
       "LaGaNa","MaKhaBa","MaSaNa","MaKaTa","MaNyaNa","MaMaNa","MaKaNa","MaLaNa","NaMaNa","PaWaNa",
@@ -362,110 +362,141 @@ export default {
       }
     },
     addPresonalInformation(){
-      this.validationErrors = {
-        profession: false,
-        name: false,
-        email: false,
-        dob: false,
-        nrcNo: false,
-        phone: false,
-        address: false,
-        city: false,
-        country: false,
-        gender: false,
-        marital_status: false,
-        skill: false,
-        education: false,
-        experience: false,
-      };
+      console.log('hi')
+      var formData = new FormData();
+      // this.validationErrors = {
+      //   profession: false,
+      //   name: false,
+      //   email: false,
+      //   dob: false,
+      //   nrcNo: false,
+      //   phone: false,
+      //   address: false,
+      //   city: false,
+      //   country: false,
+      //   gender: false,
+      //   marital_status: false,
+      //   skill: false,
+      //   education: false,
+      //   experience: false,
+      // };
 
 
       if (!this.profile.profession) {
         this.validationErrors.profession = true;
       }
+      else{
+        formData.append("profession",this.profile.profession);
+        
+      }
       if (!this.profile.name) {
         this.validationErrors.name = true;
       }
-      // Validate email
+      else{
+        formData.append("name",this.profile.name);
+      }
+
+      
+      // // Validate email
       if (!this.profile.email) {
         this.validationErrors.email = true;
       }
+      else{
+        formData.append("email",this.profile.email);
+      }
 
-      // Validate date of birth
+      // // Validate date of birth
       if (!this.profile.dob) {
         this.validationErrors.dob = true;
       }
+      else{
+        formData.append("dob",this.profile.dob);
+      }
 
-      // Validate NRC
+      // // Validate NRC
       if (!this.nrcNo) {
         this.validationErrors.nrcNo = true;
       }
+      else{
+        formData.append("nrc",`${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`);
+      }
 
-      // Validate phone number
+      // // Validate phone number
       if (!this.profile.phone) {
         this.validationErrors.phone = true;
       }
+      else{
+        formData.append("phone",this.profile.phone);
+      }
 
-      // Validate address
+      // // Validate address
       if (!this.profile.address || !this.profile.city || !this.profile.country) {
         this.validationErrors.address = true;
         this.validationErrors.city = true;
         this.validationErrors.country = true;
       }
+      else{
+        formData.append("address",this.profile.address);
+        formData.append("city",this.profile.city);
+        formData.append("country",this.profile.country);
+      }
 
-      // Validate gender
+      // // Validate gender
       if (!this.profile.gender) {
         this.validationErrors.gender = true;
       }
+      else{
+        formData.append("gender",this.profile.gender);
+      }
 
-      // Validate marital status
+      // // Validate marital status
       if (!this.profile.marital_status) {
         this.validationErrors.marital_status = true;
       }
+      else{
+        formData.append("marital_status",this.profile.marital_status);
+      }
 
-      // Validate skill
+      // // Validate skill
       if (!this.profile.skill) {
         this.validationErrors.skill = true;
       }
+      else{
+        formData.append("skill",this.profile.skill);
+      }
 
-      // Validate education
+      // // Validate education
       for (const item of this.university) {
         if (!item.degree_name || !item.start_date || !item.end_date) {
           this.validationErrors.education = true;
         }
+        else{
+          formData.append("education",this.university);
+        }
       }
 
-      // Validate experience
+      // // Validate experience
       for (const item of this.experience) {
         if (!item.company || !item.position || !item.start_date || !item.end_date) {
           this.validationErrors.experience = true;
         }
+        else{
+        formData.append('experience',this.experience);
+        }
       }
 
-      // If any validation error occurred, stop form submission
-      if (Object.values(this.validationErrors).includes(true)) {
-        return;
-      }
-      var formData = new FormData();
-      formData.append("name",this.profile.name);
-      formData.append("email",this.profile.email);
-      formData.append("dob",this.profile.dob);
-      formData.append("nrc",`${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`);
-      formData.append("phone",this.profile.phone);
-      formData.append("address",this.profile.address);
-      formData.append("city",this.profile.city);
-      formData.append("country",this.profile.country);
-      formData.append("skill",this.profile.skill);
-      formData.append("profile_pic",this.profile.profile_pic);
-      formData.append("marital_status",this.profile.marital_status);
-      formData.append("gender",this.profile.gender);
-      formData.append("profession",this.profile.profession);
-      formData.append("education",this.university);
-      formData.append('experience',this.experience);
-      console.log(formData);
-      for (const pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
+      // // If any validation error occurred, stop form submission
+      // if (Object.values(this.validationErrors).includes(true)) {
+      //   return;
+      // }
+      
+        
+        formData.append("profile_pic",this.profile.profile_pic);
+        for (const pair of formData.entries()) {
+          console.log(pair[0] + ', ' + pair[1]);
+        }
+        console.log(formData);
+        
     },
     gotoAccinfo(){
       this.$router.push('/Accinfo');

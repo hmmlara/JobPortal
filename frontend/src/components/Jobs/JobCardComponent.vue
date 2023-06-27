@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-12 d-flex justify-content-center mb-3">
           <img
-            :src="`data:image/*;base64,${job.company.company_logo}`"
+            :src="job.company.company_logo"
             alt=""
             class="rounded-circle"
             width="100"
