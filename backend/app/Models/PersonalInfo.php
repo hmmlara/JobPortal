@@ -9,6 +9,22 @@ class PersonalInfo extends Model
 {
     use HasFactory;
 
+    protected $fillabel = [
+        'user_id',
+        'profile_pic',
+        'name',
+        'email',
+        'nrc',
+        'dob',
+        'phone',
+        'address',
+        'city',
+        'country',
+        'skill',
+        'martial_status',
+        'gender',
+        'profession'
+    ];
     public function user(){
         return $this->belongsTo(User::class);
     }
