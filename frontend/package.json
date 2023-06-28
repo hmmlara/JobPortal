@@ -11,6 +11,8 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "cropperjs": "^1.5.13",
+    "file-saver": "^2.0.5",
+    "html2pdf.js": "^0.10.1",
     "mdb-ui-kit": "^6.2.0",
     "mdb-vue-ui-kit": "^4.0.0",
     "moment": "^2.29.4",

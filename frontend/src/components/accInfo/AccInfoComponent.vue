@@ -14,6 +14,7 @@
               <button @click.prevent="addInfo" class="btn btn-success">
                 <i class="fas fa-plus text-light me-2"></i>Add profile Section
               </button>
+              <span class="badge badge-success me-auto" style="font-size: small; cursor: pointer;" @click="downCV">download cv</span>
             </div>
           </div>
           <hr class="d-lg-none" />
@@ -37,7 +38,7 @@
             <hr />
             <p><i class="fa-solid me-2 fa-cake-candles"></i>August 4, 2000</p>
             <hr />
-            <p><i class="fas fa-id-card me-1"></i>9/KhaMaSa(N)009312</p>
+            <p><i class="fas fa-id-card me-1"></i>13/TaKaNa(N)300384</p>
             <hr />
             <p><i class="fa-solid fa-heart me-1"></i>Single</p>
             <hr />
@@ -230,11 +231,173 @@
         </div>
       </div>
     </div>
+    <div class="">
+      <div class="container p-5 border  mt-3 cover" id="cv">
+        <div class="row w-80 mx-auto">
+            <div class="col-12 mb-5">
+                <div class="row w-75 mx-auto">
+                    <div class="col-6 d-flex align-items-end">
+                        <div class="name-group">
+                            <h2><strong>Pyae Phyo Zan</strong></h2>
+                            <small><strong>Software Developer</strong></small>
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex justify-content-center align-items-center">
+                        <img src="../../image/banner2.jpg" alt="" srcset=""
+                            style="width: 150px;height:150px;">
+                    </div>
+                </div>
+                <hr class="w-25 mx-auto my-4 divider">
+            </div>
+            <div class="col-12 mb-5">
+                <div class="row w-75 mx-auto">
+                    <div class="col-12">
+                        <h3><strong>Personal Profile</strong></h3>
+                        <hr class="divider">
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="w-100 d-flex justify-content-between">
+                            <div>
+                                <small><strong>Date of birth</strong></small><br><br>
+                                <small><strong>Nationality</strong></small><br><br>
+                                <small><strong>NRC</strong></small><br><br>
+                                <small><strong>Phone</strong></small><br><br>
+                                <small><strong>Email</strong></small><br><br>
+                                <small><strong>Address</strong></small><br><br>
+                            </div>
+                            <div style="display: grid;">
+                                <small><strong>-</strong></small>
+                                <small><strong>-</strong></small>
+                                <small><strong>-</strong></small>
+                                <small><strong>-</strong></small>
+                                <small><strong>-</strong></small>
+                                <small><strong>-</strong></small>
+                            </div>
+                            <div style="display: grid;">
+                                <small><strong>20/12/2001</strong></small>
+                                <small><strong>Myanmar(Burma)</strong></small>
+                                <small><strong>9/KhaMaSa(N)009312</strong></small>
+                                <small><strong>+959999999999</strong></small>
+                                <small><strong>pyae@gmail.com</strong></small>
+                                <small><strong>Mahaaungmyay,Mandalay</strong></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-5">
+                <div class="row w-75 mx-auto">
+                    <div class="col-12">
+                        <h3><strong>Career Objective</strong></h3>
+                        <hr class="divider">
+                    </div>
+                    <div class="col-12 mt-3">
+                        <p class="font-size: medium;">
+                            To leverage my knowledge in programming and web development to create
+                            modern, secure applications with a high level of usability as a developer.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-5 mt-5">
+                <div class="row w-75 mx-auto mt-5">
+                    <div class="col-12 mt-5">
+                        <h3 class="mt-5"><strong>Educations</strong></h3>
+                        <hr class="divider">
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between mb-4">
+                                <small style="font-size: medium;"><strong>[2018-2021]</strong></small>
+                                <small style="font-size: medium;"><strong>System Creator</strong></small>
+                                <small style="font-size: medium;"><strong>Metro IT & Japanese Language
+                                        Center</strong></small>
+                            </div>
+                            <div class="col-12 d-flex justify-content-between mb-4">
+                                <small style="font-size: medium;"><strong>[2018-2021]</strong></small>
+                                <small style="font-size: medium;"><strong>System Creator</strong></small>
+                                <small style="font-size: medium;"><strong>Metro IT & Japanese Language
+                                        Center</strong></small>
+                            </div>
+                            <div class="col-12 d-flex justify-content-between mb-4">
+                                <small style="font-size: medium;"><strong>[2018-2021]</strong></small>
+                                <small style="font-size: medium;"><strong>System Creator</strong></small>
+                                <small style="font-size: medium;"><strong>Metro IT & Japanese Language
+                                        Center</strong></small>
+                            </div>
+                            <div class="col-12 d-flex justify-content-between mb-4">
+                                <small style="font-size: medium;"><strong>[2018-2021]</strong></small>
+                                <small style="font-size: medium;"><strong>System Creator</strong></small>
+                                <small style="font-size: medium;"><strong>Metro IT & Japanese Language
+                                        Center</strong></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mb-5">
+                <div class="row w-75 mx-auto">
+                    <div class="col-12">
+                        <h3><strong>Skills</strong></h3>
+                        <hr class="divider">
+                    </div>
+                    <div class="col-12">
+                        <p><strong>Technical:</strong>&nbsp;&nbsp;PHP,Laravel,HTML,CSS,Javascript,Vuejs,SQL,<br>Python,Django,Java,Springboot
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12 mb-5">
+                <div class="row w-75 mx-auto">
+                    <div class="col-12">
+                        <h3><strong>Experiences</strong></h3>
+                        <hr class="divider">
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between mb-4">
+                                <small style="font-size: medium;"><strong>[2018-2021]</strong></small>
+                                <small style="font-size: medium;"><strong>System Creator</strong></small>
+                                <small style="font-size: medium;"><strong>Metro IT & Japanese Language
+                                        Center</strong></small>
+                            </div>
+                            <div class="col-12 d-flex justify-content-between mb-4">
+                                <small style="font-size: medium;"><strong>[2018-2021]</strong></small>
+                                <small style="font-size: medium;"><strong>System Creator</strong></small>
+                                <small style="font-size: medium;"><strong>Metro IT & Japanese Language
+                                        Center</strong></small>
+                            </div>
+                            <div class="col-12 d-flex justify-content-between mb-4">
+                                <small style="font-size: medium;"><strong>[2018-2021]</strong></small>
+                                <small style="font-size: medium;"><strong>System Creator</strong></small>
+                                <small style="font-size: medium;"><strong>Metro IT & Japanese Language
+                                        Center</strong></small>
+                            </div>
+                            <div class="col-12 d-flex justify-content-between mb-4">
+                                <small style="font-size: medium;"><strong>[2018-2021]</strong></small>
+                                <small style="font-size: medium;"><strong>System Creator</strong></small>
+                                <small style="font-size: medium;"><strong>Metro IT & Japanese Language
+                                        Center</strong></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
   </div>
 </template>
 
 <script>
 import router from '@/router';
+import html2pdf from 'html2pdf.js'
+// import { saveAs } from 'file-saver'
 export default {
   name: "AccInfoComponent",
   data(){
@@ -246,9 +409,47 @@ export default {
     addInfo(){
       router.push('/Addinfo');
     }
-  }
+  },
+  methods: {
+      downCV() {
+        const element = document.getElementById('cv') 
+
+        html2pdf()
+          .set({ margin: 0, filename: 'formatCV.pdf', image: { type: 'jpeg', quality: 0.98 } })
+          .from(element)
+          .save()
+          .then(() => {
+            console.log('PDF successfully generated')
+          })
+          .catch(error => {
+            console.error('Error generating PDF:', error)
+          })
+      }
+    }
 };
 </script>
 
 <style scoped>
+.divider {
+            border: none;
+            height: 2px;
+            background: #067e36;
+            background: repeating-linear-gradient(90deg, #067e36, #067e36 10px, transparent 6px, transparent 12px);
+        }
+        .cover {
+  width: 21cm;
+  margin: 1cm auto;
+  padding: 1cm;
+}
+
+@media print {
+  .cover {
+    margin: 0;
+    padding: 0;
+  }
+
+  .cover * {
+    line-height: 1.5;
+  }
+}
 </style>
