@@ -9,7 +9,7 @@ class PersonalInfo extends Model
 {
     use HasFactory;
 
-    protected $fillabel = [
+    protected $fillable = [
         'user_id',
         'profile_pic',
         'name',
