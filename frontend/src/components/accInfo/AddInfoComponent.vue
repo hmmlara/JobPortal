@@ -288,6 +288,13 @@ export default {
     var reader = new FileReader();
     reader.onload = (e) => {
       this.preview = e.target.result;
+      // console.log(reader.result);
+      let base64 = reader.result;
+      let part = base64.split(',');
+      let base64_name = part[1];
+      console.log(base64_name);
+
+      this.profile.profile_pic = base64_name;
     };
     this.image = file;
     reader.readAsDataURL(file);
@@ -306,6 +313,7 @@ export default {
       this.hideBtn = "text-danger d-none";
       this.hidetext = "";
       this.formgroup = "border: 3px dashed #13b955; border-radius: 20px";
+      this.profile.profile_pic = "";
     },
     addDegreeRow:function(){
       this.profile.education.push({degree_name : "", start_date : "", end_date : ""});
@@ -331,24 +339,24 @@ export default {
       console.log('hi');
       this.profile.nrc = `${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`;
       console.log(this.profile);
-      // var formData = new FormData();
-      // formData.append("profession",this.profile.profession);
-      // formData.append("name",this.profile.name);
-      // formData.append("email",this.profile.email);
-      // formData.append("dob",this.profile.dob);
-      // formData.append("nrc",`${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`);
-      // formData.append("phone",this.profile.phone);
-      // formData.append("gender",this.profile.gender);
-      // formData.append("marital_status",this.profile.marital_status);
-      // formData.append("skill",this.profile.skill);
-      // formData.append("education",this.profile.education);
-      // formData.append('user_id',this.auth.user.id)
-      // formData.append("profile_pic",this.profile.profile_pic);
-      // formData.append("address",this.profile.address);
-      // formData.append("city",this.profile.city);
-      // formData.append("country",this.profile.country);
-      // formData.append('experience',this.profile.experiences);
-      ApiCalls.post("frontend/personal_info/addPersonalInfo",this.profile).then(
+      var formData = new FormData();
+      formData.append("profession",this.profile.profession);
+      formData.append("name",this.profile.name);
+      formData.append("email",this.profile.email);
+      formData.append("dob",this.profile.dob);
+      formData.append("nrc",`${this.selectedValue}${this.selectedState}${this.selectedType}${this.nrcNo}`);
+      formData.append("phone",this.profile.phone);
+      formData.append("gender",this.profile.gender);
+      formData.append("marital_status",this.profile.marital_status);
+      formData.append("skill",this.profile.skill);
+      formData.append("education",this.profile.education);
+      formData.append('user_id',this.auth.user.id)
+      formData.append("profile_pic",this.profile.profile_pic);
+      formData.append("address",this.profile.address);
+      formData.append("city",this.profile.city);
+      formData.append("country",this.profile.country);
+      formData.append('experience',this.profile.experiences);
+      ApiCalls.post("frontend/personal_info/addPersonalInfo",formData).then(
           (response) => {
             // if (response.data.status == 201) {
             //   console.log("hi");

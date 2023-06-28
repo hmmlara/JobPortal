@@ -48,9 +48,9 @@ const routes = [
     path:'/Addinfo',
     name: 'Addinfo',
     component:AddaccInfoView,
-    // meta:{
-    //   requiresAuth: true,
-    // }
+    meta:{
+      requiresAuth: true,
+    }
   },
   {
     path:'/AppliedJobs',
