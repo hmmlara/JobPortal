@@ -231,7 +231,7 @@
         </div>
       </div>
     </div>
-    <div class="">
+    <div class="d-none">
       <div class="container p-5 border  mt-3 cover" id="cv">
         <div class="row w-80 mx-auto">
             <div class="col-12 mb-5">
