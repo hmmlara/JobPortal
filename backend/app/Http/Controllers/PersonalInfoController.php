@@ -35,16 +35,16 @@ class PersonalInfoController extends Controller
             'user_id' => 'required',
             'name' => 'required',
             'email' => 'required | unique:personal_infos,email',
-            'nrc' => 'required | unique',
+            'nrc' => 'required | unique:personal_infos,nrc',
             'dob' => 'required',
-            'phone' => "required",
+            'phone' => "required | unique:personal_infos,phone",
             'address' => "required",
             'city' => 'required',
             'skill' => 'required',
-            'martial_status' => 'required',
+            'marital_status' => 'required',
             'gender' => 'required',
-            'education' => 'required',
-            'experience' => 'required',
+            'education.*' => 'required',
+            'experience.*' => 'required',
             'profile_pic' => 'required | max:2048',
         ]);
 
@@ -59,11 +59,11 @@ class PersonalInfoController extends Controller
         $data = $request->all();
 
         // change photo to 64 base characters
-        $path = $request->file('profile_pic')->getRealPath();
-        $logo = file_get_contents($path);
-        $base64 = base64_encode($logo);
+        // $path = $request->file('profile_pic')->getRealPath();
+        // $logo = file_get_contents($path);
+        // $base64 = base64_encode($logo);
 
-        $data['profile_pic'] = $base64;
+        // $data['profile_pic'] = $base64;
 
         $personalInfo = PersonalInfo::create($data);
         if($personalInfo){

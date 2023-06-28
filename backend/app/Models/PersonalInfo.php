@@ -21,7 +21,7 @@ class PersonalInfo extends Model
         'city',
         'country',
         'skill',
-        'martial_status',
+        'marital_status',
         'gender',
         'profession'
     ];
