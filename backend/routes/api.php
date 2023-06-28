@@ -84,7 +84,7 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
     Route::prefix('personal_info')->middleware('auth:api')->name('personalInfo.')->group(function(){
 
         // get personal info
-        Route::get('getPersonalInfo','PersonalInfoController@getPersonalInfo')->name('getPersonalInfo');
+        Route::get('getPersonalInfo/{userId}','PersonalInfoController@getPersonalInfo')->name('getPersonalInfo');
 
         // save personal info
         Route::post('addPersonalInfo','PersonalInfoController@addPersonalInfo')->name('addPersonalInfo');
