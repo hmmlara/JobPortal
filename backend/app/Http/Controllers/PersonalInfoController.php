@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\PersonalInfo;
+use Faker\Provider\ar_EG\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
 
@@ -45,7 +47,8 @@ class PersonalInfoController extends Controller
             'gender' => 'required',
             'education.*' => 'required',
             'experience.*' => 'required',
-            'profile_pic' => 'required | max:2048',
+            'profession' => 'required',
+            'profile_pic' => 'required',
         ]);
 
         if($validator->fails()){
@@ -65,16 +68,19 @@ class PersonalInfoController extends Controller
 
         // $data['profile_pic'] = $base64;
 
-        $personalInfo = PersonalInfo::create($data);
-        if($personalInfo){
+        $personalInfoId = PersonalInfo::create($data)->id;
+
+        if(!empty($personalInfoId)){
             $ed_success = false;
             $exp_success = false;
 
             if(!empty($data['education'])){
                 try{
-                    foreach($data['education'] as $education)
-                        $education['personal_info_id'] = $personalInfo->id;
+                    foreach($data['education'] as $education){
+                        $education = json_decode($education,true);
+                        $education['personal_info_id'] = $personalInfoId;
                         Education::create($education);
+                    }
 
                     $ed_success = true;
                 }
@@ -84,11 +90,13 @@ class PersonalInfoController extends Controller
 
             }
 
-            if(!empty($data['exprience'])){
+            if(!empty($data['experience'])){
                 try{
-                    foreach($data['experience'] as $experience)
-                        $experience['personal_info_id'] = $personalInfo->id;
+                    foreach($data['experience'] as $experience){
+                        $experience = json_decode($experience,true);
+                        $experience['personal_info_id'] = $personalInfoId;
                         Experience::create($experience);
+                    }
 
                     $exp_success = true;
                 }

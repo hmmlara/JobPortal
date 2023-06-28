@@ -349,13 +349,18 @@ export default {
       formData.append("gender",this.profile.gender);
       formData.append("marital_status",this.profile.marital_status);
       formData.append("skill",this.profile.skill);
-      formData.append("education",this.profile.education);
+      this.profile.education.map((data) => {
+        formData.append("education[]",JSON.stringify(data));
+      });
+     
       formData.append('user_id',this.auth.user.id)
       formData.append("profile_pic",this.profile.profile_pic);
       formData.append("address",this.profile.address);
       formData.append("city",this.profile.city);
       formData.append("country",this.profile.country);
-      formData.append('experience',this.profile.experiences);
+      this.profile.experiences.map((data) => {
+        formData.append('experience[]',JSON.stringify(data));
+      });
       ApiCalls.post("frontend/personal_info/addPersonalInfo",formData).then(
           (response) => {
             // if (response.data.status == 201) {
