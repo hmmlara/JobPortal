@@ -60,7 +60,7 @@ class AuthController extends Controller
                     'message' => 'email or password is wrong',
                 ], 401);
         }
-        $personalInfo = PersonalInfo::where('user_id', auth()->user()->id)->get();
+        $personalInfo = PersonalInfo::with('educations','experiences')->where('user_id', auth()->user()->id)->get();
 
         return response()->json(
             [
