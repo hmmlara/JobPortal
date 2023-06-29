@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card mb-3">
     <div class="card-body" style="display:grid;place-items: center;">
       <img
         :src="`data:image/*;base64,${jobpost.company.company_logo}`"
