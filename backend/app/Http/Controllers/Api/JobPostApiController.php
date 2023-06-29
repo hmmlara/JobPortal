@@ -138,7 +138,7 @@ class JobPostApiController extends Controller
 
         if (isset($request->user_id)) {
 
-            $appliedJobs = Application::with('jobPost')->where('user_id', $request->user_id);
+            $appliedJobs = Application::with('jobPost','jobPost.company')->where('user_id', $request->user_id);
 
 
             if(isset($request->status)){
