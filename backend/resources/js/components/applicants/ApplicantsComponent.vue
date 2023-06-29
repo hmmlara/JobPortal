@@ -32,7 +32,7 @@
             <div class="row">
               <div class="col-12 col-md-3" v-for="(jobpost, index) in jobposts.data" :key="index">
                 <router-link :to="`/admin/applicants/jobPosts/${jobpost.id}/applicants`">
-                  <JobPostCardComponent :jobpost="jobpost" />
+                  <JobPostCardComponent :jobpost="jobpost"/>
                 </router-link>
               </div>
             </div>
@@ -73,9 +73,10 @@ export default {
     this.getJobPosts();
   },
   methods: {
-    getJobPosts() {
-      setTimeout(() => {
-        ApiCalls.get("admin/jobPost")
+    getJobPosts(page = 1) {
+      if(this.isLoading){
+        setTimeout(() => {
+        ApiCalls.get(`admin/jobPost?page=${page}`)
           .then(response => {
             if (response.status == 200) {
               this.isLoading = false;
@@ -87,6 +88,20 @@ export default {
             this.isLoading = false;
           });
       }, 1000);
+      }
+      else{
+        ApiCalls.get(`admin/jobPost?page=${page}`)
+          .then(response => {
+            if (response.status == 200) {
+              this.isLoading = false;
+              this.jobposts = response.data.jobPosts;
+            }
+          })
+          .catch(error => {
+            this.fetchError = true;
+            this.isLoading = false;
+          });
+      }
     //   console.log(this.jobposts);
     },
     retry() {

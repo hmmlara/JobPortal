@@ -1,5 +1,5 @@
 const constants = {
-    'BASE_URL': 'http://localhost:8001/api/'
+    'BASE_URL': 'http://localhost:8000/api/'
 }
 
 export default constants

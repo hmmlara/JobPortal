@@ -132,4 +132,36 @@ class JobPostApiController extends Controller
                 'message' => 'Fail to apply,Try again',
             ], 400);
     }
+
+    public function getAppliedJobPost(Request $request)
+    {
+
+        if (isset($request->user_id)) {
+
+            $appliedJobs = Application::where('user_id', $request->user_id);
+
+
+            if(isset($request->status)){
+                $appliedJobs = $appliedJobs->where('status',$request->status)->paginate(5);
+            }
+
+            else{
+                $appliedJobs = $appliedJobs->paginate(5);
+            }
+
+            if($appliedJobs){
+                return response()->json([
+                    'status' => 200,
+                    'statusText' => 'successs',
+                    'appliedJobs' => $appliedJobs,
+                ], 200);
+            }
+        }
+
+        return response()->json([
+            'status' => 404,
+            'statusText' => 'fail',
+            'message' => 'No Content',
+        ], 404);
+    }
 }

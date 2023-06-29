@@ -65,6 +65,7 @@ Route::prefix('frontend')->name('frontend.')->namespace('App\Http\Controllers')-
         Route::post('search','Api\JobPostApiController@searchJob')->name('jobPost.searchJob');
         Route::middleware('auth:api')->get('jobDetails/{id}/{user_id}','Api\JobPostApiController@getJobPostDetails')->name('jobPost.jobDetails');
         Route::middleware('auth:api')->post('applyJobPost','Api\JobPostApiController@applyJobPost')->name('jobPost.apply');
+        Route::middleware('auth:api')->post('getAppliedJobPost','Api\JobPostApiController@getAppliedJobPost')->name('jobPost.getApplied');
     });
 
     // save job
