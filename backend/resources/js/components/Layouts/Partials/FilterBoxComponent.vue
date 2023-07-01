@@ -1,18 +1,20 @@
 <template>
-  <div class="container w-50 float-end mb-2">
+  <div class="container float-end mb-2" style="width: 500px;margin-right:5%;postition: relative;">
     <div class="row searchFilter">
       <div class="col-sm-12">
         <div class="input-group">
-          <!-- <button
+          <button
             type="button"
             class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
             data-mdb-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
+            style="position:relative;z-index: 0;"
+            v-if="showFilter"
           >
             <i class="fas fa-filter"></i>
             <span class="caret">&nbsp;</span>
-          </button> -->
+          </button>
           <input
             id="table_filter"
             type="text"
@@ -23,37 +25,15 @@
             v-model="searchData"
           />
           <div class="input-group-btn">
+
             <div class="dropdown-menu dropdown-menu-right">
               <ul class="category_filters">
-                <li>
-                  <input
-                    class="cat_type category-input"
-                    data-label="All"
-                    id="all"
-                    value
-                    name="radios"
-                    type="radio"
-                  />
-                  <label for="all">All</label>
-                </li>
-                <li>
-                  <label class="category-label" for="Design">Design</label>
-                </li>
-                <li>
-                  <label class="category-label" for="Marketing">Marketing</label>
-                </li>
-                <li>
-                  <label class="category-label" for="Programming">Programming</label>
-                </li>
-                <li>
-                  <label class="category-label" for="Sales">Sales</label>
-                </li>
-                <li>
-                  <label class="category-label" for="Support">Support</label>
+                <li v-for="data,index in filterData" :key="index" style="cursor: pointer;" @click.prevent="filter(data)">
+                  <label class="category-label" for="Design">{{ data }}</label>
                 </li>
               </ul>
             </div>
-            <button id="searchBtn" type="button" class="btn btn-sm btn-success" @click="search">
+            <button id="searchBtn" type="button" class="btn btn-sm btn-success" @click="search" style="position:relative;z-index:0;">
               <i class="fas fa-search"></i>
             </button>
           </div>
@@ -66,15 +46,18 @@
 <script>
 export default {
   name: "FilterBoxComponent",
-  props: ['placeholder'],
+  props: ['placeholder','showFilter','filterData'],
   data() {
     return {
-      searchData: ""
+      searchData: "",
     };
   },
   methods: {
     search() {
       this.$emit("search", this.searchData);
+    },
+    filter(data){
+        this.$emit('filter',data);
     }
   }
 };

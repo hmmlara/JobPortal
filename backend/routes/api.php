@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Models\JobPost;
@@ -23,6 +24,7 @@ Route::middleware('auth:api')->prefix('admin')->namespace('App\Http\Controllers'
 
     // job post route
     Route::post('jobPost/search','JobPostController@search')->name('jobPost.search');
+    Route::get('jobPost/getActiveJobPosts','JobPostController@getActiveJobPosts')->name('jobPost.search');
     Route::resource('jobPost',JobPostController::class);
 
     // company route
@@ -35,6 +37,9 @@ Route::middleware('auth:api')->prefix('admin')->namespace('App\Http\Controllers'
 
 
     // applicants route
+    Route::get('applicants/getPersonalInfo/{userId}','ApplicantController@getApplicantInfo');
+    Route::post('applicants/acceptReject','ApplicantController@acceptOrReject');
+    Route::get('applicants/{jobPostId}/{status}','ApplicantController@filterApplicants');
     Route::resource('applicants',ApplicantController::class);
 
     // logout

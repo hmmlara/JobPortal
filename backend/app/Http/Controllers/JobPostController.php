@@ -13,10 +13,14 @@ class JobPostController extends Controller
      * Display a listing of the resource.
      *
      */
-    public function index()
+    public function index($status =null)
     {
         //
-        $jobposts = JobPost::with('company')->latest()->paginate(7);
+        $jobposts = JobPost::with('company')
+            ->latest()
+            ->paginate(4);
+
+
         return response()->json(
             [
                 'status' => 200,
@@ -183,4 +187,27 @@ class JobPostController extends Controller
             ], 404);
     }
 
+
+    public function getActiveJobPosts(){
+
+        $jobposts = JobPost::with('company')
+            ->where('status','Active')
+            ->latest()
+            ->paginate(4);
+
+        if($jobposts){
+            return response()->json(
+                [
+                    'status' => 200,
+                    'statusText' => 'success',
+                    'jobposts' => $jobposts,
+                ], 200);
+        }
+
+        return response()->json([
+            'status' =>4-4,
+            'statusText' => 'fail',
+            'message' => 'No Content',
+        ],404);
+    }
 }

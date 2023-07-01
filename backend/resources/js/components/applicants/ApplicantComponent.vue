@@ -5,12 +5,15 @@
     <td>{{ applicant.user.email }}</td>
     <td>{{ applicant.user.personal_info.phone }}</td>
     <td>
-      <div :class="appliedStatus">{{ applicant.status }}</div>
+      <div class="badge badge-success" v-if="applicant.status == 'Accept'">{{ applicant.status }}</div>
+      <div class="badge badge-primary" v-else-if="applicant.status == 'Pending'">{{ applicant.status }}</div>
+      <div class="badge badge-danger" v-else>{{ applicant.status }}</div>
+
     </td>
     <td>
-      <router-link to class="btn btn-sm btn-primary">
+      <button @click.prevent="openModal(applicant.user.id,applicant.status)" class="btn btn-sm btn-primary">
         <i class="fas fa-info"></i>
-      </router-link>
+      </button>
     </td>
   </tr>
 </template>
@@ -19,23 +22,16 @@
 export default {
   name: "ApplicantComponent",
   props: ["applicant", "index"],
-  data() {
-    return {
-      appliedStatus: this.checkStatus(this.applicant.status)
-    };
+  components: {
   },
+//   data() {
+//     return {
+//       appliedStatus:''
+//     };
+//   },
   methods: {
-    checkStatus(status) {
-      switch (status) {
-        case "Pending":
-          return "badge badge-primary";
-        case "Cancel":
-          return "badge badge-danger";
-        case "Confirm":
-          return "badge badge-success";
-        default:
-          return "";
-      }
+    openModal(personalId,statusJob){
+        this.$emit('openModal',personalId,statusJob);
     }
   }
 };
