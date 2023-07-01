@@ -3,6 +3,7 @@
     <div class="container p-3">
       <h3>Companies List</h3>
       <router-link to="/admin/company/add" class="btn btn-sm btn-success">Add Company</router-link>
+      <FilterBoxComponent @search="search" @refresh="getCompanies" :placeholder="'Search Company'" />
     </div>
     <div
       class="d-flex justify-content-center align-items-center"
@@ -54,6 +55,7 @@ import CompanyComponent from "./CompanyComponent.vue";
 import ApiCalls from "../../api/index";
 import PaginationComponent from "../Layouts/Partials/PaginationComponent.vue";
 import router from "../../routes";
+import FilterBoxComponent from "../Layouts/Partials/FilterBoxComponent.vue";
 
 export default {
   name: "CompaniesComponent",
@@ -67,7 +69,8 @@ export default {
   components: {
     LayoutComponentVue,
     CompanyComponent,
-    PaginationComponent
+    PaginationComponent,
+    FilterBoxComponent
   },
   mounted() {
     this.getCompanies();
@@ -137,6 +140,35 @@ export default {
       this.isLoading = true;
       this.fetchError = false;
       this.getCompanies();
+    },
+    search(searchData) {
+      let formData = new FormData();
+      this.searchData = searchData
+      formData.append("name", this.searchData);
+
+    //   this.isLoading = true;
+
+      setTimeout(() => {
+        ApiCalls.post(`admin/company/search`, formData)
+          .then(response => {
+            console.log(response.data);
+            if ((response.status = 200)) {
+            //   this.isLoading = false;
+            console.log(response);
+              this.companies.data = response.data.company;
+            }
+          })
+          .catch(error => {
+            this.isLoading = false;
+            this.fetchError = true;
+
+            let err = error.response.data;
+
+            if ((err.status = 404)) {
+              this.fetchErrorMessage = err.message;
+            }
+          });
+      }, 500);
     }
   }
 };

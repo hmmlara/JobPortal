@@ -6,8 +6,8 @@
     <div class="card p-3" style="width: 40%;">
       <div class="card-title">
         <h3 class="text-center">
-          Job
-          <span class="text-success me-2">Portal</span>
+          <span class="text-success"><strong>Career</strong></span>
+          <span class="ms-2">Next</span>
         </h3>
         <h5 class="text-center text-muted" style="font-size: smaller;">Admin Login</h5>
       </div>

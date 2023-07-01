@@ -61,9 +61,9 @@
 
         <!-- Brand -->
         <a class="navbar-brand fs-4" href="#">
-          <strong class="me-1">Job</strong>
-          <span class="text-success">
-            <strong>Portal</strong>
+          <strong class="me-1 text-success">Career</strong>
+          <span>
+                Next
           </span>
         </a>
         <!-- Right links -->

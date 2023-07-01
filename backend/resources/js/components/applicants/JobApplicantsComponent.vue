@@ -7,7 +7,7 @@
 
           <router-link to="/admin/applicants" class="btn btn-sm btn-success">back</router-link>
           <br />
-          <FilterBoxComponent @filter="filterApplicants" :showFilter="true" :filterData="['Accept','Pending','Reject']" :placeholder="'Search Applicant'" />
+          <FilterBoxComponent @filter="filterApplicants" :showFilter="true" :showSearchBox="false" :filterData="['Accept','Pending','Reject']" :placeholder="'Search Applicant'" />
         </div>
         <div class="col-12">
           <div

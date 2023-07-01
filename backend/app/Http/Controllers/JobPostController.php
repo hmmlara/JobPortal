@@ -210,4 +210,29 @@ class JobPostController extends Controller
             'message' => 'No Content',
         ],404);
     }
+
+    public function activeJobPostSearch(Request $request){
+        $jobposts = JobPost::with('company')
+            ->select('job_posts.*')
+            ->orWhere('job_position','LIKE',"%$request->searchData%")
+            ->leftJoin('companies','companies.id','job_posts.company_id')
+            ->orWhere('companies.name','LIKE',"%$request->searchData%")
+            ->where('status','Active')
+            ->get();
+
+        if($jobposts){
+            return response()->json(
+                [
+                    'status' => 200,
+                    'statusText' => 'success',
+                    'jobpost' => $jobposts,
+                ], 200);
+        }
+
+        return response()->json([
+            'status' =>4-4,
+            'statusText' => 'fail',
+            'message' => 'No Content',
+        ],404);
+    }
 }

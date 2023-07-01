@@ -3,6 +3,8 @@
     <div class="container p-3">
       <h3>Job Posts List</h3>
       <router-link to="/admin/jobpost/add" class="btn btn-sm btn-success">Post a job</router-link>
+
+      <FilterBoxComponent @search="search" @refresh="getJobPosts" :placeholder="'Search Job Posts'" />
     </div>
 
     <div
@@ -26,7 +28,6 @@
     </div>
 
     <div v-else>
-      <FilterBoxComponent @search="search" :placeholder="'Search Job Posts'" />
       <table class="table text-center mt-3">
         <thead class="table-success">
           <tr>
@@ -131,6 +132,7 @@ export default {
     },
     updateStatus(checked, id) {
       let status = checked ? "Active" : "Inactive";
+      console.log(id,checked);
       ApiCalls.update(`admin/jobPost/${id}`, { status: status }).catch(
         error => {
           console.log(error);
@@ -150,14 +152,14 @@ export default {
       this.searchData = searchData
       formData.append("searchData", this.searchData);
 
-      this.isLoading = true;
+    //   this.isLoading = true;
 
       setTimeout(() => {
         ApiCalls.post(`admin/jobPost/search?page=${page}`, formData)
           .then(response => {
             console.log(response.data);
             if ((response.status = 200)) {
-              this.isLoading = false;
+            //   this.isLoading = false;
               this.jobposts = response.data.jobpost;
             }
           })

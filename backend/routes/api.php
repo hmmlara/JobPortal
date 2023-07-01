@@ -12,7 +12,12 @@ Route::post('register',[AuthController::class,'register'])->name('register');
 Route::post('requestOTP', [EmailVerificationController::class, 'requestOTP'])->name('requestOTP');
 Route::post('verifyOTP', [EmailVerificationController::class, 'verifyOTP'])->name('verifyOTP');
 
+
 Route::middleware('auth:api')->prefix('admin')->namespace('App\Http\Controllers')->group(function () {
+
+    // dashboard
+    Route::get('allReport','ReportController@countAll');
+    Route::get('companyReport','ReportController@compainesJobPost');
 
     // category route
     Route::post('category/search','CategoryController@search');
@@ -25,6 +30,7 @@ Route::middleware('auth:api')->prefix('admin')->namespace('App\Http\Controllers'
     // job post route
     Route::post('jobPost/search','JobPostController@search')->name('jobPost.search');
     Route::get('jobPost/getActiveJobPosts','JobPostController@getActiveJobPosts')->name('jobPost.search');
+    Route::post('jobPost/getActiveJobPosts/search','JobPostController@activeJobPostSearch');
     Route::resource('jobPost',JobPostController::class);
 
     // company route

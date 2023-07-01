@@ -3,6 +3,7 @@
     <div class="container p-3">
       <h3>Job Type List</h3>
       <router-link to="/admin/jobtype/add" class="btn btn-sm btn-success">Add Job Type</router-link>
+      <FilterBoxComponent @search="search" @refresh="getJobTypes" :placeholder="'Search Job Type'" />
     </div>
 
     <div
@@ -53,13 +54,15 @@ import LayoutComponent from "../Layouts/LayoutComponent.vue";
 import JobTypeComponent from "./JobTypeComponent.vue";
 import ApiCalls from "../../api/index.js";
 import PaginationComponent from "../Layouts/Partials/PaginationComponent.vue";
+import FilterBoxComponent from "../Layouts/Partials/FilterBoxComponent.vue";
 
 export default {
   name: "JobTypesComponent",
   components: {
     LayoutComponent,
     PaginationComponent,
-    JobTypeComponent
+    JobTypeComponent,
+    FilterBoxComponent
   },
   data() {
     return {
@@ -135,6 +138,35 @@ export default {
       this.isLoading = true;
       this.fetchError = false;
       this.getJobTypes();
+    },
+    search(searchData) {
+      let formData = new FormData();
+      this.searchData = searchData
+      formData.append("job_type", this.searchData);
+
+    //   this.isLoading = true;
+
+      setTimeout(() => {
+        ApiCalls.post(`admin/jobType/search`, formData)
+          .then(response => {
+            console.log(response.data);
+            if ((response.status = 200)) {
+            //   this.isLoading = false;
+            console.log(response);
+              this.jobtypes.data = response.data.jobType;
+            }
+          })
+          .catch(error => {
+            this.isLoading = false;
+            this.fetchError = true;
+
+            let err = error.response.data;
+
+            if ((err.status = 404)) {
+              this.fetchErrorMessage = err.message;
+            }
+          });
+      }, 500);
     }
   }
 };
