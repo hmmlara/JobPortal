@@ -28,7 +28,7 @@ return new class extends Migration
                 ->on('job_posts')
                 ->onDelete('cascade');
 
-            $table->enum('status',['Comfirmed','Cancel','Pending'])->default('Pending');
+            $table->enum('status',['Accept','Pending','Reject'])->default('Pending');
             $table->timestamps();
         });
     }

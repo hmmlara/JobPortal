@@ -50,7 +50,7 @@
       </table>
     </div>
     <div class="fixed-bottom">
-      <PaginationComponent :data="jobposts" @paginate="urlCheck == 'jobPost' ? getJobPosts : search" />
+      <PaginationComponent :data="jobposts" @paginate="getJobPosts" />
     </div>
   </LayoutComponent>
 </template>

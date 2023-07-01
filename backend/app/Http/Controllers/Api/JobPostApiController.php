@@ -69,25 +69,28 @@ class JobPostApiController extends Controller
     public function searchJob(Request $request)
     {
 
-        if (!empty($request->category_name)) {
+        if (!empty($request->category_id)) {
             $jobposts = JobPost::with('company', 'location', 'jobType', 'category')
-                ->join('categories', 'categories.id', 'job_posts.category_id')
-                ->where('categories.name', 'LIKE', "%$request->category_name%")
+                ->select('job_posts.*')
+                ->leftJoin('categories', 'categories.id', 'job_posts.category_id')
+                ->where('categories.id', $request->category_id)
                 ->where('status', 'Active')
                 ->paginate(5);
-        } else if (!empty($request->job_type)) {
+        } else if (!empty($request->job_type_id)) {
             $jobposts = JobPost::with('company', 'location', 'jobType', 'category')
-                ->where('job_types.job_type', 'LIKE', "%$request->job_type%")
+                ->select('job_post.*')
+                ->where('job_types.id',$request->job_type_id)
                 ->where('status', 'Active')
-                ->join('job_types', 'job_types.id', 'job_posts.job_type_id')
+                ->leftJoin('job_types', 'job_types.id', 'job_posts.job_type_id')
                 ->paginate(5);
         } else {
             $jobposts = JobPost::with('company', 'location', 'jobType', 'category')
-                ->where('categories.name', 'LIKE', "%$request->category_name%")
-                ->where('job_types.job_type', 'LIKE', "%$request->job_type%")
+                ->select('job_post.*')
+                ->where('categories.name',$request->category_id)
+                ->where('job_types.job_type',$request->job_type_id)
                 ->where('status', 'Active')
-                ->join('categories', 'categories.id', 'job_posts.category_id')
-                ->join('job_types', 'job_types.id', 'job_posts.job_type_id')
+                ->leftJoin('categories', 'categories.id', 'job_posts.category_id')
+                ->leftJoin('job_types', 'job_types.id', 'job_posts.job_type_id')
                 ->paginate(5);
         }
         if (count($jobposts) === 0) {

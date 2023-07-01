@@ -30,7 +30,7 @@
 
           <div class="container" v-else>
             <div class="row">
-              <div class="col-12 col-md-3" v-for="(jobpost, index) in jobposts.data" :key="index">
+              <div class="col-12 col-md-6 col-lg-3" v-for="(jobpost, index) in jobposts.data" :key="index">
                 <router-link :to="`/admin/applicants/jobPosts/${jobpost.id}/applicants`">
                   <JobPostCardComponent :jobpost="jobpost"/>
                 </router-link>
@@ -53,6 +53,7 @@ import FilterBoxComponentVue from "../Layouts/Partials/FilterBoxComponent.vue";
 import JobPostCardComponent from "./JobPostCardComponent.vue";
 import PaginationComponent from "../Layouts/Partials/PaginationComponent.vue";
 import ApiCalls from "../../api/index";
+import { onMounted,ref } from 'vue';
 
 export default {
   name: "ApplicantsComponent",
@@ -62,52 +63,60 @@ export default {
     JobPostCardComponent,
     PaginationComponent
   },
-  data() {
+  setup(){
+        const isLoading = ref(true);
+        const fetchError = ref(false);
+        const jobposts = ref([]);
+
+    function getJobPosts(page = 1) {
+      if(isLoading){
+        setTimeout(() => {
+        ApiCalls.get(`admin/jobPost/getActiveJobPosts?page=${page}`)
+          .then(response => {
+            if (response.data.status == 200) {
+              isLoading.value = false;
+              jobposts.value = response.data.jobposts;
+            }
+          })
+          .catch(error => {
+            fetchError.value = true;
+            isLoading.value = false;
+          });
+      }, 1000);
+      }
+
+    //   console.log(this.jobposts);
+    }
+
+    function retry() {
+      fetchError.value = false;
+      isLoading.value = true;
+    }
+
+    onMounted(() => {
+        getJobPosts();
+    });
+
     return {
-      isLoading: true,
-      fetchError: false,
-      jobposts: []
-    };
+        retry,
+        getJobPosts,
+        isLoading,
+        fetchError,
+        jobposts
+    }
   },
+//   data() {
+//     return {
+//       isLoading: true,
+//       fetchError: false,
+//       jobposts: []
+//     };
+//   },
   mounted() {
     this.getJobPosts();
   },
   methods: {
-    getJobPosts(page = 1) {
-      if(this.isLoading){
-        setTimeout(() => {
-        ApiCalls.get(`admin/jobPost?page=${page}`)
-          .then(response => {
-            if (response.status == 200) {
-              this.isLoading = false;
-              this.jobposts = response.data.jobPosts;
-            }
-          })
-          .catch(error => {
-            this.fetchError = true;
-            this.isLoading = false;
-          });
-      }, 1000);
-      }
-      else{
-        ApiCalls.get(`admin/jobPost?page=${page}`)
-          .then(response => {
-            if (response.status == 200) {
-              this.isLoading = false;
-              this.jobposts = response.data.jobPosts;
-            }
-          })
-          .catch(error => {
-            this.fetchError = true;
-            this.isLoading = false;
-          });
-      }
-    //   console.log(this.jobposts);
-    },
-    retry() {
-      this.fetchError = false;
-      this.isLoading = true;
-    }
+
   }
 };
 </script>

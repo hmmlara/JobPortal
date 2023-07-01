@@ -85,9 +85,9 @@
               >{{ this.user.name.charAt(0) }}</div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-              <li>
+              <!-- <li>
                 <a class="dropdown-item" href="#">Settings</a>
-              </li>
+              </li> -->
               <li>
                 <a class="dropdown-item" @click.prevent="logout">Logout</a>
               </li>
@@ -122,7 +122,10 @@ export default {
   },
   methods: {
     logout() {
-      ApiCalls.post("admin/logout")
+      let message = confirm('Are you sure?');
+
+      if(message){
+        ApiCalls.post("admin/logout")
         .then(response => {
           if (response.status == 200) {
             Auth.logout();
@@ -139,6 +142,7 @@ export default {
             router.push("/login");
           }
         });
+      }
     }
   }
 };

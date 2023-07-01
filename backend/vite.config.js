@@ -28,4 +28,7 @@ export default defineConfig({
             vue: 'vue/dist/vue.esm-bundler.js',
         },
     },
+    optimizeDeps: {
+        exclude: ['js-big-decimal']
+      }
 });

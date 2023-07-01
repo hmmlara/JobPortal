@@ -24,6 +24,6 @@ class SendMail extends Mailable
 
     public function build()
     {
-        return $this->subject($this->mail['subject'])->view('mail.sendotpmail',['mail' => $this->mail]);
+        return $this->subject($this->mail['subject'])->view(isset($this->mail['head']) ? 'mail.sendaremail':'mail.sendotpmail',['mail' => $this->mail]);
     }
 }
