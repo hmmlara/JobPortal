@@ -16,7 +16,7 @@
           type="checkbox"
           role="switch"
           id="flexSwitchCheckDefault"
-          :checked="checked"
+          :checked="checked = jobpost.status == 'Active' ? true : false"
           @change="statusChange"
         />
       </div>
@@ -30,7 +30,7 @@ export default {
   props: ["jobpost", "index"],
   data() {
     return {
-      checked: this.jobpost.status == "Active" ? true : false,
+      checked: false,
       deadline: '',
     };
   },

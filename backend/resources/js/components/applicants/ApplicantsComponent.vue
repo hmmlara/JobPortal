@@ -5,7 +5,7 @@
         <div class="col-12">
           <h3>Active Job Posts</h3>
 
-          <FilterBoxComponentVue :placeholder="'Search Job Position or Company'" />
+          <FilterBoxComponentVue @search="search" @refresh="getJobPosts" :placeholder="'Search Job Position or Company'" />
         </div>
         <div class="col-12">
           <div
@@ -116,7 +116,35 @@ export default {
     this.getJobPosts();
   },
   methods: {
+    search(searchData) {
+      let formData = new FormData();
+      this.searchData = searchData
+      formData.append("searchData", this.searchData);
 
+    //   this.isLoading = true;
+
+      setTimeout(() => {
+        ApiCalls.post(`admin/jobPost/getActiveJobPosts/search`, formData)
+          .then(response => {
+            console.log(response.data);
+            if ((response.status = 200)) {
+            //   this.isLoading = false;
+            console.log(response);
+              this.jobposts.data = response.data.jobpost;
+            }
+          })
+          .catch(error => {
+            this.isLoading = false;
+            this.fetchError = true;
+
+            let err = error.response.data;
+
+            if ((err.status = 404)) {
+              this.fetchErrorMessage = err.message;
+            }
+          });
+      }, 500);
+    }
   }
 };
 </script>

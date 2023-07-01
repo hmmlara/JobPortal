@@ -3,6 +3,7 @@
     <div class="container p-3">
       <h3>Categories List</h3>
       <router-link to="/admin/category/add" class="btn btn-sm btn-success">Add Category</router-link>
+      <FilterBoxComponent @search="search" @refresh="getCategories" :placeholder="'Search Category'" />
     </div>
     <div
       class="d-flex justify-content-center align-items-center"
@@ -53,13 +54,15 @@ import CategoryComponent from "./CategoryComponent.vue";
 import ApiCalls from "../../api/index.js";
 import PaginationComponent from "../Layouts/Partials/PaginationComponent.vue";
 import router from "../../routes";
+import FilterBoxComponent from "../Layouts/Partials/FilterBoxComponent.vue";
 
 export default {
   name: "CategoriesComponent",
   components: {
     LayoutComponent,
     CategoryComponent,
-    PaginationComponent
+    PaginationComponent,
+    FilterBoxComponent
   },
   data() {
     return {
@@ -135,6 +138,35 @@ export default {
       this.isLoading = true;
       this.fetchError = false;
       this.getCategories();
+    },
+    search(searchData) {
+      let formData = new FormData();
+      this.searchData = searchData
+      formData.append("name", this.searchData);
+
+    //   this.isLoading = true;
+
+      setTimeout(() => {
+        ApiCalls.post(`admin/category/search`, formData)
+          .then(response => {
+            console.log(response.data);
+            if ((response.status = 200)) {
+            //   this.isLoading = false;
+            console.log(response);
+              this.categories.data = response.data.category;
+            }
+          })
+          .catch(error => {
+            this.isLoading = false;
+            this.fetchError = true;
+
+            let err = error.response.data;
+
+            if ((err.status = 404)) {
+              this.fetchErrorMessage = err.message;
+            }
+          });
+      }, 500);
     }
   }
 };
